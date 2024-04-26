@@ -1,0 +1,6 @@
+{
+  "alumnos": [{ "Nombre": "Pedro Centeno", "ID": "1" }],
+  "profesores": [{ "Nombre": "Juan Álvares", "ID": "2" }],
+  "administradores": [{ "Nombre": "Daniuska Soto", "ID": "3" }],
+  "staff": [{ "Nombre": "Carlos Díaz", "ID": "4" }]
+}
