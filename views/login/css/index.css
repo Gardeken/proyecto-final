@@ -1,0 +1,96 @@
+:root {
+  --rojo-principal: #ec1c2c;
+  --rojo-secundario: #a3141f;
+  --rojo-terciario: #ff5764;
+  --gris-principal: #2c2c2c;
+  --gris-texto: #737373;
+  --gris-texto-sec: #d3d3d3;
+}
+body {
+  overflow-y: hidden;
+  height: 100vw;
+}
+
+.container-main-2 {
+  width: 100vw;
+  height: 100%;
+  display: grid;
+  place-items: start center;
+  transition: 0.5s;
+}
+
+.formulario1 {
+  margin-top: 8rem;
+  background-color: var(--rojo-principal);
+  color: white;
+  display: grid;
+  height: 50%;
+  border-radius: 0.8rem;
+  place-items: center;
+}
+
+.formulario1 section {
+  display: grid;
+  width: 100%;
+  margin-left: 1.5rem;
+  font-size: 1.5rem;
+  place-items: start;
+}
+
+.formulario1 div {
+  display: grid;
+  margin: 1rem;
+  gap: 1rem;
+}
+
+.formulario1 div input {
+  appearance: none;
+  border: none;
+  cursor: text;
+  border-bottom: 0.1rem solid var(--gris-texto-sec);
+  background-color: transparent;
+  position: relative;
+  width: 30vw;
+  height: 3rem;
+  transition: 0.3s;
+  outline: none;
+}
+
+.formulario1 div input:hover {
+  border-bottom: 0.1rem solid white;
+  transition: 0.3s;
+}
+
+.formulario1 div input:hover::placeholder {
+  color: white;
+  transition: 0.3s;
+}
+
+.formulario1 div input::placeholder {
+  color: var(--gris-texto-sec);
+  transition: 0.3s;
+}
+
+.btn-login {
+  margin: 1rem;
+  border: none;
+  background-color: var(--rojo-secundario);
+  color: white;
+  font-size: 1rem;
+  padding: 1rem 2rem;
+  border-radius: 0.8rem;
+}
+
+@media (max-width: 1030px) {
+  .container-main-2 {
+    height: 100vh;
+  }
+
+  .formulario1 section {
+    font-size: 1rem;
+  }
+
+  .formulario1 div input {
+    width: 50vw;
+  }
+}

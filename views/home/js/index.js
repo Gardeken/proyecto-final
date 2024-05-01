@@ -73,24 +73,3 @@ btn_inicio2.addEventListener("click", (e) => {
 });
 
 //Mover el portal
-
-btn_portal1.addEventListener("click", (e) => {
-  e.preventDefault();
-  container1.classList.add("main1-animation");
-  container2.classList.add("main2-animation");
-  btn_portal1.classList.add("color-sec");
-  btn_inicio1.classList.remove("color-sec");
-  btn_portal2.classList.add("color-sec");
-  btn_inicio2.classList.remove("color-sec");
-});
-
-//Mover el portal responsive
-
-btn_portal2.addEventListener("click", (e) => {
-  container1.classList.add("main1-animation");
-  container2.classList.add("main2-animation");
-  btn_portal2.classList.add("color-sec");
-  btn_inicio2.classList.remove("color-sec");
-  btn_portal1.classList.add("color-sec");
-  btn_inicio1.classList.remove("color-sec");
-});
