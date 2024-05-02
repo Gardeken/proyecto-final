@@ -9,7 +9,6 @@
 
 body {
   overflow-x: hidden;
-  height: 100vh;
 }
 
 .barra-lateral {
@@ -107,131 +106,74 @@ body {
                             Estilos main  
 */
 
+.container-main {
+  display: grid;
+  place-items: center;
+}
+
 /*
 <------------------------------------------------------------------------------->
                             Estilos main 1 
 */
 
 .container-main-1 {
-  height: 100%;
-  width: 99vw;
-  transition: 0.5s;
-}
-
-.container-imagen-est {
-  aspect-ratio: 1224/569;
-  text-align: center;
-  margin: 2rem 0;
-  place-items: center;
-}
-
-.imagen-est {
-  width: 98%;
-  height: 100%;
-}
-
-.container-info {
-  display: grid;
-  width: 100%;
-  place-items: center;
-}
-
-.text-vision {
-  width: 90%;
-  gap: 3rem;
-  display: flex;
-  justify-content: center;
-  place-items: center;
-}
-
-.img-vision {
-  width: 20vw;
-}
-
-.text {
-  text-align: center;
-}
-
-.text p {
-  width: 40vw;
-}
-
-.container-aplicar {
-  display: grid;
-  place-items: center;
-  margin: 4rem 0;
-}
-
-.container-aplicar button {
-  padding: 1rem 2.5rem;
-  border: none;
-  border-radius: 0.5rem;
-  background-color: var(--rojo-principal);
-  color: white;
-  transition: 0.3s;
-}
-
-.container-aplicar button:hover {
-  transition: 0.3s;
-  cursor: pointer;
-  filter: brightness(80%);
-}
-
-.main1-animation {
-  transform: translate(-100vw);
-  transition: 0.5s;
-}
-
-/*
-<------------------------------------------------------------------------------->
-                            Estilos main  2
-*/
-
-.container-main-2 {
-  width: 100%;
-  height: 40vh;
-  color: white;
-  background-color: var(--rojo-principal);
   margin: 5rem 0;
-  padding: 2rem 0 4rem 0;
+  display: grid;
+  background-color: var(--rojo-principal);
+  padding: 2rem;
+  border-radius: 0.5rem;
+  width: 50vw;
 }
 
-.container-texto {
-  margin: 0 1rem 0 1rem;
-}
-
-.titulo-hist {
-  margin: 0;
+.titulo-main {
+  color: white;
   font-size: 1.8rem;
-  font-weight: bold;
 }
 
-.texto-hist {
-  font-size: 0.9rem;
-}
-
-/*
-<------------------------------------------------------------------------------->
-                            Estilos main  3
-*/
-
-.container-main-3 {
-  margin: 3rem 1rem;
-}
-
-.container-main-3 p {
+.container-inputs {
   display: flex;
-  margin-left: 0.5rem;
-  text-align: justify;
+  gap: 2rem;
   flex-direction: column;
 }
 
-.container-main-3 p span {
-  margin: 1rem 0;
-  font-family: "Roboto", sans-serif;
-  font-weight: 500;
-  font-style: normal;
-  color: var(--rojo-secundario);
+.container-inputs input,
+textarea {
+  color: white;
+  border: none;
+  background-color: #a314207e;
+  appearance: none;
+  outline: none;
+  padding: 0.5rem;
+  border: solid 1px var(--gris-texto-sec);
+  border-radius: 0.5rem;
+}
+
+.container-inputs input {
+  width: 30vw;
+}
+
+textarea {
+  width: 45vw;
+}
+
+.container-inputs input::placeholder,
+textarea::placeholder {
+  color: rgba(255, 255, 255, 0.644);
+}
+
+.container-btn {
+  height: 5rem;
+  display: grid;
+  place-items: center;
+  place-self: center;
+}
+
+.container-btn button {
+  padding: 0.5rem 1rem;
+  border: none;
+  color: white;
+  background-color: var(--rojo-secundario);
+  border-radius: 0.5rem;
 }
 
 /*
@@ -337,14 +279,6 @@ body {
 <------------------------------------------------------------------------------->
                             Estilos main responsive  
 */
-
-  .img-vision {
-    width: 30vw;
-  }
-
-  .text {
-    font-size: small;
-  }
 
   /*
 <------------------------------------------------------------------------------->
