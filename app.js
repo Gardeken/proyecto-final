@@ -16,8 +16,9 @@ async function conectarDB() {
 
 app.use("/", express.static(path.resolve("views", "home")));
 app.use("/Contactanos", express.static(path.resolve("views", "contactanos")));
-app.use("/Estudiantes", express.static(path.resolve("views", "estudiantes")));
-app.use("/Historia", express.static(path.resolve("views", "historia")));
 app.use("/Aplicar", express.static(path.resolve("views", "aplicar")));
+app.use("/Carreras", express.static(path.resolve("views", "carreras")));
+app.use("/Contactanos", express.static(path.resolve("views", "contactanos")));
+app.use("/Login", express.static(path.resolve("views", "login")));
 
 module.exports = app;
