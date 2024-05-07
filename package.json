@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "admin": "npm-run-all --parallel server start",
+    "admin": "npm-run-all --parallel  start",
     "start": "nodemon index.js",
     "server": "json-server --watch db.json"
   },
