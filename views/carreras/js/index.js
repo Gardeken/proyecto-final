@@ -83,7 +83,32 @@ function imprimirDiplomados() {
   containerRes.appendChild(container);
 }
 
-function imprimirLicenciaturas() {}
+function imprimirLicenciaturas() {
+  listadoLic.forEach((i) => {
+    const containerText = document.createElement("div");
+    const titulo = document.createElement("h3");
+    const resumen = document.createElement("p");
+
+    titulo.innerText = i.facultad;
+    resumen.innerText = i.resumen;
+
+    containerText.appendChild(titulo);
+    containerText.appendChild(resumen);
+
+    const listadoCarreras = i.carrera;
+    listadoCarreras.forEach((carrera) => {
+      const subtitulo = document.createElement("a");
+      const resumen = document.createElement("p");
+      subtitulo.href = `/carreras/?id=${carrera.id}`;
+      subtitulo.innerText = carrera.titulo;
+      resumen.innerText = carrera.resumen;
+      containerText.appendChild(subtitulo);
+      containerText.appendChild(resumen);
+      containerText.classList.add("container-texto");
+      containerRes.appendChild(containerText);
+    });
+  });
+}
 
 function imprimirTecnicos() {
   const container = document.createElement("div");
@@ -131,7 +156,29 @@ function imprimirTecnicos() {
   containerRes.appendChild(container);
 }
 
-function imprimirPost() {}
+function imprimirPost() {
+  listadoPost.forEach((i) => {
+    const containerText = document.createElement("div");
+    const titulo = document.createElement("h3");
+
+    titulo.innerText = i.facultad;
+
+    containerText.appendChild(titulo);
+
+    const listadoCarreras = i.carrera;
+    listadoCarreras.forEach((carrera) => {
+      const subtitulo = document.createElement("a");
+      const resumen = document.createElement("p");
+      subtitulo.href = `/carreras/?id=${carrera.id}`;
+      subtitulo.innerText = carrera.titulo;
+      resumen.innerText = carrera.resumen;
+      containerText.appendChild(subtitulo);
+      containerText.appendChild(resumen);
+      containerText.classList.add("container-texto");
+      containerRes.appendChild(containerText);
+    });
+  });
+}
 
 function imprimirTexto() {
   const containerText = document.createElement("div");
@@ -152,10 +199,6 @@ function imprimirTexto() {
     containerRes.appendChild(containerText);
   }
 
-  if (containerText) {
-    return;
-  }
-
   for (let i = 0; i < listadoTec.length; i++) {
     const Tecnico1 = listadoTec[i];
     const Tecnico2 = Tecnico1.carrera;
@@ -164,7 +207,7 @@ function imprimirTexto() {
       texto.innerText = Tecnico1.texto;
       containerText.appendChild(titulo);
       containerText.appendChild(texto);
-      return containerRes.appendChild(containerText);
+      containerRes.appendChild(containerText);
     } else {
       for (let i = 0; i < Tecnico2.length; i++) {
         const carreras2 = Tecnico2[i];
@@ -173,13 +216,39 @@ function imprimirTexto() {
           texto.innerText = carreras2.texto;
           containerText.appendChild(titulo);
           containerText.appendChild(texto);
-          return containerRes.appendChild(containerText);
+          containerRes.appendChild(containerText);
         }
       }
     }
   }
 
-  console.log("oa");
+  for (let i = 0; i < listadoLic.length; i++) {
+    const listado = listadoLic[i];
+    const listadoCarreras = listado.carrera;
+    listadoCarreras.forEach((i) => {
+      if (i.id === parseInt(busqueda2)) {
+        titulo.innerText = i.titulo;
+        texto.innerText = i.texto;
+        containerText.appendChild(titulo);
+        containerText.appendChild(texto);
+        containerRes.appendChild(containerText);
+      }
+    });
+  }
+
+  for (let i = 0; i < listadoPost.length; i++) {
+    const listado = listadoPost[i];
+    const listadoCarreras = listado.carrera;
+    listadoCarreras.forEach((i) => {
+      if (i.id === parseInt(busqueda2)) {
+        titulo.innerText = i.titulo;
+        texto.innerText = i.texto;
+        containerText.appendChild(titulo);
+        containerText.appendChild(texto);
+        containerRes.appendChild(containerText);
+      }
+    });
+  }
 }
 
 function validarCarrera() {

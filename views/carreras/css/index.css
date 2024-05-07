@@ -149,13 +149,16 @@ body {
 }
 
 .resultado a {
-  text-decoration: none;
   font-weight: bolder;
-  color: var(--rojo-secundario);
+  color: var(--rojo-terciario);
 }
 
 .container-texto {
   margin-bottom: 2rem;
+}
+
+.container-texto h3 {
+  color: var(--rojo-secundario);
 }
 
 .container-texto-2 h2 {
