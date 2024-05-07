@@ -351,6 +351,10 @@ body {
                             Estilos main  2 responsive
 */
 
+  .container-main-2 {
+    height: auto;
+  }
+
   /*
 <------------------------------------------------------------------------------->
                             Estilos footer responsive  
