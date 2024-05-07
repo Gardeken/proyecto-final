@@ -280,6 +280,18 @@ textarea::placeholder {
                             Estilos main responsive  
 */
 
+  .container-main-1 {
+    width: 70vw;
+  }
+
+  .container-inputs input {
+    width: 55vw;
+  }
+
+  textarea {
+    width: 65vw;
+  }
+
   /*
 <------------------------------------------------------------------------------->
                             Estilos main  2 responsive
