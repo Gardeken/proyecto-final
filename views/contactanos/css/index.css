@@ -15,6 +15,30 @@ body {
   display: none;
 }
 
+.message {
+  z-index: 1;
+  top: -5rem;
+  left: 0;
+  right: 0;
+  display: grid;
+  place-items: center;
+  margin: auto;
+  transition: 0.5s;
+  position: fixed;
+}
+
+.messageAnimation {
+  transition: 0.5s;
+  top: 1rem;
+}
+
+.message p {
+  background-color: var(--rojo-principal);
+  color: white;
+  border-radius: 0.5rem;
+  padding: 0.8rem 2rem;
+}
+
 /*
 <------------------------------------------------------------------------------->
                             Estilos nav  
@@ -237,6 +261,21 @@ textarea::placeholder {
 */
 
 @media (max-width: 1030px) {
+  .bg {
+    content: "";
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.315);
+    position: fixed;
+    display: none;
+  }
+
+  .show {
+    display: block;
+  }
+
   /*
 <------------------------------------------------------------------------------->
                             Estilos nav responsive  

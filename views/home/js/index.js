@@ -6,8 +6,8 @@ const action_list1 = document.querySelector("#action-list1"),
   event2 = document.querySelector("#event2"),
   event3 = document.querySelector("#event3"),
   lateral = document.querySelector("#lateral"),
-  btn_close = document.querySelector("#close");
-
+  btn_close = document.querySelector("#close"),
+  bg = document.querySelector(".bg");
 // mostrar primer listado
 
 inicio.addEventListener("click", (e) => {
@@ -34,11 +34,13 @@ event2.addEventListener("click", () => {
 //animacion barra lateral
 
 event3.addEventListener("click", () => {
+  bg.classList.toggle("show");
   lateral.classList.toggle("lateral-animation");
 });
 
 //cerrar barra lateral
 
 btn_close.addEventListener("click", () => {
+  bg.classList.toggle("show");
   lateral.classList.toggle("lateral-animation");
 });
