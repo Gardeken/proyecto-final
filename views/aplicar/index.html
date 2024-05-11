@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Universidad José María Vargas</title>
+    <link rel="stylesheet" href="css/normalize.css" />
+    <link rel="stylesheet" href="css/index.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body id="inicio">
+    <div id="lateral" class="barra-lateral">
+      <div class="container-close">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="close w-6 h-6"
+          id="close"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M6 18 18 6M6 6l12 12"
+          />
+        </svg>
+      </div>
+
+      <div class="container-links-2">
+        <a href="/" class="hover-link" id="btn-inicio2">Inicio</a>
+        <a href="/login" class="hover-link" id="btn-portal2">Portal UJMV</a>
+        <div id="event2" class="container-event hover-link-event">
+          <p>Carreras</p>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-6 h-6 arrow"
+            id="arrow"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="m19.5 8.25-7.5 7.5-7.5-7.5"
+            />
+          </svg>
+        </div>
+
+        <div>
+          <ul id="list2" class="lista2">
+            <li><a href="/carreras?carrera=Diplomado">Diplomados</a></li>
+            <li><a href="/carreras?carrera=Tecnico">Técnico Superior</a></li>
+            <li><a href="/carreras?carrera=Licenciaturas">Licenciaturas</a></li>
+            <li><a href="/carreras?carrera=Post">Post Grados</a></li>
+          </ul>
+        </div>
+        <a class="hover-link" href="/#historia">Historia</a>
+        <a class="hover-link" href="/#estudiantes">Estudiantes</a>
+        <a class="hover-link color-sec" href="/contactanos">Contactanos</a>
+      </div>
+    </div>
+    <header>
+      <nav class="navegacion">
+        <div class="logo">
+          <img
+            src="imgs/optimizadas/Universidad-Jose-Maria-Vargas-Logo-Vector.svg-.webp"
+            alt=""
+            class="imagen-prin"
+          />
+        </div>
+        <div class="container-nav">
+          <div class="container-links">
+            <a href="/" class="links" id="btn-inicio1">Inicio</a>
+            <a href="/login/" class="links" id="btn-portal1">Portal UJMV</a>
+            <div class="list1">
+              <p class="links" id="action-list1">Carreras</p>
+              <ul class="lista1" id="list1">
+                <li><a href="/carreras?carrera=Diplomado">Diplomados</a></li>
+                <li>
+                  <a href="/carreras?carrera=Tecnico">Técnico Superior</a>
+                </li>
+                <li>
+                  <a href="/carreras?carrera=Licenciaturas">Licenciaturas</a>
+                </li>
+                <li><a href="/carreras?carrera=Post">Post Grados</a></li>
+              </ul>
+            </div>
+            <a class="links" href="/#estudiantes">Estudiantes</a>
+            <a class="links" href="/#historia">Historia</a>
+            <a class="links color-sec" href="/contactanos">Contactanos</a>
+          </div>
+          <div class="container-icon-ham">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-6 h-6"
+              id="event3"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+              />
+            </svg>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <main class="container-main">
+      <div class="container-main-1">
+        <section class="titulo">
+          <h1>Aplicar</h1>
+        </section>
+        <form id="formulario" class="formulario">
+          <div>
+            <label for="cedula">Número de cédula</label>
+            <input
+              required
+              placeholder="ejem 27432912"
+              type="text"
+              id="cedula"
+            />
+          </div>
+          <div>
+            <label for="nombre">Nombre</label>
+            <input required placeholder="Pedro" type="text" id="nombre" />
+          </div>
+          <div>
+            <label for="segnombre">Segundo nombre</label>
+            <input placeholder="Ignacio" type="text" id="segnombre" />
+          </div>
+          <div>
+            <label for="apellidos">Apellidos</label>
+            <input
+              required
+              placeholder="Centeno Cabrera"
+              type="text"
+              id="apellidos"
+            />
+          </div>
+          <div>
+            <label for="email">Email</label>
+            <input
+              required
+              placeholder="ejemplo@gmail.com"
+              type="email"
+              id="email"
+            />
+          </div>
+          <div>
+            <label for="telefono">Teléfono</label>
+            <input
+              required
+              placeholder="04124325567"
+              type="text"
+              id="telefono"
+            />
+          </div>
+          <div>
+            <label for="telefonoCasa">Teléfono de casa</label>
+            <input
+              required
+              placeholder="04124325567"
+              type="text"
+              id="telefonoCasa"
+            />
+          </div>
+          <div>
+            <label for="calle">Calle</label>
+            <input required placeholder="" type="text" id="calle" />
+          </div>
+          <div>
+            <label for="ciudad">Ciudad</label>
+            <input required placeholder="" type="text" id="ciudad" />
+          </div>
+          <div>
+            <label for="estado">Estado / Provincia</label>
+            <input required placeholder="" type="text" id="estado" />
+          </div>
+          <div>
+            <label for="postal">ZIP / Código posta</label>
+            <input required placeholder="" type="text" id="postal" />
+          </div>
+          <div>
+            <label for="pais">País</label>
+            <input required placeholder="" type="text" id="pais" />
+          </div>
+          <div>
+            <label for="fechaNam">Fecha de nacimiento</label>
+            <input required placeholder="" type="text" id="fechaNam" />
+          </div>
+          <div>
+            <label for="sexo">Sexo</label>
+            <select name="" id="sexo">
+              <option value="">...</option>
+              <option value="">Masculino</option>
+              <option value="">Femenino</option>
+            </select>
+          </div>
+          <div class="container-input-file">
+            <label for="cedulaImg">Número de cédula</label>
+            <input type="file" id="cedulaImg" />
+          </div>
+          <div class="container-input-file">
+            <label for="tituloImg"
+              >Copia de Titulo de <br />
+              Bachiller o-y Universitaria</label
+            >
+            <input type="file" id="tituloImg" />
+          </div>
+          <div class="container-input-file">
+            <label for="notasImg"
+              >COPIA NOTAS <br />
+              CERTIFICADAS DE BACHILLER</label
+            >
+            <input type="file" id="notasImg" />
+          </div>
+          <div class="container-input-file">
+            <label for="opsuImg"
+              >COPIA DE CERTIFICADO DE <br />
+              PARTICIPACION CNU-OPSU</label
+            >
+            <input type="file" id="opsuImg" />
+          </div>
+          <div class="container-input-file">
+            <label for="partidaNacImg">COPIA PARTIDA DE NACIMIENTO</label>
+            <input type="file" id="partidaNacImg" />
+          </div>
+          <div class="container-input-file">
+            <label for="conductaImg"
+              >COPIA CARTA DE BUENA <br />
+              CONDUCTA VIGENTE</label
+            >
+            <input type="file" id="conductaImg" />
+          </div>
+          <div class="container-input-file">
+            <label for="servicioImg"
+              >COPIA INSCRIPCIÓN EN EL <br />
+              SERVICIO MILITAR OBLIGATORIO</label
+            >
+            <input type="file" id="servicioImg" />
+          </div>
+          <div class="container-input-file">
+            <label for="lugarNam">Lugar de nacimiento</label>
+            <input type="text" id="lugarNam" />
+          </div>
+          <div>
+            <label for="nacionalidad">nacionalidad</label>
+            <input placeholder="" type="text" id="nacionalidad" />
+          </div>
+          <div>
+            <label for="estado">Estado Civil</label>
+            <select name="" id="estado">
+              <option value="">...</option>
+              <option value="">Soltero/a</option>
+              <option value="">Casado/a</option>
+              <option value="">Viudo/a</option>
+              <option value="">Otro</option>
+            </select>
+          </div>
+          <div>
+            <label for="inscrito">Inscrito en: </label>
+            <select name="" id="inscrito">
+              <option value="">...</option>
+            </select>
+          </div>
+          <div>
+            <label for="programa">Programa</label>
+            <select name="" id="programa">
+              <option value="">...</option>
+            </select>
+          </div>
+          <div>
+            <label for="">Estudiante presento la prueba del CNU</label>
+            <input type="radio" name="" id="" /> Sí
+            <input type="radio" name="" id="" /> No
+            <input type="radio" name="" id="" /> No aplica
+          </div>
+          <section>
+            <h2>Información de contacto de emergencia</h2>
+          </section>
+          <div>
+            <label for="nombreEmer">Nombre del contacto de emergencia</label>
+            <input placeholder="" type="text" id="nombreEmer" />
+          </div>
+          <div>
+            <label for="relacion">Relación</label>
+            <input placeholder="" type="text" id="relacion" />
+          </div>
+          <div>
+            <label for="telefonoEmer">Teléfono de emergencia</label>
+            <input placeholder="" type="text" id="telefonoEmer" />
+          </div>
+          <div>
+            <label for="telefonoCasaEmer">Teléfono de casa</label>
+            <input placeholder="" type="text" id="telefonoCasaEmer" />
+          </div>
+          <div>
+            <label for="telefonoTrabajo">Teléfono de trabajo</label>
+            <input placeholder="" type="text" id="telefonoTrabajo" />
+          </div>
+          <section>
+            <h2>
+              Información de contacto para representantes/ guardianes (Solo para
+              menores de 18 años)
+            </h2>
+          </section>
+          <div>
+            <label for="nombreRep">Nombre del guardián o representante</label>
+            <input placeholder="" type="text" id="nombreRep" />
+          </div>
+          <div>
+            <label for="relacionRep">Relación</label>
+            <input placeholder="" type="text" id="relacionRep" />
+          </div>
+          <div>
+            <label for="telefonoRep">Teléfono</label>
+            <input placeholder="" type="text" id="telefonoRep" />
+          </div>
+          <div>
+            <label for="emailRep">Correo electrónico</label>
+            <input placeholder="" type="text" id="emailRep" />
+          </div>
+          <div>
+            <label for="calleRep">Calle</label>
+            <input placeholder="" type="text" id="calleRep" />
+          </div>
+          <div>
+            <label for="ciudadRep">Ciudad</label>
+            <input placeholder="" type="text" id="ciudadRep" />
+          </div>
+          <div>
+            <label for="estadoRep">Estado / Provincia</label>
+            <input placeholder="" type="text" id="estadoRep" />
+          </div>
+          <div>
+            <label for="paisRep">País</label>
+            <input placeholder="" type="text" id="paisRep" />
+          </div>
+          <div>
+            <label for="postalRep">Código Postal</label>
+            <input placeholder="" type="text" id="postalRep" />
+          </div>
+          <section>
+            <h2>Información de Educación Previa</h2>
+          </section>
+          <div>
+            <label for="plantel">Nombre del Plantel</label>
+            <input placeholder="" type="text" id="plantel" />
+          </div>
+          <div>
+            <label for="tipoPlantel">Tipo de plantel</label>
+            <input placeholder="" type="text" id="tipoPlantel" />
+          </div>
+          <div>
+            <label for="especialidadPlantel">Especialidad</label>
+            <input placeholder="" type="text" id="especialidadPlantel" />
+          </div>
+          <div>
+            <label for="ira">Índice de Rendimiento Académico (IRA)</label>
+            <input placeholder="" type="text" id="ira" />
+          </div>
+          <div>
+            <label for="ciudadPlantel">Ciudad</label>
+            <input placeholder="" type="text" id="ciudadPlantel" />
+          </div>
+          <div>
+            <label for="estadoPlante">Estado</label>
+            <input placeholder="" type="text" id="estadoPlante" />
+          </div>
+          <div>
+            <label for="paisPlantel">País</label>
+            <input placeholder="" type="text" id="paisPlantel" />
+          </div>
+          <section>
+            <h2>Información de Empleo</h2>
+          </section>
+          <div>
+            <label for="">El estudiante trabaja?</label>
+            <input type="radio" name="" id="" /> Sí
+            <input type="radio" name="" id="" /> No
+            <input type="radio" name="" id="" /> No aplica
+          </div>
+          <div>
+            <label for="sector">Sector laboral</label>
+            <input placeholder="" type="text" id="sector" />
+          </div>
+          <div>
+            <label for="nombreEmpresa">Nombrer de la Empresa</label>
+            <input placeholder="" type="text" id="nombreEmpresa" />
+          </div>
+          <div>
+            <label for="direcEm">Dirección de la Empresa</label>
+            <input placeholder="" type="text" id="direcEm" />
+          </div>
+          <div>
+            <label for="ciudadEmpresa">Ciudad</label>
+            <input placeholder="" type="text" id="ciudadEmpresa" />
+          </div>
+          <div>
+            <label for="estadoEmpresa">Estado / Provincia</label>
+            <input placeholder="" type="text" id="estadoEmpresa" />
+          </div>
+          <div>
+            <label for="paisEmpresa">País</label>
+            <input placeholder="" type="text" id="paisEmpresa" />
+          </div>
+          <div>
+            <label for="nombreSup">Nombre del supervisor</label>
+            <input placeholder="" type="text" id="nombreSup" />
+          </div>
+          <div>
+            <label for="telefonoEmpresa">Teléfono de la empresa</label>
+            <input placeholder="" type="text" id="telefonoEmpresa" />
+          </div>
+          <section>
+            <h2>Información de estudiantes del area de postgrado</h2>
+          </section>
+          <div>
+            <label for="institucion">Institución Universitaria</label>
+            <input placeholder="" type="text" id="institucion" />
+          </div>
+          <div>
+            <label for="tituloIns">Título Obtenido</label>
+            <input placeholder="" type="text" id="tituloIns" />
+          </div>
+          <div>
+            <label for="fechaGrad">Fecha de graduación</label>
+            <input placeholder="" type="text" id="fechaGrad" />
+          </div>
+          <section>
+            <h2>Información sobre discapacidad</h2>
+          </section>
+          <div>
+            <label for="">¿El estudiante tiene alguna discapacidad?</label>
+            <input type="radio" name="" id="" /> Sí
+            <input type="radio" name="" id="" /> No
+            <input type="radio" name="" id="" /> No aplica
+          </div>
+          <div>
+            <label for="">Descripción de la discapacidad</label>
+            <textarea name="" id=""></textarea>
+          </div>
+          <div>
+            <label for=""
+              >¿El estudiante tiene dificultades del aprendizaje?</label
+            >
+            <input type="radio" name="" id="" /> Sí
+            <input type="radio" name="" id="" /> No
+            <input type="radio" name="" id="" /> No aplica
+          </div>
+          <div>
+            <label for=""
+              >Descripción de las dificultades del aprendizaje</label
+            >
+            <textarea name="" id=""></textarea>
+          </div>
+          <section>
+            <h2>Confirmación del estudiante</h2>
+          </section>
+          <div>
+            <label for="fechaSol">Fecha de Solicitud</label>
+            <input placeholder="" type="text" id="fechaSol" />
+          </div>
+          <div>
+            <label for="nombreEst">Nombre completo de estudiante</label>
+            <input placeholder="" type="text" id="nombreEst" />
+          </div>
+          <div>
+            <label for="nombreRepCom"
+              >Nombre completo de representante legal</label
+            >
+            <input placeholder="" type="text" id="nombreRepCom" />
+          </div>
+          <div>
+            <input type="checkbox" name="" id="" />
+            <p>
+              Entiendo que esta solicitud es para ingresar a la Universidad José
+              María Vargas. También entiendo y acepto que cumpliré las
+              regulaciones de la Universidad con respecto a los requisitos de
+              admisión. Certifico que la información proporcionada en esta
+              solicitud es completa y precisa, y entiendo que hacer
+              declaraciones falsas o fraudulentas en esta solicitud puede dar
+              como resultado una acción disciplinaria, denegación de admisión e
+              invalidación de créditos o títulos obtenidos. Si alguna de la
+              información que he proporcionado cambia, lo notificaré
+              inmediatamente a la Oficina de Admisiones.
+            </p>
+          </div>
+          <div>
+            <input type="submit" value="Enviar formulario" />
+          </div>
+        </form>
+      </div>
+    </main>
+    <footer class="piepagina">
+      <div class="contacto-telf">
+        <h3>Teléfonos de contacto:</h3>
+        <section>
+          <p>0412-214-7516</p>
+          <p>0412-210-5516</p>
+          <p>0412-216-6116</p>
+          <p>0412-220-4116</p>
+          <p>0412-310-1217</p>
+        </section>
+      </div>
+      <div class="container-contacts">
+        <div class="contacto-redes">
+          <section class="seccion-redes">
+            <h3>Nuestras redes</h3>
+            <a href="">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="facebook icon"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951"
+                />
+              </svg>
+            </a>
+            <a href="">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="twitter-x icon"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865z"
+                />
+              </svg>
+            </a>
+            <a href="">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="instagram icon"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599s.453.546.598.92c.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.5 2.5 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.5 2.5 0 0 1-.92-.598 2.5 2.5 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233s.008-2.388.046-3.231c.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92s.546-.453.92-.598c.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92m-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217m0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334"
+                />
+              </svg>
+            </a>
+          </section>
+        </div>
+        <div class="email">
+          <h3>Correo electrónico:</h3>
+          <p>info@ujmv.edu</p>
+        </div>
+      </div>
+      <div class="container-contacts2">
+        <div class="horas">
+          <h3>Horas de oficina</h3>
+          <p>Lunes- Viernes: 8am - 5pm</p>
+        </div>
+
+        <div class="ubicacion">
+          <h3>Visitanos</h3>
+          <p>
+            Distrito Capital, Municipio Sucre, Avenida Sucre Los Dos Caminos,
+            Torre José María Vargas
+          </p>
+        </div>
+      </div>
+    </footer>
+    <script src="js/index.js"></script>
+  </body>
+</html>
