@@ -14,7 +14,7 @@
     />
   </head>
   <body id="inicio">
-    <div id="lateral" class="barra-lateral">
+    <aside id="lateral" class="barra-lateral">
       <div class="container-close">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -65,9 +65,9 @@
         </div>
         <a class="hover-link" href="/#historia">Historia</a>
         <a class="hover-link" href="/#estudiantes">Estudiantes</a>
-        <a class="hover-link color-sec" href="/contactanos">Contactanos</a>
+        <a class="hover-link" href="/contactanos">Contactanos</a>
       </div>
-    </div>
+    </aside>
     <header>
       <nav class="navegacion">
         <div class="logo">
@@ -96,7 +96,7 @@
             </div>
             <a class="links" href="/#estudiantes">Estudiantes</a>
             <a class="links" href="/#historia">Historia</a>
-            <a class="links color-sec" href="/contactanos">Contactanos</a>
+            <a class="links" href="/contactanos">Contactanos</a>
           </div>
           <div class="container-icon-ham">
             <svg
@@ -132,14 +132,17 @@
               type="text"
               id="cedula"
             />
+            <p class="requerido">* Requerido</p>
           </div>
           <div>
             <label for="nombre">Nombre</label>
             <input required placeholder="Pedro" type="text" id="nombre" />
+            <p class="requerido">* Requerido</p>
           </div>
           <div>
             <label for="segnombre">Segundo nombre</label>
             <input placeholder="Ignacio" type="text" id="segnombre" />
+            <p class="requerido">* Requerido</p>
           </div>
           <div>
             <label for="apellidos">Apellidos</label>
@@ -149,6 +152,7 @@
               type="text"
               id="apellidos"
             />
+            <p class="requerido">* Requerido</p>
           </div>
           <div>
             <label for="email">Email</label>
@@ -158,6 +162,7 @@
               type="email"
               id="email"
             />
+            <p class="requerido">* Requerido</p>
           </div>
           <div>
             <label for="telefono">Teléfono</label>
@@ -167,6 +172,7 @@
               type="text"
               id="telefono"
             />
+            <p class="requerido">* Requerido</p>
           </div>
           <div>
             <label for="telefonoCasa">Teléfono de casa</label>
@@ -176,30 +182,37 @@
               type="text"
               id="telefonoCasa"
             />
+            <p class="requerido">* Requerido</p>
           </div>
           <div>
             <label for="calle">Calle</label>
             <input required placeholder="" type="text" id="calle" />
+            <p class="requerido">* Requerido</p>
           </div>
           <div>
             <label for="ciudad">Ciudad</label>
             <input required placeholder="" type="text" id="ciudad" />
+            <p class="requerido">* Requerido</p>
           </div>
           <div>
             <label for="estado">Estado / Provincia</label>
             <input required placeholder="" type="text" id="estado" />
+            <p class="requerido">* Requerido</p>
           </div>
           <div>
             <label for="postal">ZIP / Código posta</label>
             <input required placeholder="" type="text" id="postal" />
+            <p class="requerido">* Requerido</p>
           </div>
           <div>
             <label for="pais">País</label>
             <input required placeholder="" type="text" id="pais" />
+            <p class="requerido">* Requerido</p>
           </div>
           <div>
             <label for="fechaNam">Fecha de nacimiento</label>
             <input required placeholder="" type="text" id="fechaNam" />
+            <p class="requerido">* Requerido</p>
           </div>
           <div>
             <label for="sexo">Sexo</label>
@@ -208,49 +221,305 @@
               <option value="">Masculino</option>
               <option value="">Femenino</option>
             </select>
+            <p class="requerido">* Requerido</p>
           </div>
           <div class="container-input-file">
             <label for="cedulaImg">Número de cédula</label>
-            <input type="file" id="cedulaImg" />
+            <div class="container-file">
+              <div class="container-svg">
+                <label class="label-svg" for="cedulaImg">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="upload-svg"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"
+                    />
+                  </svg>
+                </label>
+
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  id="delCedula"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="delete-file"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M6 18 18 6M6 6l12 12"
+                  />
+                </svg>
+              </div>
+              <input type="file" id="cedulaImg" />
+            </div>
           </div>
           <div class="container-input-file">
             <label for="tituloImg"
               >Copia de Titulo de <br />
               Bachiller o-y Universitaria</label
             >
-            <input type="file" id="tituloImg" />
+            <div class="container-file">
+              <div class="container-svg">
+                <label class="label-svg" for="tituloImg">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="upload-svg"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"
+                    />
+                  </svg>
+                </label>
+
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  id="delTitulo"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="delete-file"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M6 18 18 6M6 6l12 12"
+                  />
+                </svg>
+              </div>
+              <input type="file" id="tituloImg" />
+            </div>
           </div>
           <div class="container-input-file">
             <label for="notasImg"
               >COPIA NOTAS <br />
               CERTIFICADAS DE BACHILLER</label
             >
-            <input type="file" id="notasImg" />
+            <div class="container-file">
+              <div class="container-svg">
+                <label class="label-svg" for="notasImg">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="upload-svg"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"
+                    />
+                  </svg>
+                </label>
+
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  id="delNotas"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="delete-file"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M6 18 18 6M6 6l12 12"
+                  />
+                </svg>
+              </div>
+              <input type="file" id="notasImg" />
+            </div>
           </div>
           <div class="container-input-file">
             <label for="opsuImg"
               >COPIA DE CERTIFICADO DE <br />
               PARTICIPACION CNU-OPSU</label
             >
-            <input type="file" id="opsuImg" />
+
+            <div class="container-file">
+              <div class="container-svg">
+                <label class="label-svg" for="opsuImg">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="upload-svg"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"
+                    />
+                  </svg>
+                </label>
+
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  id="delOpsu"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="delete-file"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M6 18 18 6M6 6l12 12"
+                  />
+                </svg>
+              </div>
+              <input type="file" id="opsuImg" />
+            </div>
           </div>
           <div class="container-input-file">
             <label for="partidaNacImg">COPIA PARTIDA DE NACIMIENTO</label>
-            <input type="file" id="partidaNacImg" />
+            <div class="container-file">
+              <div class="container-svg">
+                <label class="label-svg" for="partidaNacImg">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="upload-svg"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"
+                    />
+                  </svg>
+                </label>
+
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  id="delPartida"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="delete-file"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M6 18 18 6M6 6l12 12"
+                  />
+                </svg>
+              </div>
+              <input type="file" id="partidaNacImg" />
+            </div>
           </div>
+
           <div class="container-input-file">
             <label for="conductaImg"
               >COPIA CARTA DE BUENA <br />
               CONDUCTA VIGENTE</label
             >
-            <input type="file" id="conductaImg" />
+            <div class="container-file">
+              <div class="container-svg">
+                <label class="label-svg" for="conductaImg">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="upload-svg"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"
+                    />
+                  </svg>
+                </label>
+
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  id="delConducta"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="delete-file"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M6 18 18 6M6 6l12 12"
+                  />
+                </svg>
+              </div>
+              <input type="file" id="conductaImg" />
+            </div>
           </div>
           <div class="container-input-file">
             <label for="servicioImg"
               >COPIA INSCRIPCIÓN EN EL <br />
               SERVICIO MILITAR OBLIGATORIO</label
             >
-            <input type="file" id="servicioImg" />
+            <div class="container-file">
+              <div class="container-svg">
+                <label class="label-svg" for="servicioImg">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="upload-svg"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"
+                    />
+                  </svg>
+                </label>
+
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  id="delServicio"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="delete-file"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M6 18 18 6M6 6l12 12"
+                  />
+                </svg>
+              </div>
+
+              <input type="file" id="servicioImg" />
+            </div>
           </div>
           <div class="container-input-file">
             <label for="lugarNam">Lugar de nacimiento</label>
@@ -259,6 +528,7 @@
           <div>
             <label for="nacionalidad">nacionalidad</label>
             <input placeholder="" type="text" id="nacionalidad" />
+            <p class="requerido">* Requerido</p>
           </div>
           <div>
             <label for="estado">Estado Civil</label>
@@ -269,24 +539,29 @@
               <option value="">Viudo/a</option>
               <option value="">Otro</option>
             </select>
+            <p class="requerido">* Requerido</p>
           </div>
           <div>
             <label for="inscrito">Inscrito en: </label>
             <select name="" id="inscrito">
               <option value="">...</option>
             </select>
+            <p class="requerido">* Requerido</p>
           </div>
           <div>
             <label for="programa">Programa</label>
             <select name="" id="programa">
               <option value="">...</option>
             </select>
+            <p class="requerido">* Requerido</p>
           </div>
           <div>
             <label for="">Estudiante presento la prueba del CNU</label>
-            <input type="radio" name="" id="" /> Sí
-            <input type="radio" name="" id="" /> No
-            <input type="radio" name="" id="" /> No aplica
+            <div class="container-radio">
+              <div><input type="radio" name="" id="" /> Sí</div>
+              <div><input type="radio" name="" id="" /> No</div>
+              <div><input type="radio" name="" id="" /> No aplica</div>
+            </div>
           </div>
           <section>
             <h2>Información de contacto de emergencia</h2>
@@ -294,14 +569,17 @@
           <div>
             <label for="nombreEmer">Nombre del contacto de emergencia</label>
             <input placeholder="" type="text" id="nombreEmer" />
+            <p class="requerido">* Requerido</p>
           </div>
           <div>
             <label for="relacion">Relación</label>
             <input placeholder="" type="text" id="relacion" />
+            <p class="requerido">* Requerido</p>
           </div>
           <div>
             <label for="telefonoEmer">Teléfono de emergencia</label>
             <input placeholder="" type="text" id="telefonoEmer" />
+            <p class="requerido">* Requerido</p>
           </div>
           <div>
             <label for="telefonoCasaEmer">Teléfono de casa</label>
@@ -389,9 +667,11 @@
           </section>
           <div>
             <label for="">El estudiante trabaja?</label>
-            <input type="radio" name="" id="" /> Sí
-            <input type="radio" name="" id="" /> No
-            <input type="radio" name="" id="" /> No aplica
+            <div class="container-radio">
+              <div><input type="radio" name="" id="" /> Sí</div>
+              <div><input type="radio" name="" id="" /> No</div>
+              <div><input type="radio" name="" id="" /> No aplica</div>
+            </div>
           </div>
           <div>
             <label for="sector">Sector laboral</label>
@@ -445,9 +725,11 @@
           </section>
           <div>
             <label for="">¿El estudiante tiene alguna discapacidad?</label>
-            <input type="radio" name="" id="" /> Sí
-            <input type="radio" name="" id="" /> No
-            <input type="radio" name="" id="" /> No aplica
+            <div class="container-radio">
+              <div><input type="radio" name="" id="" /> Sí</div>
+              <div><input type="radio" name="" id="" /> No</div>
+              <div><input type="radio" name="" id="" /> No aplica</div>
+            </div>
           </div>
           <div>
             <label for="">Descripción de la discapacidad</label>
@@ -457,9 +739,11 @@
             <label for=""
               >¿El estudiante tiene dificultades del aprendizaje?</label
             >
-            <input type="radio" name="" id="" /> Sí
-            <input type="radio" name="" id="" /> No
-            <input type="radio" name="" id="" /> No aplica
+            <div class="container-radio">
+              <div><input type="radio" name="" id="" /> Sí</div>
+              <div><input type="radio" name="" id="" /> No</div>
+              <div><input type="radio" name="" id="" /> No aplica</div>
+            </div>
           </div>
           <div>
             <label for=""
@@ -473,10 +757,12 @@
           <div>
             <label for="fechaSol">Fecha de Solicitud</label>
             <input placeholder="" type="text" id="fechaSol" />
+            <p class="requerido">* Requerido</p>
           </div>
           <div>
             <label for="nombreEst">Nombre completo de estudiante</label>
             <input placeholder="" type="text" id="nombreEst" />
+            <p class="requerido">* Requerido</p>
           </div>
           <div>
             <label for="nombreRepCom"
@@ -484,7 +770,7 @@
             >
             <input placeholder="" type="text" id="nombreRepCom" />
           </div>
-          <div>
+          <div class="form-final">
             <input type="checkbox" name="" id="" />
             <p>
               Entiendo que esta solicitud es para ingresar a la Universidad José

@@ -8,6 +8,7 @@
 }
 
 body {
+  display: grid;
   overflow-x: hidden;
 }
 
@@ -107,7 +108,9 @@ body {
 */
 
 .container-main {
+  place-self: center;
   display: grid;
+  width: 100vw;
   place-items: center;
 }
 
@@ -117,20 +120,43 @@ body {
 */
 
 .container-main-1 {
-  width: 70vw;
+  width: 80vw;
   box-shadow: -3px 7px 36px 7px rgba(0, 0, 0, 0.51);
   padding: 2rem;
   margin: 3rem 0;
   text-align: center;
 }
 
+.formulario {
+  display: grid;
+}
+
 .container-main-1 div {
   display: grid;
   margin: 1rem 0;
-  grid-auto-flow: column;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.container-radio {
+  place-self: start;
+  margin: 0 !important;
+  display: flex !important ;
+  gap: 1rem;
+  flex-direction: column;
+}
+
+.container-radio div {
+  display: flex;
+  margin: 0;
+  gap: 1rem;
+}
+
+select {
+  margin-top: 1rem;
 }
 
 label {
+  text-align: start;
   place-self: start;
 }
 
@@ -145,6 +171,11 @@ textarea {
   width: 30vw;
 }
 
+textarea {
+  height: 128px;
+  width: 30vw;
+}
+
 input[type="text"],
 input[type="email"],
 select {
@@ -156,7 +187,8 @@ select {
 }
 
 input[type="checkbox"] {
-  place-self: start;
+  place-self: start end;
+  cursor: pointer;
 }
 
 .container-main-1 div p {
@@ -169,14 +201,74 @@ h2 {
   margin: 4rem 0;
 }
 
+.container-file {
+  margin: 0 !important;
+  display: flex !important;
+  align-items: end;
+  place-self: end;
+  grid-column-start: 3;
+  grid-column-end: 4;
+}
+
+.upload-svg,
+.delete-file {
+  cursor: pointer;
+  padding: 0.3rem;
+  color: white;
+  border-radius: 0.3rem;
+  background-color: var(--rojo-principal);
+  place-self: end;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.delete-file {
+  background-color: var(--gris-texto);
+  align-self: start;
+}
+
+.container-svg {
+  gap: 0.5rem;
+  display: flex !important ;
+  margin: 0 !important;
+}
+
+.label-svg {
+  place-self: end !important;
+}
+
+input[type="file"] {
+  margin-left: 2rem;
+  width: 13rem;
+  place-self: start center;
+}
+
+input[type="file"]::-webkit-file-upload-button,
+::file-selector-button {
+  display: none;
+}
+
 input[type="submit"] {
   place-self: center;
   border: none;
   border-radius: 0.5rem;
   color: white;
+  grid-column-start: 2;
+  grid-column-end: 3;
   background-color: var(--rojo-principal);
   padding: 0.8rem 1rem;
   margin-top: 3rem;
+}
+
+.requerido {
+  margin: 0;
+  place-self: center;
+  color: var(--rojo-principal);
+}
+
+.form-final {
+  place-self: center;
+  margin: 5rem 0 !important;
 }
 
 /*
@@ -283,10 +375,60 @@ input[type="submit"] {
                             Estilos main responsive  
 */
 
-  /*
-<------------------------------------------------------------------------------->
-                            Estilos main  2 responsive
-*/
+  .container-main-1 div {
+    display: flex;
+    gap: 2rem;
+    flex-direction: column;
+  }
+
+  .container-main-1 div label {
+    place-self: center;
+    text-align: center;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  select,
+  textarea {
+    place-self: center;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  select,
+  textarea {
+    width: 70vw;
+  }
+
+  .requerido {
+    margin: 0 !important;
+  }
+
+  .container-svg {
+    display: flex !important;
+    flex-direction: row !important;
+  }
+
+  .container-file {
+    place-self: center;
+    place-items: center !important;
+  }
+
+  .container-radio {
+    display: flex;
+    flex-direction: row !important;
+    align-self: center !important;
+  }
+
+  .container-radio div {
+    gap: 1rem;
+  }
+
+  .form-final {
+    display: flex;
+    gap: 0 !important;
+    flex-direction: row !important;
+  }
 
   /*
 <------------------------------------------------------------------------------->
