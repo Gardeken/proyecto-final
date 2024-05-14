@@ -1,0 +1,167 @@
+:root {
+  --rojo-principal: #ec1c2c;
+  --rojo-secundario: #a3141f;
+  --rojo-terciario: #ff5764;
+  --gris-principal: #2c2c2c;
+  --gris-texto: #737373;
+  --gris-texto-sec: #d3d3d3;
+}
+
+body {
+  height: 100vh;
+}
+
+/*
+<------------------------------------------------------------------------------->
+                            Estilos nav  
+*/
+
+header {
+  display: grid !important;
+  place-items: end;
+}
+
+.container-perfil {
+  display: flex;
+  gap: 1rem;
+  margin-right: 2rem;
+  margin-top: 2rem;
+}
+
+.container-perfil p {
+  margin: 0;
+  display: grid;
+  place-items: center;
+}
+
+.img-perfil {
+  width: 2.3rem;
+  height: 2.3rem;
+  border-radius: 50%;
+}
+
+/*
+<------------------------------------------------------------------------------->
+                            Estilos barra lateral  
+*/
+
+.barra-lateral {
+  left: 0;
+  bottom: 0;
+  top: 0;
+  width: 20vw;
+  background-color: var(--rojo-principal);
+  position: fixed;
+}
+
+.container-logo {
+  margin: 1rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.logo {
+  width: 3.8rem;
+}
+
+.close {
+  cursor: pointer;
+  display: none;
+  width: 2.5rem;
+  color: white;
+}
+
+.container-acciones {
+  display: flex;
+  margin-left: 1rem;
+  margin-top: 3rem;
+  gap: 1rem;
+  flex-direction: column;
+}
+
+.btnAct {
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  color: white;
+  margin: 0;
+  margin-right: 2rem;
+  padding: 0.8rem 1rem;
+}
+
+.materias {
+  display: flex;
+  flex-direction: column;
+}
+
+.arrow {
+  width: 1.5rem;
+  color: white;
+}
+
+.btnAct {
+  transition: 0.3s;
+}
+
+.btnAct:hover,
+.listadoMaterias li:hover {
+  background-color: var(--rojo-secundario);
+  transition: 0.3s;
+}
+
+.container-arrow .btnAct {
+  display: grid;
+  place-items: center;
+}
+
+.listadoMaterias {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-left: 1rem;
+  color: white;
+}
+
+.listadoMaterias li {
+  transition: 0.3s;
+  margin-right: 2rem;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+.hidden {
+  display: none;
+}
+
+.Actsvg {
+  width: 1.5rem;
+  color: white;
+}
+
+.containerAct {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+/*
+<------------------------------------------------------------------------------->
+                            Estilos main  
+*/
+
+.container-main {
+  width: 98vw;
+  margin-top: 1rem;
+  place-items: end;
+  display: grid;
+}
+
+.container-main-1 {
+  width: 78%;
+}
