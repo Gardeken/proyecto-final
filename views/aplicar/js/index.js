@@ -44,3 +44,15 @@ btn_close.addEventListener("click", () => {
   bg.classList.toggle("show");
   lateral.classList.toggle("lateral-animation");
 });
+
+// guardando archivos
+
+const formulario = document.querySelector("#formulario");
+const tituloImg = document.querySelector("#tituloImg");
+
+formulario.addEventListener("submit", (e) => {
+  e.preventDefault();
+  axios.post("/api/assigment/guardar-archivos", {
+    tituloImg: tituloImg,
+  });
+});

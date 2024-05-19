@@ -12,6 +12,7 @@
       href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
       rel="stylesheet"
     />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   </head>
   <body id="inicio">
     <div class="bg"></div>
@@ -124,7 +125,7 @@
         <section class="titulo">
           <h1>Aplicar</h1>
         </section>
-        <form id="formulario" class="formulario">
+        <form enctype="multipart/form-data" id="formulario" class="formulario">
           <div>
             <label for="cedula">Número de cédula</label>
             <input
@@ -225,7 +226,7 @@
             <p class="requerido">* Requerido</p>
           </div>
           <div class="container-input-file">
-            <label for="cedulaImg">Número de cédula</label>
+            <label for="cedulaImg">Imagen de la cédula</label>
             <div class="container-file">
               <div class="container-svg">
                 <label class="label-svg" for="cedulaImg">
@@ -304,7 +305,7 @@
                   />
                 </svg>
               </div>
-              <input type="file" id="tituloImg" />
+              <input type="file" name="titulo" id="tituloImg" />
             </div>
           </div>
           <div class="container-input-file">
