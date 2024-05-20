@@ -25,7 +25,7 @@ body {
 
 .messageAnimation {
   transition: 0.5s;
-  top: 1rem;
+  top: 0.8rem;
 }
 
 .message p {
@@ -48,7 +48,7 @@ body {
 }
 
 .formulario1 {
-  margin-top: 4rem;
+  margin-top: 5rem;
   background-color: var(--rojo-principal);
   color: white;
   display: grid;

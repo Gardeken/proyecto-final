@@ -15,7 +15,7 @@ function mostrarAlerta(msg) {
   }, 3000);
 }
 
-formulario.addEventListener("submit", (e) => {
+formulario.addEventListener("submit", async (e) => {
   e.preventDefault();
   const listadoInputs = [inputUsuario.value, inputPassword.value].some(
     (i) => i === ""
@@ -23,5 +23,16 @@ formulario.addEventListener("submit", (e) => {
 
   if (listadoInputs) {
     return mostrarAlerta("No puede dejar los campos vacíos");
+  }
+  try {
+    const consulta = await axios.get("/api/user/consulta-login", {
+      params: {
+        usuario: inputUsuario.value,
+        password: inputPassword.value,
+      },
+    });
+    window.location.href = consulta.data.path;
+  } catch (error) {
+    mostrarAlerta(error.response.data.message);
   }
 });

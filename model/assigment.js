@@ -5,6 +5,7 @@ const assigmentSchema = new mongoose.Schema({
   nombre: String,
   ruta: String,
   usuario: String,
+  subject: String,
 });
 
 assigmentSchema.set("toJSON", {
