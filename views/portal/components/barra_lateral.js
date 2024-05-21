@@ -21,12 +21,7 @@ containerBar.innerHTML = `<div class="materias">
   </svg>
 </a>
 <ul class="listadoMaterias hidden">
-  <li>Tecnologia grafica</li>
-  <li>Tecnologia grafica</li>
-  <li>Tecnologia grafica</li>
-  <li>Tecnologia grafica</li>
-  <li>Tecnologia grafica</li>
-  <li>Tecnologia grafica</li>
+  
 </ul>
 </div>
 <a href="" class="btnAct">

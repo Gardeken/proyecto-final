@@ -10,10 +10,10 @@ userRouter.get("/consulta-login", async (req, res) => {
   if (consulta) {
     if (consulta.password === password) {
       let roles = {
-        1: "/portalUJMV?rol=staff",
-        2: "/portalUJMV?rol=admin",
-        3: "/portalUJMV?rol=teacher",
-        4: "/portalUJMV?rol=student",
+        1: `/portalUJMV?rol=staff${"&"}id=${consulta.id}`,
+        2: `/portalUJMV?rol=admin${"&"}id=${consulta.id}`,
+        3: `/portalUJMV?rol=teacher${"&"}id=${consulta.id}`,
+        4: `/portalUJMV?rol=student${"&"}id=${consulta.id}`,
       };
 
       res.status(200).json({
