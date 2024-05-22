@@ -10,6 +10,30 @@
 body {
   height: 100vh;
 }
+/*
+<------------------------------------------------------------------------------->
+                            Estilos modal  
+*/
+
+.modal {
+  background-color: rgba(0, 0, 0, 0.315);
+  position: absolute;
+  top: 0;
+  place-items: center;
+  z-index: 2;
+  display: grid;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.container-modal {
+  position: fixed;
+  width: 80vw;
+  height: 50%;
+  background-color: white;
+  border-radius: 0.5rem;
+}
 
 /*
 <------------------------------------------------------------------------------->
@@ -175,21 +199,16 @@ header {
 }
 
 .container-asignaciones {
-  height: 80lvh;
+  height: 70lvh;
 }
 
 .asignacion {
   display: grid;
   margin: 1rem;
-  cursor: pointer;
   border-radius: 0.5rem;
   padding: 0.8rem 1rem;
   border: solid 1px var(--gris-texto);
-  grid-template-columns: 2fr 1fr;
-}
-
-.asignacion:nth-of-type(1) {
-  cursor: default;
+  grid-template-columns: repeat(3, 1fr);
 }
 
 .asignacion p {
@@ -205,6 +224,35 @@ header {
   width: 2px;
   background-color: var(--gris-texto);
   height: 100%;
+}
+
+.column {
+  grid-column-start: 1;
+  grid-column-end: 3;
+}
+
+.container-btn {
+  margin: 1rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.btnProf {
+  border: none;
+  border-radius: 0.5rem;
+  background-color: var(--rojo-secundario);
+  color: white;
+  padding: 0.8rem 1rem;
+  transition: 0.3s;
+}
+
+.btnProf:hover {
+  transition: 0.3s;
+  background-color: var(--rojo-principal);
+}
+
+.pointer {
+  cursor: pointer;
 }
 
 @media (max-width: 1030px) {
@@ -230,6 +278,23 @@ header {
 
   .container-main-1 {
     width: 90%;
+  }
+
+  .asignacion {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .separador {
+    display: none;
+  }
+
+  .container-date {
+    margin-top: 1rem !important;
+  }
+
+  .blockh {
+    display: none;
   }
 
   /*

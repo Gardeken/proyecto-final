@@ -27,4 +27,16 @@ userRouter.get("/consulta-login", async (req, res) => {
   }
 });
 
+userRouter.get("/buscar-usuario", async (req, res) => {
+  const { id } = req.query;
+  const consulta = await user.findOne({ id: id });
+  if (consulta) {
+    res.status(200).json(consulta);
+  } else {
+    res.status(400).json({
+      message: "Usuario no encontrado",
+    });
+  }
+});
+
 module.exports = userRouter;
