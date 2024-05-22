@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const teacherRouter = require("../controllers/teacher.js");
+const teacherRouter = require("../controllers/teachers");
 
 const teacherSchema = new mongoose.Schema({
   id: String,

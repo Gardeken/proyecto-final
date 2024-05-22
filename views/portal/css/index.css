@@ -17,8 +17,8 @@ body {
 */
 
 header {
-  display: grid !important;
-  place-items: end;
+  display: flex !important;
+  justify-content: space-between;
 }
 
 .container-perfil {
@@ -34,10 +34,8 @@ header {
   place-items: center;
 }
 
-.img-perfil {
-  width: 2.3rem;
-  height: 2.3rem;
-  border-radius: 50%;
+.svg-ham {
+  width: 2.5rem;
 }
 
 /*
@@ -164,4 +162,111 @@ header {
 
 .container-main-1 {
   width: 78%;
+  border-radius: 0 0 0.5rem 0.5rem;
+  box-shadow: 2px 29px 51px 0px rgba(0, 0, 0, 0.75);
+}
+
+.container-titulo {
+  background-color: var(--rojo-principal);
+  color: white;
+  padding: 0.8rem 0.5rem;
+  border-radius: 0.5rem 0.5rem 0 0;
+  margin: 0;
+}
+
+.container-asignaciones {
+  height: 80lvh;
+}
+
+.asignacion {
+  display: grid;
+  margin: 1rem;
+  cursor: pointer;
+  border-radius: 0.5rem;
+  padding: 0.8rem 1rem;
+  border: solid 1px var(--gris-texto);
+  grid-template-columns: 2fr 1fr;
+}
+
+.asignacion:nth-of-type(1) {
+  cursor: default;
+}
+
+.asignacion p {
+  margin: 0;
+}
+
+.container-fecha {
+  display: flex;
+  gap: 2rem;
+}
+
+.separador {
+  width: 2px;
+  background-color: var(--gris-texto);
+  height: 100%;
+}
+
+@media (max-width: 1030px) {
+  /*
+<------------------------------------------------------------------------------->
+                            Estilos nav responsive  
+*/
+  .container-perfil {
+    margin-top: 1rem;
+  }
+  .svg-ham {
+    margin: 1rem;
+  }
+
+  /*
+<------------------------------------------------------------------------------->
+                            Estilos main responsive  
+*/
+
+  .container-main {
+    place-items: center;
+  }
+
+  .container-main-1 {
+    width: 90%;
+  }
+
+  /*
+<------------------------------------------------------------------------------->
+                            Estilos barra lateral responsive
+*/
+
+  .barra-lateral {
+    width: 50vw;
+    z-index: 1;
+    transition: 0.5s;
+    left: -50vw;
+  }
+  .svg-ham {
+    cursor: pointer;
+    margin: 1rem;
+  }
+  .container-perfil {
+    margin-top: 0;
+  }
+
+  .close {
+    display: block;
+  }
+  .bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.315);
+  }
+  .lateral-animation {
+    transition: 0.5s;
+    left: 0;
+  }
+  .hidden {
+    display: none;
+  }
 }
