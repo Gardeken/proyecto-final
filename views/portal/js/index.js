@@ -31,12 +31,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 async function impListadoMat(list) {
   const listado = JSON.parse(list);
-
-  listado.map((i) => {
+  listado.map(async (i) => {
+    const materia = await buscarMateria(i);
     const li = document.createElement("li");
-    li.textContent = i.name;
+    li.textContent = materia.data.name;
     li.classList.add("subject");
-    li.id = i.id;
+    li.id = i;
     listadoMaterias.appendChild(li);
   });
 }
@@ -91,5 +91,6 @@ function eventos(id) {
   const btnEst = document.querySelector("#alumnos");
   btnAsig.addEventListener("click", () => {
     modal.classList.toggle("hidden");
+    imprimirCrearAsig();
   });
 }

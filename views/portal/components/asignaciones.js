@@ -1,4 +1,5 @@
 const container = document.querySelector("#container-main");
+const container2 = document.querySelector("#container-modal");
 
 const imprimirContainerEst = () => {
   container.innerHTML = `<div class="container-asig">
@@ -40,4 +41,64 @@ const imprimirContainerProf = () => {
             </div>
           </div>
         </div>`;
+};
+
+const imprimirCrearAsig = () => {
+  container2.innerHTML = `<div class="container-input-Asig">
+  <div>
+    <label for="nameAsig">Nombre de la asignación</label>
+    <input id="nameAsig" type="text" />
+  </div>
+  <div>
+    <label for="dateAsig">Fecha máxima de entrega</label>
+    <input id="dateAsig" type="text" />
+  </div>
+  <div>
+    <label for="descAsig">Descripción de la asignación</label>
+    <textarea name="" id="descAsig"></textarea>
+  </div>
+  <div class="container-file">
+    <div class="container-label">
+      <label for="fileAsig">Cargar un archivo *Opcional</label>
+      <div class="container-svg">
+        <label class="label-svg" for="fileAsig">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="upload-svg"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"
+            />
+          </svg>
+        </label>
+
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          id="delAsig"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="delete-file"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M6 18 18 6M6 6l12 12"
+          />
+        </svg>
+      </div>
+    </div>
+    <input name="teacherAsig" id="fileAsig" type="file" />
+  </div>
+  <div>
+    <button>Aceptar</button>
+  </div>
+</div>`;
 };
