@@ -44,18 +44,34 @@ const imprimirContainerProf = () => {
 };
 
 const imprimirCrearAsig = () => {
-  container2.innerHTML = `<div class="container-input-Asig">
+  container2.innerHTML = `
+  <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          id="closeModal"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="close-modal"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M6 18 18 6M6 6l12 12"
+          />
+        </svg>
+  <form id="formulario" class="container-input-Asig">
   <div>
     <label for="nameAsig">Nombre de la asignación</label>
-    <input id="nameAsig" type="text" />
+    <input name="campos" id="nameAsig" type="text" />
   </div>
   <div>
     <label for="dateAsig">Fecha máxima de entrega</label>
-    <input id="dateAsig" type="text" />
+    <input placeholder="Seleccione una fecha..." name="campos" id="dateAsig" type="text" />
   </div>
   <div>
     <label for="descAsig">Descripción de la asignación</label>
-    <textarea name="" id="descAsig"></textarea>
+    <textarea name="campos" id="descAsig"></textarea>
   </div>
   <div class="container-file">
     <div class="container-label">
@@ -96,9 +112,9 @@ const imprimirCrearAsig = () => {
       </div>
     </div>
     <input name="teacherAsig" id="fileAsig" type="file" />
-  </div>
+  </form>
   <div>
-    <button>Aceptar</button>
+    <button id="aceptar">Aceptar</button>
   </div>
 </div>`;
 };

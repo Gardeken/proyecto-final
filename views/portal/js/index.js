@@ -47,7 +47,7 @@ function printProf() {
       const id = e.target.id;
       imprimirContainerProf();
       consultaEst(id);
-      eventos(id);
+      eventosProf(id);
     }
   });
 }
@@ -85,12 +85,41 @@ async function consultaEst(id) {
   });
 }
 
-function eventos(id) {
+function eventosProf(id) {
   const btnAsig = document.querySelector("#asig");
   const btnCalendar = document.querySelector("#calendario");
   const btnEst = document.querySelector("#alumnos");
   btnAsig.addEventListener("click", () => {
     modal.classList.toggle("hidden");
     imprimirCrearAsig();
+
+    const closeModal = document.querySelector("#closeModal");
+    flatpickr("#dateAsig", {
+      minDate: "today",
+    });
+    closeModal.addEventListener("click", () => {
+      modal.classList.toggle("hidden");
+    });
+    guardarDatos(id);
+  });
+}
+
+async function guardarDatos(idSubject) {
+  const formulario = document.querySelector("#formulario");
+  const aceptar = document.querySelector("#aceptar");
+  aceptar.addEventListener("click", async (e) => {
+    e.preventDefault();
+    const data = new FormData(formulario);
+    try {
+      const post = await axios.post("/api/assigment/guardar-asigT", data, {
+        params: {
+          idUser: id,
+          idSubject: idSubject,
+        },
+      });
+      console.log(post);
+    } catch (error) {
+      console.log(error);
+    }
   });
 }

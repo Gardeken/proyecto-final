@@ -2,9 +2,12 @@ const mongoose = require("mongoose");
 const assigmentRouter = require("../controllers/assigments");
 
 const assigmentSchema = new mongoose.Schema({
-  nombre: String,
-  ruta: String,
-  usuario: String,
+  name: String,
+  path: String,
+  id: String,
+  user: String,
+  date: String,
+  description: String,
   subject: String,
 });
 

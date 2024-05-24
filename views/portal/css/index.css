@@ -8,6 +8,7 @@
 }
 
 body {
+  overflow: hidden;
   height: 100vh;
 }
 /*
@@ -19,7 +20,7 @@ body {
   background-color: rgba(0, 0, 0, 0.315);
   position: absolute;
   top: 0;
-  place-items: center;
+  place-items: start center;
   z-index: 2;
   display: grid;
   bottom: 0;
@@ -31,11 +32,19 @@ body {
   position: fixed;
   width: 50vw;
   display: grid;
+  margin-top: 2rem;
   padding: 0.8rem 0;
   place-items: center;
   height: auto;
   background-color: white;
   border-radius: 0.5rem;
+}
+
+.close-modal {
+  place-self: end !important;
+  margin-right: 1rem;
+  cursor: pointer;
+  width: 2rem;
 }
 
 .container-input-Asig {
@@ -281,10 +290,6 @@ header {
   margin: 0;
 }
 
-.container-asignaciones {
-  height: 70lvh;
-}
-
 .asignacion {
   display: grid;
   margin: 1rem;
@@ -341,13 +346,43 @@ header {
 @media (max-width: 1030px) {
   /*
 <------------------------------------------------------------------------------->
-                            Estilos nav responsive  
+                            Estilos modal  
 */
-  .container-perfil {
+
+  .container-input-Asig input[type="text"],
+  .container-input-Asig textarea {
+    width: 60vw;
+  }
+
+  .container-modal {
+    width: 80vw;
     margin-top: 1rem;
   }
-  .svg-ham {
+
+  .container-input-Asig div {
+    gap: 0;
+  }
+
+  .container-svg {
+    gap: 0.5rem !important;
+  }
+
+  input[type="file"] {
+    width: 50vw;
+  }
+  /*
+<------------------------------------------------------------------------------->
+                            Estilos nav responsive  
+*/
+
+  header {
     margin: 1rem;
+  }
+
+  .container-perfil {
+    width: 40vw;
+    margin: 0;
+    margin-top: 1rem;
   }
 
   /*
@@ -393,7 +428,6 @@ header {
   }
   .svg-ham {
     cursor: pointer;
-    margin: 1rem;
   }
   .container-perfil {
     margin-top: 0;
