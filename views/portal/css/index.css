@@ -11,6 +11,24 @@ body {
   overflow: hidden;
   height: 100vh;
 }
+
+.container-message {
+  position: fixed;
+  top: 1;
+  z-index: 3;
+  right: 0;
+  left: 0;
+  display: grid;
+  place-items: center;
+}
+
+.message {
+  color: white;
+  padding: 0.8rem;
+  border-radius: 0.5rem;
+  background-color: var(--rojo-principal);
+}
+
 /*
 <------------------------------------------------------------------------------->
                             Estilos modal  
@@ -139,6 +157,7 @@ header {
 
 .container-perfil {
   display: flex;
+  justify-content: end;
   gap: 1rem;
   margin-right: 2rem;
   margin-top: 2rem;

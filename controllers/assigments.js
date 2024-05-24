@@ -1,4 +1,5 @@
 const assigmentRouter = require("express").Router();
+const axios = require("axios");
 const assigment = require("../model/assigment");
 const multer = require("multer");
 const storage = multer.diskStorage({
@@ -21,10 +22,15 @@ assigmentRouter.post(
     const newAssigment = new assigment();
     const id = Date.now();
     const objAsig = {};
+    const validation = campos.some((i) => i === "" || i === " ");
+    if (validation) {
+      res.status(400).json({ msg: "Todos los campos son obligatorios" });
+    }
     for (let i = 0; i < campos.length; i++) {
       const elemntAsig = campos[i];
       objAsig[i] = elemntAsig;
     }
+
     newAssigment.user = idUser;
     newAssigment.subject = idSubject;
     newAssigment.id = id;
@@ -35,10 +41,15 @@ assigmentRouter.post(
     if (req.file) {
       newAssigment.path = req.file.path;
     }
-    newAssigment.save();
-    res.status(200).json({
-      message: "Asignacion creada con exito",
-    });
+    try {
+      newAssigment.save();
+      res.status(200).json({
+        message: "Asignacion creada con exito",
+        id: id,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
 );
 

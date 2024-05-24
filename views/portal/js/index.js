@@ -5,6 +5,8 @@ import { buscarUsuario } from "./apis/APIuser.js";
 
 const containerMaterias = document.querySelector("#materias");
 const listadoMaterias = document.querySelector(".listadoMaterias");
+const containerMsg = document.querySelector("#containerMsg");
+const message = document.querySelector("#message");
 const modal = document.querySelector("#modal");
 const containerModal = document.querySelector("#container-modal");
 const URL = new URLSearchParams(window.location.search);
@@ -15,6 +17,15 @@ containerMaterias.addEventListener("click", (e) => {
   e.preventDefault();
   listadoMaterias.classList.toggle("hidden");
 });
+
+function crearMsg(text) {
+  containerMsg.classList.remove("hidden");
+  message.innerHTML = text;
+
+  setTimeout(() => {
+    containerMsg.classList.add("hidden");
+  }, 3000);
+}
 
 document.addEventListener("DOMContentLoaded", async () => {
   if (rol === "student") {
@@ -109,6 +120,15 @@ async function guardarDatos(idSubject) {
   const aceptar = document.querySelector("#aceptar");
   aceptar.addEventListener("click", async (e) => {
     e.preventDefault();
+    const fecha = document.querySelector("#dateAsig").value;
+    const name = document.querySelector("#nameAsig").value;
+    const desc = document.querySelector("#descAsig").value;
+    const listaInput = [fecha, name, desc].some((i) => i === "");
+
+    if (listaInput) {
+      return crearMsg("No puede dejar los campos vacíos");
+    }
+
     const data = new FormData(formulario);
     try {
       const post = await axios.post("/api/assigment/guardar-asigT", data, {
@@ -117,9 +137,14 @@ async function guardarDatos(idSubject) {
           idSubject: idSubject,
         },
       });
-      console.log(post);
+      const act = await axios.put("/api/subject/guardar-asigT", {
+        idAsig: post.data.id,
+        idSubject: idSubject,
+      });
+      crearMsg(act.data.message);
+      modal.classList.add("hidden");
     } catch (error) {
-      console.log(error);
+      crearMsg(error.response.data.message);
     }
   });
 }
