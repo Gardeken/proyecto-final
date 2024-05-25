@@ -5,7 +5,6 @@ const subjectSchema = new mongoose.Schema({
   name: String,
   id: String,
   assigmentT: String,
-  assigmentE: String,
   dates: String,
   students: String,
   teacher: String,

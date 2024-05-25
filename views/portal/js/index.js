@@ -70,6 +70,89 @@ function printEst() {
       const id = e.target.id;
       imprimirContainerEst();
       cargarAsig(id);
+      eventosEst(id);
+    }
+  });
+}
+
+async function eventosEst(id) {
+  const containerAsig = document.querySelector("#asignaciones");
+  containerAsig.addEventListener("click", async (e) => {
+    const containerModal = document.querySelector("#container-modal");
+    const modal = document.querySelector("#modal");
+    if (e.target.parentElement.classList.contains("assigmentS")) {
+      const idAsig = e.target.parentElement.id;
+      const asig = await buscarAsignacion(idAsig);
+      const { name, date, description } = asig.data;
+
+      if (asig.data.path) {
+        containerModal.innerHTML = `
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          id="closeModal"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="close-modal"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M6 18 18 6M6 6l12 12"
+          />
+        </svg>
+          <div class="container-nameAsig">
+          <p>Nombre:</p>
+          <p>${name}</p>
+        </div>
+        <div class="container-dateAsig">
+          <p>Fecha de entrega:</p>
+          <p>${date}</p>
+        </div>
+        <div class="container-descAsig">
+          <p>Descripción:</p>
+          <p>${description}</p>
+        </div>
+        <div class="container-download">
+          <a href="../${asig.data.path}" download class="download-asig">Descargar</a>
+        </div>`;
+      } else {
+        containerModal.innerHTML = `
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          id="closeModal"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="close-modal"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M6 18 18 6M6 6l12 12"
+          />
+        </svg>
+          <div class="container-nameAsig">
+              <p>Nombre:</p>
+              <p>${name}</p>
+            </div>
+            <div class="container-dateAsig">
+              <p>Fecha de entrega:</p>
+              <p>${date}</p>
+            </div>
+            <div class="container-descAsig">
+              <p>Descripción:</p>
+              <p>${description}</p>
+            </div>
+            `;
+      }
+      modal.classList.remove("hidden");
+      const closeModal = document.querySelector("#closeModal");
+      closeModal.addEventListener("click", () => {
+        modal.classList.add("hidden");
+      });
     }
   });
 }
@@ -84,7 +167,7 @@ async function cargarAsig(id) {
     const asignacion = await buscarAsignacion(i);
     const { name, date } = asignacion.data;
     const div = document.createElement("div");
-    div.classList.add("asignacion");
+    div.classList.add("asignacion", "pointer", "assigmentS");
     div.innerHTML = `
     <p class="column">${name}</p>
     <div class="container-fecha">
@@ -92,6 +175,7 @@ async function cargarAsig(id) {
       <p class="container-date">${date}</p>
     </div>
   `;
+    div.id = i;
     containerM.appendChild(div);
   });
 }

@@ -30,6 +30,7 @@ app.use("/Login", express.static(path.resolve("views", "login")));
 app.use("/controllers", express.static(path.resolve("controllers")));
 app.use("/asignaciones", express.static(path.resolve("views", "asignaciones")));
 app.use("/portalUJMV", express.static(path.resolve("views", "portal")));
+app.use("/asignaciones", express.static(path.resolve("asignaciones")));
 
 //rutas backend
 app.use(express.json());
