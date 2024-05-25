@@ -53,4 +53,16 @@ assigmentRouter.post(
   }
 );
 
+assigmentRouter.get("/buscar-asig", async (req, res) => {
+  const { id } = req.query;
+  try {
+    const asignacion = await assigment.findOne({ id: id });
+    res.status(200).json(asignacion);
+  } catch (error) {
+    res.status(400).json({
+      message: "No se ha encontrado la asignación",
+    });
+  }
+});
+
 module.exports = assigmentRouter;

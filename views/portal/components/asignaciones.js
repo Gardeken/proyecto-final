@@ -4,7 +4,7 @@ const container2 = document.querySelector("#container-modal");
 const imprimirContainerEst = () => {
   container.innerHTML = `<div class="container-asig">
 <section>
-  <h3 class="container-titulo">Asignaciones</h3>
+  <h3 id="titulo" class="container-titulo">Asignaciones</h3>
 </section>
 <div id="asignaciones" class="container-asignaciones">
   <div id="asignacion" class="asignacion">

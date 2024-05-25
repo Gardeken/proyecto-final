@@ -2,6 +2,7 @@ import { buscarEstudiante } from "./apis/APIstudent.js";
 import { buscarProfesor } from "./apis/APIteachers.js";
 import { buscarMateria } from "./apis/APIsubject.js";
 import { buscarUsuario } from "./apis/APIuser.js";
+import { buscarAsignacion } from "./apis/APIassigment.js";
 
 const containerMaterias = document.querySelector("#materias");
 const listadoMaterias = document.querySelector(".listadoMaterias");
@@ -19,11 +20,11 @@ containerMaterias.addEventListener("click", (e) => {
 });
 
 function crearMsg(text) {
-  containerMsg.classList.remove("hidden");
+  containerMsg.classList.add("messageAnimation");
   message.innerHTML = text;
 
   setTimeout(() => {
-    containerMsg.classList.add("hidden");
+    containerMsg.classList.remove("messageAnimation");
   }, 3000);
 }
 
@@ -68,7 +69,30 @@ function printEst() {
     if (e.target.classList.contains("subject")) {
       const id = e.target.id;
       imprimirContainerEst();
+      cargarAsig(id);
     }
+  });
+}
+
+async function cargarAsig(id) {
+  const materia = await buscarMateria(id);
+  const containerM = document.querySelector("#asignaciones");
+  const titulo = document.querySelector("#titulo");
+  titulo.innerText = "Asignaciones";
+  const listadoAsig = JSON.parse(materia.data.assigmentT);
+  listadoAsig.forEach(async (i) => {
+    const asignacion = await buscarAsignacion(i);
+    const { name, date } = asignacion.data;
+    const div = document.createElement("div");
+    div.classList.add("asignacion");
+    div.innerHTML = `
+    <p class="column">${name}</p>
+    <div class="container-fecha">
+      <div class="separador"></div>
+      <p class="container-date">${date}</p>
+    </div>
+  `;
+    containerM.appendChild(div);
   });
 }
 

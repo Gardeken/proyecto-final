@@ -8,18 +8,19 @@
 }
 
 body {
-  overflow: hidden;
+  overflow-x: hidden;
   height: 100vh;
 }
 
 .container-message {
   position: fixed;
-  top: 1;
+  top: -5rem;
   z-index: 3;
   right: 0;
   left: 0;
   display: grid;
   place-items: center;
+  transition: 0.5s;
 }
 
 .message {
@@ -27,6 +28,11 @@ body {
   padding: 0.8rem;
   border-radius: 0.5rem;
   background-color: var(--rojo-principal);
+}
+
+.messageAnimation {
+  top: 1rem;
+  transition: 0.5s;
 }
 
 /*
@@ -443,7 +449,7 @@ header {
     width: 50vw;
     z-index: 1;
     transition: 0.5s;
-    left: -50vw;
+    left: -52vw;
   }
   .svg-ham {
     cursor: pointer;
