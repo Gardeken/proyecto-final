@@ -7,3 +7,15 @@ export const buscarMateria = async (id) => {
 
   return materia;
 };
+
+export const guardarAsignacionMat = async (idAsig, idSubject) => {
+  try {
+    const act = await axios.put("/api/subject/guardar-asigT", {
+      idAsig: idAsig,
+      idSubject: idSubject,
+    });
+    return act;
+  } catch (error) {
+    return error;
+  }
+};

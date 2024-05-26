@@ -53,6 +53,47 @@ assigmentRouter.post(
   }
 );
 
+assigmentRouter.put("/guardar-asigE", async (req, res) => {
+  const { idAsigE, idAsigT } = req.body;
+  const asignacionT = await assigment.findOne({ id: idAsigT });
+  if (asignacionT.assigmentE) {
+    const listado = JSON.parse(asignacionT.assigmentE);
+    listado.push(idAsigE);
+
+    try {
+      await assigment.findOneAndUpdate(
+        { id: idAsigT },
+        {
+          assigmentE: JSON.stringify(listado),
+        }
+      );
+      res.status(200).json({
+        message: "Se ha guardado la asignación con éxito",
+      });
+    } catch (error) {
+      res.status(400).json({
+        message: "Error al guardar la asignación",
+      });
+    }
+  } else {
+    try {
+      await assigment.findOneAndUpdate(
+        { id: idAsigT },
+        {
+          assigmentE: JSON.stringify([idAsigE.toString()]),
+        }
+      );
+      res.status(200).json({
+        message: "Se ha guardado la asignación con éxito",
+      });
+    } catch (error) {
+      res.status(400).json({
+        message: "Error al guardar la asignación",
+      });
+    }
+  }
+});
+
 assigmentRouter.get("/buscar-asig", async (req, res) => {
   const { id } = req.query;
   try {

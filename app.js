@@ -8,6 +8,7 @@ const subjectRouter = require("./controllers/subjects");
 const userRouter = require("./controllers/users");
 const teacherRouter = require("./controllers/teachers");
 const studentRouter = require("./controllers/students");
+const assigmentERouter = require("./controllers/assigmentsE");
 
 async function conectarDB() {
   try {
@@ -35,6 +36,7 @@ app.use("/asignaciones", express.static(path.resolve("asignaciones")));
 //rutas backend
 app.use(express.json());
 app.use("/api/assigment", assigmentRouter);
+app.use("/api/assigmentE", assigmentERouter);
 app.use("/api/subject", subjectRouter);
 app.use("/api/user", userRouter);
 app.use("/api/student", studentRouter);

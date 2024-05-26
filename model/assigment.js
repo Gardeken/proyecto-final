@@ -9,7 +9,7 @@ const assigmentSchema = new mongoose.Schema({
   date: String,
   description: String,
   subject: String,
-  assigmentT: String,
+  assigmentE: String,
 });
 
 const assigment = mongoose.model("Assigment", assigmentSchema);

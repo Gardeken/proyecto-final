@@ -1,8 +1,17 @@
 import { buscarEstudiante } from "./apis/APIstudent.js";
 import { buscarProfesor } from "./apis/APIteachers.js";
-import { buscarMateria } from "./apis/APIsubject.js";
+import { buscarMateria, guardarAsignacionMat } from "./apis/APIsubject.js";
 import { buscarUsuario } from "./apis/APIuser.js";
-import { buscarAsignacion } from "./apis/APIassigment.js";
+import {
+  buscarAsignacion,
+  guardarAsignacion,
+  guardarAsignacionEst,
+} from "./apis/APIassigment.js";
+import {
+  buscarAsignacionE,
+  guardarAsignacionEstudiante,
+  listadoAsignaciones,
+} from "./apis/APIassigmentE.js";
 
 const containerMaterias = document.querySelector("#materias");
 const listadoMaterias = document.querySelector(".listadoMaterias");
@@ -75,7 +84,7 @@ function printEst() {
   });
 }
 
-async function eventosEst(id) {
+async function eventosEst(idSubject) {
   const containerAsig = document.querySelector("#asignaciones");
   containerAsig.addEventListener("click", async (e) => {
     const containerModal = document.querySelector("#container-modal");
@@ -84,6 +93,49 @@ async function eventosEst(id) {
       const idAsig = e.target.parentElement.id;
       const asig = await buscarAsignacion(idAsig);
       const { name, date, description } = asig.data;
+      const listado = await listadoAsignaciones(idAsig);
+      const existe = listado.data.some((i) => i.user === id);
+      if (existe) {
+        containerModal.innerHTML = `
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          id="closeModal"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="close-modal"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M6 18 18 6M6 6l12 12"
+          />
+        </svg>
+          <div class="container-nameAsig">
+              <p>Nombre:</p>
+              <p>${name}</p>
+            </div>
+            <div class="container-dateAsig">
+              <p>Fecha de entrega:</p>
+              <p>${date}</p>
+            </div>
+            <div class="container-descAsig">
+              <p>Descripción:</p>
+              <p>${description}</p>
+            </div>
+            <div class="container-download">
+            <label class="download-asig">Entregado</label>
+            
+            </div>
+
+        `;
+        modal.classList.remove("hidden");
+        const closeModal = document.querySelector("#closeModal");
+        return closeModal.addEventListener("click", () => {
+          modal.classList.add("hidden");
+        });
+      }
 
       if (asig.data.path) {
         containerModal.innerHTML = `
@@ -116,6 +168,11 @@ async function eventosEst(id) {
         </div>
         <div class="container-download">
           <a href="../${asig.data.path}" download class="download-asig">Descargar</a>
+          <label id="labelEnt" class="download-asig pointer" for="uploadAsig">Entregar</label>
+          <form id="saveAsigE">
+            <input type="file" name="studentAsig" class="hidden" id="uploadAsig">
+            <button class="download-asig hidden" id="aceptar">Aceptar</button>
+          </form>
         </div>`;
       } else {
         containerModal.innerHTML = `
@@ -146,12 +203,40 @@ async function eventosEst(id) {
               <p>Descripción:</p>
               <p>${description}</p>
             </div>
+            <form class="container-download" id="saveAsigE">
+            <label id="labelEnt" class="download-asig pointer" for="uploadAsig">Entregar</label>
+          
+            <input type="file" name="studentAsig" class="hidden" id="uploadAsig">
+            <button class="download-asig hidden" id="aceptar">Aceptar</button>
+          
+          </form>
             `;
       }
       modal.classList.remove("hidden");
       const closeModal = document.querySelector("#closeModal");
       closeModal.addEventListener("click", () => {
         modal.classList.add("hidden");
+      });
+
+      const inputFile = document.querySelector("#uploadAsig");
+      inputFile.addEventListener("change", () => {
+        aceptar.classList.remove("hidden");
+      });
+      const saveAsigE = document.querySelector("#saveAsigE");
+      saveAsigE.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const data = new FormData(saveAsigE);
+        try {
+          if (!inputFile.value) {
+            return crearMsg("Tiene que cargar un archivo antes de enviar");
+          }
+          const post = await guardarAsignacionEstudiante(data, id, idAsig);
+          const act = await guardarAsignacionEst(post.data.id, idAsig);
+          crearMsg(act.data.message);
+          modal.classList.add("hidden");
+        } catch (error) {
+          crearMsg(error.response.data.message);
+        }
       });
     }
   });
@@ -208,13 +293,73 @@ function eventosProf(id) {
   const btnAsig = document.querySelector("#asig");
   const btnCalendar = document.querySelector("#calendario");
   const btnEst = document.querySelector("#alumnos");
-  btnAsig.addEventListener("click", () => {
+  btnEst.addEventListener("click", () => {
+    if (document.querySelector("#crear")) {
+      document.querySelector("#crear").remove();
+    }
+    const containerAsig = document.querySelector("#asignaciones");
+    containerAsig.innerHTML = `
+    <div id="asignacion" class="asignacion">
+              <p class="column">Nombre</p>
+              <div class="container-fecha">
+                <div class="separador"></div>
+                <p class="container-date blockh">Datos</p>
+              </div>
+            </div>
+    `;
+    consultaEst(id);
+  });
+  btnAsig.addEventListener("click", async () => {
+    const titulo = document.querySelector("#titulo");
+    titulo.innerHTML = "Asignaciones";
+    const containerBtn = document.querySelector(".container-btn");
+    const div = document.createElement("div");
+    div.innerHTML = `
+    <button id="crear" class="btnProf">Crear</button>
+    `;
+    containerBtn.appendChild(div);
+    crearBtn();
+    const containerAsig = document.querySelector("#asignaciones");
+    containerAsig.innerHTML = `
+    <div id="asignacion" class="asignacion">
+    <p class="column">Nombre</p>
+    <div class="container-fecha">
+      <div class="separador"></div>
+      <p class="container-date blockh">Fecha de entrega</p>
+    </div>
+  </div>
+    `;
+    const materia = await buscarMateria(id);
+    const listadoAsig = JSON.parse(materia.data.assigmentT);
+    listadoAsig.forEach(async (i) => {
+      const asignacion = await buscarAsignacion(i);
+      const { name, date } = asignacion.data;
+      const divA = document.createElement("div");
+      const datos = document.querySelector(".blockh");
+      datos.innerHTML = "Fecha de entrega";
+      divA.classList.add("asignacion", "pointer");
+      divA.innerHTML = `
+      <p class="column">${name}</p>
+      <div class="container-fecha">
+        <div class="separador"></div>
+        <p class="container-date blockh">${date}</p>
+      </div>
+    `;
+      containerAsig.appendChild(divA);
+    });
+  });
+}
+
+async function crearBtn() {
+  const crea = document.querySelector("#crear");
+  crea.addEventListener("click", async () => {
     modal.classList.toggle("hidden");
     imprimirCrearAsig();
 
     const closeModal = document.querySelector("#closeModal");
     flatpickr("#dateAsig", {
       minDate: "today",
+      dateFormat: "d-m-Y",
     });
     closeModal.addEventListener("click", () => {
       modal.classList.toggle("hidden");
@@ -239,18 +384,10 @@ async function guardarDatos(idSubject) {
 
     const data = new FormData(formulario);
     try {
-      const post = await axios.post("/api/assigment/guardar-asigT", data, {
-        params: {
-          idUser: id,
-          idSubject: idSubject,
-        },
-      });
-      const act = await axios.put("/api/subject/guardar-asigT", {
-        idAsig: post.data.id,
-        idSubject: idSubject,
-      });
-      crearMsg(act.data.message);
+      const post = await guardarAsignacion(data, id, idSubject);
+      const act = await guardarAsignacionMat(post.data.id, idSubject);
       modal.classList.add("hidden");
+      crearMsg(act.data.message);
     } catch (error) {
       crearMsg(error.response.data.message);
     }
