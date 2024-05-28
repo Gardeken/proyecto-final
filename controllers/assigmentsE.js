@@ -12,6 +12,30 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
+assigmentERouter.put("/guardar-nota", async (req, res) => {
+  const { idAsig, grade } = req.body;
+  if (!grade) {
+    res.status(400).json({
+      message: "Usted no puede dejar el campo vacío",
+    });
+  }
+  try {
+    const update = await AssigmentE.findOneAndUpdate(
+      { id: idAsig },
+      {
+        grades: grade,
+      }
+    );
+    res.status(200).json({
+      message: "La asignación se ha corregido con éxito",
+    });
+  } catch (error) {
+    res.status(400).json({
+      message: "Hubo un error al corregir la asignación",
+    });
+  }
+});
+
 assigmentERouter.get("/buscar-listado", async (req, res) => {
   const { idAsigT } = req.query;
   try {
@@ -20,6 +44,21 @@ assigmentERouter.get("/buscar-listado", async (req, res) => {
   } catch (error) {
     res.status(400).json({
       message: "Error al conseguir el listado",
+    });
+  }
+});
+
+assigmentERouter.get("/buscar-una-asig", async (req, res) => {
+  const { idAsigT, idUser } = req.query;
+  const asignacion = await AssigmentE.findOne({
+    user: idUser,
+    assigmentT: idAsigT,
+  });
+  if (asignacion) {
+    res.status(200).json(asignacion);
+  } else {
+    res.status(400).json({
+      message: "No se encontro la asignacion",
     });
   }
 });
@@ -46,10 +85,11 @@ assigmentERouter.post(
       });
     }
     const { path } = req.file;
-    const { idUser, idAsigT } = req.query;
+    const { idUser, idAsigT, idSubject } = req.query;
     const id = Date.now();
     const newAssigmentE = new AssigmentE();
     newAssigmentE.user = idUser;
+    newAssigmentE.subject = idSubject;
     newAssigmentE.assigmentT = idAsigT;
     newAssigmentE.id = id;
     newAssigmentE.path = path;
@@ -66,5 +106,19 @@ assigmentERouter.post(
     }
   }
 );
+
+assigmentERouter.delete("/eliminar-asig", async (req, res) => {
+  const { idAsig } = req.query;
+  try {
+    const eliminar = await AssigmentE.findOneAndDelete({ id: idAsig });
+    res.status(200).json({
+      message: "La asignación se ha eliminado con éxito",
+    });
+  } catch (error) {
+    res.status(400).json({
+      message: "Hubo un error al eliminar la asignación",
+    });
+  }
+});
 
 module.exports = assigmentERouter;

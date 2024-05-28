@@ -11,6 +11,9 @@ import {
   buscarAsignacionE,
   guardarAsignacionEstudiante,
   listadoAsignaciones,
+  buscarUnaAsig,
+  corregirAsig,
+  eliminarAsig,
 } from "./apis/APIassigmentE.js";
 
 const containerMaterias = document.querySelector("#materias");
@@ -93,10 +96,10 @@ async function eventosEst(idSubject) {
       const idAsig = e.target.parentElement.id;
       const asig = await buscarAsignacion(idAsig);
       const { name, date, description } = asig.data;
-      const listado = await listadoAsignaciones(idAsig);
-      const existe = listado.data.some((i) => i.user === id);
-      if (existe) {
-        containerModal.innerHTML = `
+      try {
+        const existe = await buscarUnaAsig(id, idAsig);
+        if (existe.data) {
+          containerModal.innerHTML = `
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -130,15 +133,15 @@ async function eventosEst(idSubject) {
             </div>
 
         `;
-        modal.classList.remove("hidden");
-        const closeModal = document.querySelector("#closeModal");
-        return closeModal.addEventListener("click", () => {
-          modal.classList.add("hidden");
-        });
-      }
-
-      if (asig.data.path) {
-        containerModal.innerHTML = `
+          modal.classList.remove("hidden");
+          const closeModal = document.querySelector("#closeModal");
+          return closeModal.addEventListener("click", () => {
+            modal.classList.add("hidden");
+          });
+        }
+      } catch (error) {
+        if (asig.data.path) {
+          containerModal.innerHTML = `
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -174,8 +177,8 @@ async function eventosEst(idSubject) {
             <button class="download-asig hidden" id="aceptar">Aceptar</button>
           </form>
         </div>`;
-      } else {
-        containerModal.innerHTML = `
+        } else {
+          containerModal.innerHTML = `
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -211,33 +214,39 @@ async function eventosEst(idSubject) {
           
           </form>
             `;
-      }
-      modal.classList.remove("hidden");
-      const closeModal = document.querySelector("#closeModal");
-      closeModal.addEventListener("click", () => {
-        modal.classList.add("hidden");
-      });
-
-      const inputFile = document.querySelector("#uploadAsig");
-      inputFile.addEventListener("change", () => {
-        aceptar.classList.remove("hidden");
-      });
-      const saveAsigE = document.querySelector("#saveAsigE");
-      saveAsigE.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const data = new FormData(saveAsigE);
-        try {
-          if (!inputFile.value) {
-            return crearMsg("Tiene que cargar un archivo antes de enviar");
-          }
-          const post = await guardarAsignacionEstudiante(data, id, idAsig);
-          const act = await guardarAsignacionEst(post.data.id, idAsig);
-          crearMsg(act.data.message);
-          modal.classList.add("hidden");
-        } catch (error) {
-          crearMsg(error.response.data.message);
         }
-      });
+        modal.classList.remove("hidden");
+        const closeModal = document.querySelector("#closeModal");
+        closeModal.addEventListener("click", () => {
+          modal.classList.add("hidden");
+        });
+
+        const inputFile = document.querySelector("#uploadAsig");
+        inputFile.addEventListener("change", () => {
+          aceptar.classList.remove("hidden");
+        });
+        const saveAsigE = document.querySelector("#saveAsigE");
+        saveAsigE.addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const data = new FormData(saveAsigE);
+          try {
+            if (!inputFile.value) {
+              return crearMsg("Tiene que cargar un archivo antes de enviar");
+            }
+            const post = await guardarAsignacionEstudiante(
+              data,
+              idSubject,
+              id,
+              idAsig
+            );
+            const act = await guardarAsignacionEst(post.data.id, idAsig);
+            crearMsg(act.data.message);
+            modal.classList.add("hidden");
+          } catch (error) {
+            crearMsg(error.response.data.message);
+          }
+        });
+      }
     }
   });
 }
@@ -310,6 +319,9 @@ function eventosProf(id) {
     consultaEst(id);
   });
   btnAsig.addEventListener("click", async () => {
+    if (document.querySelector("#crear")) {
+      document.querySelector("#crear").remove();
+    }
     const titulo = document.querySelector("#titulo");
     titulo.innerHTML = "Asignaciones";
     const containerBtn = document.querySelector(".container-btn");
@@ -337,7 +349,8 @@ function eventosProf(id) {
       const divA = document.createElement("div");
       const datos = document.querySelector(".blockh");
       datos.innerHTML = "Fecha de entrega";
-      divA.classList.add("asignacion", "pointer");
+      divA.id = i;
+      divA.classList.add("asignacion", "pointer", "studentAsig");
       divA.innerHTML = `
       <p class="column">${name}</p>
       <div class="container-fecha">
@@ -347,7 +360,156 @@ function eventosProf(id) {
     `;
       containerAsig.appendChild(divA);
     });
+    setTimeout(() => {
+      cargarAsigEst();
+    }, 500);
   });
+}
+
+async function cargarAsigEst() {
+  const listadoHtml = document.getElementsByClassName("studentAsig");
+  const containerAsig = document.querySelector("#asignaciones");
+  for (let i = 0; i < listadoHtml.length; i++) {
+    const asig = listadoHtml[i];
+    asig.addEventListener("click", async (e) => {
+      const id = e.target.closest("div").id;
+      containerAsig.innerHTML = `
+      <div id="asignacion" class="asignacion">
+    <p class="column">Nombre</p>
+    <div class="container-fecha">
+      <div class="separador"></div>
+      <p class="container-date blockh"></p>
+    </div>
+  </div>`;
+      const listado = await listadoAsignaciones(id);
+      const { data } = listado;
+      data.forEach(async (i) => {
+        const { id, user, path } = i;
+
+        const estudiante = await buscarEstudiante(user);
+        const { fullName } = estudiante.data;
+        const divA = document.createElement("div");
+        divA.classList.add("asignacion", "studentAsig");
+        if (i.grades) {
+          divA.innerHTML = `
+          <p class="column">${fullName}</p>
+          <div class="container-fecha">
+            <div class="separador"></div>
+            <div class="container-corregir">
+            <a download href="../${path}">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="download-svg">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+              </svg>
+            </a>
+            <button data-id="${id}" class="eliminar-asig">Eliminar</button>
+            </div>
+              
+            </div>
+        `;
+          containerAsig.appendChild(divA);
+        } else {
+          divA.innerHTML = `
+          <p class="column">${fullName}</p>
+          <div class="container-fecha">
+            <div class="separador"></div>
+              <div class="container-corregir">
+              <a download href="../${path}">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="download-svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                </svg>
+              </a>
+              <button data-id="${id}" class="corregir" id="corregir">Corregir</button>
+              <button data-id="${id}" class="eliminar-asig">Eliminar</button>
+              </div>
+            </div>
+        `;
+          containerAsig.appendChild(divA);
+        }
+      });
+      setTimeout(() => {
+        eliminarAsignacion();
+        corregirAsignacion();
+      }, 500);
+    });
+  }
+}
+
+async function eliminarAsignacion() {
+  const eliminar = document.getElementsByClassName("eliminar-asig");
+  for (let i = 0; i < eliminar.length; i++) {
+    eliminar[i].addEventListener("click", async (e) => {
+      const id = eliminar[i].dataset.id;
+      const confirmar = confirm(
+        "Está seguro de que quiere eliminar esta asignación?"
+      );
+      if (confirmar) {
+        try {
+          const eliminar = await eliminarAsig(id);
+          crearMsg(eliminar.data.message);
+          e.target.parentElement.parentElement.parentElement.remove();
+        } catch (error) {
+          crearMsg(error.response.data.message);
+        }
+      }
+    });
+  }
+}
+
+async function corregirAsignacion() {
+  const corregir = document.getElementsByClassName("corregir");
+
+  for (let i = 0; i < corregir.length; i++) {
+    const btn = corregir[i];
+    btn.addEventListener("click", async (e) => {
+      const id = e.target.dataset.id;
+      modal.classList.remove("hidden");
+      containerModal.innerHTML = `
+      <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          id="closeModal"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="close-modal"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M6 18 18 6M6 6l12 12"
+          />
+        </svg>
+      <div class="container-grade">
+          <label for="gradeInput"> Introduzca la nota </label>
+          <input type="text" class="grade-input" id="gradeInput" />
+        </div>
+        <button class="download-asig" id="aceptar">
+          Aceptar
+        </button>
+      `;
+      const closebtn = document.querySelector("#closeModal");
+      closebtn.addEventListener("click", () => {
+        modal.classList.add("hidden");
+      });
+      const gradeInput = document.querySelector("#gradeInput");
+      const aceptar = document.querySelector("#aceptar");
+      aceptar.addEventListener("click", async (e) => {
+        const nota = Number(gradeInput.value);
+        if (nota == "") return crearMsg("No puede dejar el campo vacío");
+        if (nota > 100) return crearMsg("No puede poner una nota mayor a 100");
+        if (nota < 0) return crearMsg("No puede poner una nota menor a 0");
+        if (isNaN(nota)) return crearMsg("No puede poner texto como nota");
+        try {
+          const act = await corregirAsig(id, gradeInput.value);
+          btn.remove();
+          crearMsg(act.data.message);
+          modal.classList.add("hidden");
+        } catch (error) {
+          crearMsg(error.response.data.message);
+        }
+      });
+    });
+  }
 }
 
 async function crearBtn() {

@@ -5,7 +5,9 @@ const assigmentSchema = new mongoose.Schema({
   path: String,
   id: String,
   user: String,
+  grades: Number,
   assigmentT: String,
+  subject: String,
 });
 
 const AssigmentE = mongoose.model("AssigmentE", assigmentSchema);

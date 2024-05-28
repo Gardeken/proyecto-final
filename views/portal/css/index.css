@@ -108,7 +108,8 @@ input[type="file"] {
 }
 
 .container-input-Asig input[type="text"],
-.container-input-Asig textarea {
+.container-input-Asig textarea,
+.grade-input {
   border: solid 1px var(--rojo-secundario);
   border-radius: 0.3rem;
   padding: 0.5rem;
@@ -150,6 +151,14 @@ input[type="file"] {
   display: flex;
   align-items: center !important;
   align-self: center !important;
+}
+
+.container-grade {
+  width: 90%;
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  justify-content: space-evenly;
 }
 
 /*
@@ -394,6 +403,36 @@ header {
 .btnProf:hover {
   transition: 0.3s;
   background-color: var(--rojo-principal);
+}
+
+.download-svg {
+  width: 1rem;
+  text-decoration: none;
+  color: white;
+  padding: 0.8rem;
+  background-color: var(--rojo-principal);
+  border-radius: 0.5rem;
+}
+
+.container-corregir {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.corregir,
+.eliminar-asig {
+  font-size: 0.8rem;
+  height: 2.5rem;
+  padding: 0 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  background-color: var(--rojo-principal);
+  color: white;
+}
+
+.container-corregir a {
+  text-decoration: none;
 }
 
 .pointer {
