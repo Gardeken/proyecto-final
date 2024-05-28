@@ -14,6 +14,7 @@ import {
   buscarUnaAsig,
   corregirAsig,
   eliminarAsig,
+  listadoAsigEst,
 } from "./apis/APIassigmentE.js";
 
 const containerMaterias = document.querySelector("#materias");
@@ -77,6 +78,74 @@ function printProf() {
 }
 
 function printEst() {
+  const gradesBtn = document.querySelector("#gradesBtn");
+  gradesBtn.addEventListener("click", async (e) => {
+    e.preventDefault();
+    imprimirContainerEst();
+    const titulo = document.querySelector("#titulo");
+    titulo.innerHTML = "Notas";
+    const containerGrades = document.querySelector("#asignaciones");
+    containerGrades.innerHTML = `
+    <div class="asignacion">
+    <div class="container-grades">
+      <label for"subjectSel">
+        Selecione la materia
+      </label>
+      <select class="subjectSel" id="subjectSel" name="subjectSel">
+          <option> 
+            ...
+          </option>
+      </select>
+    </div>
+    </div>
+    <div id="containerNotas"></div>
+    `;
+
+    const subjectSel = document.querySelector("#subjectSel");
+    try {
+      const estudiante = await buscarEstudiante(id);
+      const { subjects } = estudiante.data;
+      const listadoMat = JSON.parse(subjects);
+      listadoMat.forEach(async (i) => {
+        const materia = await buscarMateria(i);
+        const option = document.createElement("option");
+        option.value = i;
+        option.textContent = materia.data.name;
+        subjectSel.appendChild(option);
+      });
+    } catch (error) {}
+
+    subjectSel.addEventListener("change", async () => {
+      const idSubject = subjectSel.value;
+      const containerNotas = document.querySelector("#containerNotas");
+      containerNotas.innerHTML = "";
+      try {
+        const listadoNotas = await listadoAsigEst(id, idSubject);
+        const container = document.querySelector("#asignaciones");
+        const { data } = listadoNotas;
+        data.forEach(async (i) => {
+          if (i.grades) {
+            const asignacion = await buscarAsignacion(i.assigmentT);
+            const nota = document.createElement("div");
+            nota.innerHTML = `
+            <div id="asignacion" class="asignacion">
+              <p class="column">${asignacion.data.name}</p>
+              <div class="container-fecha">
+                <div class="separador"></div>
+                <p class="container-date">${i.grades}</p>
+              </div>
+            </div>
+            `;
+            containerNotas.appendChild(nota);
+            container.appendChild(containerNotas);
+          }
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  });
+
   listadoMaterias.addEventListener("click", async (e) => {
     if (e.target.classList.contains("subject")) {
       const id = e.target.id;
@@ -250,6 +319,8 @@ async function eventosEst(idSubject) {
     }
   });
 }
+
+//Asignaciones
 
 async function cargarAsig(id) {
   const materia = await buscarMateria(id);
@@ -557,3 +628,5 @@ async function guardarDatos(idSubject) {
     }
   });
 }
+
+//Notas

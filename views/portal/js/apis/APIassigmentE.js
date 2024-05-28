@@ -61,3 +61,13 @@ export const eliminarAsig = async (idAsig, path) => {
 
   return eliminar;
 };
+
+export const listadoAsigEst = async (idUser, idSubject) => {
+  const consulta = await axios.get("/api/assigmentE/listado-asig-est", {
+    params: {
+      idUser: idUser,
+      idSubject: idSubject,
+    },
+  });
+  return consulta;
+};

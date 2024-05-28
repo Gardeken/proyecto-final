@@ -99,7 +99,8 @@ input[type="file"]::-webkit-file-upload-button {
   display: none;
 }
 
-input[type="file"] {
+input[type="file"],
+.grade-input {
   width: 30vw;
 }
 
@@ -433,6 +434,20 @@ header {
 
 .container-corregir a {
   text-decoration: none;
+}
+
+.container-grades {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.subjectSel {
+  width: 40vw;
+  outline: none;
+  border: 1px solid var(--rojo-secundario);
+  padding: 0.3rem;
+  border-radius: 0.3rem;
 }
 
 .pointer {

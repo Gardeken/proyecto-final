@@ -37,6 +37,18 @@ assigmentERouter.put("/guardar-nota", async (req, res) => {
   }
 });
 
+assigmentERouter.get("/listado-asig-est", async (req, res) => {
+  const { idUser, idSubject } = req.query;
+  try {
+    const listado = await AssigmentE.find({ user: idUser, subject: idSubject });
+    res.status(200).json(listado);
+  } catch (error) {
+    res.status(400).json({
+      message: "No se han conseguido asignaciones",
+    });
+  }
+});
+
 assigmentERouter.get("/buscar-listado", async (req, res) => {
   const { idAsigT } = req.query;
   try {
