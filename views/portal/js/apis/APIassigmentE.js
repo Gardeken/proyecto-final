@@ -51,9 +51,10 @@ export const corregirAsig = async (idAsig, grade) => {
   return act;
 };
 
-export const eliminarAsig = async (idAsig) => {
+export const eliminarAsig = async (idAsig, path) => {
   const eliminar = await axios.delete("/api/assigmentE/eliminar-asig", {
     params: {
+      path: path,
       idAsig: idAsig,
     },
   });

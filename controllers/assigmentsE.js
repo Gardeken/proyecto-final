@@ -11,6 +11,7 @@ const storage = multer.diskStorage({
   },
 });
 const upload = multer({ storage });
+const fs = require("fs");
 
 assigmentERouter.put("/guardar-nota", async (req, res) => {
   const { idAsig, grade } = req.body;
@@ -108,9 +109,16 @@ assigmentERouter.post(
 );
 
 assigmentERouter.delete("/eliminar-asig", async (req, res) => {
-  const { idAsig } = req.query;
+  const { idAsig, path } = req.query;
   try {
     const eliminar = await AssigmentE.findOneAndDelete({ id: idAsig });
+    fs.unlink(path, (err) => {
+      if (err) {
+        res.status(400).json({
+          message: "Hubo un error al eliminar la asignación",
+        });
+      }
+    });
     res.status(200).json({
       message: "La asignación se ha eliminado con éxito",
     });

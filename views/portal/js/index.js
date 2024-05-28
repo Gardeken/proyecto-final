@@ -401,7 +401,7 @@ async function cargarAsigEst() {
                 <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
               </svg>
             </a>
-            <button data-id="${id}" class="eliminar-asig">Eliminar</button>
+            <button data-id="${id}" id="${path}" class="eliminar-asig">Eliminar</button>
             </div>
               
             </div>
@@ -419,7 +419,7 @@ async function cargarAsigEst() {
                 </svg>
               </a>
               <button data-id="${id}" class="corregir" id="corregir">Corregir</button>
-              <button data-id="${id}" class="eliminar-asig">Eliminar</button>
+              <button data-id="${id}" id="${path}" class="eliminar-asig">Eliminar</button>
               </div>
             </div>
         `;
@@ -437,14 +437,16 @@ async function cargarAsigEst() {
 async function eliminarAsignacion() {
   const eliminar = document.getElementsByClassName("eliminar-asig");
   for (let i = 0; i < eliminar.length; i++) {
-    eliminar[i].addEventListener("click", async (e) => {
-      const id = eliminar[i].dataset.id;
+    const btnDel = eliminar[i];
+    btnDel.addEventListener("click", async (e) => {
+      const id = e.target.dataset.id;
+      const path = e.target.id;
       const confirmar = confirm(
         "Está seguro de que quiere eliminar esta asignación?"
       );
       if (confirmar) {
         try {
-          const eliminar = await eliminarAsig(id);
+          const eliminar = await eliminarAsig(id, path);
           crearMsg(eliminar.data.message);
           e.target.parentElement.parentElement.parentElement.remove();
         } catch (error) {
