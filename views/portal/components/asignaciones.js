@@ -18,6 +18,23 @@ const imprimirContainerEst = () => {
 </div>`;
 };
 
+const imprimirContainerAdmin = () => {
+  container.innerHTML = `
+  <div class="container-asig">
+  <section>
+    <h3 id="titulo" class="container-titulo">Asignaciones</h3>
+  </section>
+  <div id="asignaciones" class="container-asignaciones">
+  <div class="asignacion container-search">
+    <input placeholder="Nombre del estudiante" class="inputSearch" id="studentName" type="text">
+    <input placeholder="ID del estudiante" class="inputSearch" id="studentID" type="text">
+    <input placeholder="Email del estudiante" class="inputSearch" id="studentEmail" type="text">
+    </div>
+  </div>
+  <div id="estudiantes" class="container-estudiantes"></div>
+</div>`;
+};
+
 const imprimirContainerProf = () => {
   container.innerHTML = `
     <div class="container-asig">

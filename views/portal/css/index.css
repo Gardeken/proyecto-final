@@ -110,7 +110,8 @@ input[type="file"],
 
 .container-input-Asig input[type="text"],
 .container-input-Asig textarea,
-.grade-input {
+.grade-input,
+.inputSearch {
   border: solid 1px var(--rojo-secundario);
   border-radius: 0.3rem;
   padding: 0.5rem;
@@ -450,6 +451,11 @@ header {
   border-radius: 0.3rem;
 }
 
+.container-search {
+  display: flex;
+  justify-content: space-around;
+}
+
 .pointer {
   cursor: pointer;
 }
@@ -527,6 +533,24 @@ header {
 
   .blockh {
     display: none;
+  }
+
+  .btnProf {
+    padding: 0.5rem;
+  }
+
+  .container-btn {
+    font-size: 0.9rem;
+    display: block;
+  }
+
+  #crear {
+    margin-top: 0.8rem;
+  }
+
+  .container-search {
+    display: flex;
+    gap: 1rem;
   }
 
   /*

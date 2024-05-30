@@ -1,7 +1,7 @@
 import { buscarEstudiante } from "./apis/APIstudent.js";
 import { buscarProfesor } from "./apis/APIteachers.js";
 import { buscarMateria, guardarAsignacionMat } from "./apis/APIsubject.js";
-import { buscarUsuario } from "./apis/APIuser.js";
+import { buscarUsuario, buscarRol } from "./apis/APIuser.js";
 import {
   buscarAsignacion,
   guardarAsignacion,
@@ -17,6 +17,8 @@ import {
   listadoAsigEst,
 } from "./apis/APIassigmentE.js";
 
+const listadoEst = [];
+const listadoUser = [];
 const containerMaterias = document.querySelector("#materias");
 const listadoMaterias = document.querySelector(".listadoMaterias");
 const containerMsg = document.querySelector("#containerMsg");
@@ -27,10 +29,12 @@ const URL = new URLSearchParams(window.location.search);
 const rol = URL.get("rol");
 const id = URL.get("id");
 
-containerMaterias.addEventListener("click", (e) => {
-  e.preventDefault();
-  listadoMaterias.classList.toggle("hidden");
-});
+if (containerMaterias) {
+  containerMaterias.addEventListener("click", (e) => {
+    e.preventDefault();
+    listadoMaterias.classList.toggle("hidden");
+  });
+}
 
 function crearMsg(text) {
   containerMsg.classList.add("messageAnimation");
@@ -52,7 +56,121 @@ document.addEventListener("DOMContentLoaded", async () => {
     printProf();
     return impListadoMat(prof.data.subjects);
   }
+  if (rol === "admin") {
+    eventosAdmin();
+  }
 });
+
+async function eventosAdmin() {
+  const searchSt = document.querySelector("#searchSt");
+  searchSt.addEventListener("click", async () => {
+    imprimirContainerAdmin();
+    const containerEst = document.querySelector("#estudiantes");
+    cargarEstudiantes();
+    const studentName = document.querySelector("#studentName");
+    const studentID = document.querySelector("#studentID");
+    const studentEmail = document.querySelector("#studentEmail");
+
+    studentEmail.addEventListener("input", () => {
+      const email = studentEmail.value;
+      if (!email) {
+        containerEst.innerHTML = "";
+        cargarEstudiantes();
+      }
+      const listadoUsertAct = listadoUser.filter((i) => i.email === email);
+      if (listadoUsertAct[0] === undefined) {
+        containerEst.innerHTML = "";
+        return;
+      }
+      const listadoEstAct = listadoEst.filter(
+        (i) => i.id === listadoUsertAct[0].id
+      );
+      containerEst.innerHTML = "";
+      const div = document.createElement("div");
+      div.innerHTML = `
+          <div class="asignacion pointer"> 
+          <p>${listadoEstAct[0].fullName}</p>
+          <p>${listadoUsertAct[0].email}</p>
+          <p>${listadoUsertAct[0].id}</p>
+        </div>
+        `;
+      containerEst.appendChild(div);
+    });
+
+    studentName.addEventListener("input", () => {
+      const name = studentName.value;
+      if (!name) {
+        containerEst.innerHTML = "";
+        cargarEstudiantes();
+      }
+      const listadoEstAct = listadoEst.filter((i) => i.fullName === name);
+
+      containerEst.innerHTML = "";
+      listadoEstAct.map((i) => {
+        const listadoUsertAct = listadoUser.filter((i) => i.id === i.id);
+        const div = document.createElement("div");
+        div.innerHTML = `
+          <div class="asignacion pointer"> 
+          <p>${i.fullName}</p>
+          <p>${listadoUsertAct[0].email}</p>
+          <p>${i.id}</p>
+        </div>
+        `;
+        containerEst.appendChild(div);
+      });
+    });
+
+    studentID.addEventListener("input", () => {
+      const inputId = studentID.value;
+      if (!inputId) {
+        containerEst.innerHTML = "";
+        cargarEstudiantes();
+      }
+      const listadoUsertAct = listadoUser.filter((i) => i.id === inputId);
+      const listadoEstAct = listadoEst.filter((i) => i.id === inputId);
+      if (listadoUsertAct[0] === undefined || listadoEstAct === undefined) {
+        containerEst.innerHTML = "";
+        return;
+      }
+      containerEst.innerHTML = "";
+      const div = document.createElement("div");
+      div.innerHTML = `
+          <div class="asignacion pointer"> 
+          <p>${listadoEstAct[0].fullName}</p>
+          <p>${listadoUsertAct[0].email}</p>
+          <p>${listadoUsertAct[0].id}</p>
+        </div>
+        `;
+      containerEst.appendChild(div);
+    });
+  });
+}
+
+async function cargarEstudiantes() {
+  const containerEst = document.querySelector("#estudiantes");
+  try {
+    const consulta = await buscarRol(4);
+    const listado = consulta.data;
+    listado.forEach(async (i) => {
+      const estudiante = await buscarEstudiante(i.id);
+      const user = await buscarUsuario(i.id);
+      const est = estudiante.data;
+      listadoEst.push(est);
+      listadoUser.push(i);
+      const div = document.createElement("div");
+      div.innerHTML = `
+      <div class="asignacion pointer"> 
+        <p>${est.fullName}</p>
+        <p>${user.data.email}</p>
+        <p>${i.id}</p>
+      </div>
+      `;
+      containerEst.appendChild(div);
+    });
+  } catch (error) {
+    crearMsg(error.response.data.message);
+  }
+}
 
 async function impListadoMat(list) {
   const listado = JSON.parse(list);

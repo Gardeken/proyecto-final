@@ -39,4 +39,16 @@ userRouter.get("/buscar-usuario", async (req, res) => {
   }
 });
 
+userRouter.get("/buscar-rol", async (req, res) => {
+  const { rol } = req.query;
+  try {
+    const consulta = await user.find({ rol: rol });
+    res.status(200).json(consulta);
+  } catch (error) {
+    res.status(400).json({
+      message: "Hubo un error inesperado",
+    });
+  }
+});
+
 module.exports = userRouter;

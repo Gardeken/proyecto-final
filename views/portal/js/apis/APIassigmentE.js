@@ -32,7 +32,7 @@ export const guardarAsignacionEstudiante = async (
   idUser,
   idAsigT
 ) => {
-  const post = axios.post("/api/assigmentE/guardar-asigE", data, {
+  const post = await axios.post("/api/assigmentE/guardar-asigE", data, {
     params: {
       idSubject: idSubject,
       idUser: idUser,
