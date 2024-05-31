@@ -132,6 +132,7 @@ assigmentERouter.delete("/eliminar-asig", async (req, res) => {
       }
     });
     res.status(200).json({
+      idAsigT: eliminar.assigmentT,
       message: "La asignación se ha eliminado con éxito",
     });
   } catch (error) {

@@ -27,7 +27,7 @@ subjectRouter.put("/guardar-asigT", async (req, res) => {
         }
       );
     } else {
-      const agregar = await subject.findOneAndUpdate(
+      await subject.findOneAndUpdate(
         { id: idSubject },
         {
           assigmentT: JSON.stringify(lista),
@@ -36,6 +36,7 @@ subjectRouter.put("/guardar-asigT", async (req, res) => {
     }
     res.status(200).json({ message: "Se ha creado con éxito la asignación" });
   } catch (error) {
+    console.log(error);
     res.status(400).json({
       message: "No se pudo guardar la asignación",
     });

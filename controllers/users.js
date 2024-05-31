@@ -51,4 +51,18 @@ userRouter.get("/buscar-rol", async (req, res) => {
   }
 });
 
+userRouter.put("/act-user", async (req, res) => {
+  const { id } = req.query;
+  try {
+    await user.findOneAndUpdate({ id }, req.body);
+    res.status(200).json({
+      message: "Los cambios se han realizado con éxito",
+    });
+  } catch (error) {
+    res.status(400).json({
+      message: "Hubo un error al guardar los cambios",
+    });
+  }
+});
+
 module.exports = userRouter;

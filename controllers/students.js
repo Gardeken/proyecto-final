@@ -1,7 +1,5 @@
 const studentRouter = require("express").Router();
 const student = require("../model/student");
-const subject = require("../model/subject");
-const user = require("../model/user");
 
 studentRouter.get("/buscar-est", async (req, res) => {
   const { id } = req.query;
@@ -11,6 +9,20 @@ studentRouter.get("/buscar-est", async (req, res) => {
   } else {
     res.status(400).json({
       error: "No se encontro el estudiante",
+    });
+  }
+});
+
+studentRouter.put("/act-alumno", async (req, res) => {
+  const { id } = req.query;
+  try {
+    await student.findOneAndUpdate({ id }, req.body);
+    res.status(200).json({
+      message: "Los cambios se han realizado con éxito",
+    });
+  } catch (error) {
+    res.status(400).json({
+      message: "Hubo un error al guardar los cambios",
     });
   }
 });

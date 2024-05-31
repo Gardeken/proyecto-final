@@ -111,7 +111,8 @@ input[type="file"],
 .container-input-Asig input[type="text"],
 .container-input-Asig textarea,
 .grade-input,
-.inputSearch {
+.inputSearch,
+.inputEst {
   border: solid 1px var(--rojo-secundario);
   border-radius: 0.3rem;
   padding: 0.5rem;
@@ -192,6 +193,42 @@ input[type="file"],
   background-color: var(--rojo-secundario);
   padding: 0.8rem;
   border-radius: 0.5rem;
+}
+
+/*
+<------------------------------------------------------------------------------->
+                            Estilos modal 3  
+*/
+
+.container-inputEst {
+  display: flex;
+  margin: 1rem 0;
+  justify-content: space-between;
+  width: 90%;
+}
+
+.areaEst,
+.inputEst {
+  width: 20vw;
+}
+
+.areaEst {
+  height: 10rem;
+  resize: none;
+}
+
+.btn-est:nth-of-type(1) {
+  place-self: end;
+  margin-right: 2rem;
+}
+
+.btn-est {
+  border: none;
+  padding: 0.8rem;
+  border-radius: 0.5rem;
+  color: white;
+  background-color: var(--rojo-secundario);
+  margin: 1rem 0;
 }
 
 /*
@@ -456,6 +493,11 @@ header {
   justify-content: space-around;
 }
 
+.container-estudiantes {
+  overflow-y: scroll;
+  height: 30rem;
+}
+
 .pointer {
   cursor: pointer;
 }
@@ -490,6 +532,21 @@ header {
   input[type="file"] {
     width: 50vw;
   }
+
+  /*
+<------------------------------------------------------------------------------->
+                            Estilos modal 3  
+*/
+
+  .container-inputEst {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .inputEst {
+    width: 60vw;
+  }
+
   /*
 <------------------------------------------------------------------------------->
                             Estilos nav responsive  

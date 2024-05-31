@@ -36,3 +36,15 @@ export const guardarAsignacionEst = async (idAsigE, idAsigT) => {
     return error;
   }
 };
+
+export const actAsigT = async (idAsigE, idAsigT) => {
+  try {
+    const update = await axios.put("/api/assigment/act-listado-asigE", {
+      idAsigT,
+      idAsigE,
+    });
+    return update;
+  } catch (error) {
+    return error;
+  }
+};

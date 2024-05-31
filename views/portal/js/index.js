@@ -1,4 +1,4 @@
-import { buscarEstudiante } from "./apis/APIstudent.js";
+import { buscarEstudiante, actAlumno } from "./apis/APIstudent.js";
 import { buscarProfesor } from "./apis/APIteachers.js";
 import { buscarMateria, guardarAsignacionMat } from "./apis/APIsubject.js";
 import { buscarUsuario, buscarRol } from "./apis/APIuser.js";
@@ -6,6 +6,7 @@ import {
   buscarAsignacion,
   guardarAsignacion,
   guardarAsignacionEst,
+  actAsigT,
 } from "./apis/APIassigment.js";
 import {
   buscarAsignacionE,
@@ -87,8 +88,10 @@ async function eventosAdmin() {
       );
       containerEst.innerHTML = "";
       const div = document.createElement("div");
+      div.classList.add("estudiante");
+      div.id = listadoUsertAct[0].id;
       div.innerHTML = `
-          <div class="asignacion pointer"> 
+          <div id="${listadoUsertAct[0].id}" class="asignacion pointer"> 
           <p>${listadoEstAct[0].fullName}</p>
           <p>${listadoUsertAct[0].email}</p>
           <p>${listadoUsertAct[0].id}</p>
@@ -109,8 +112,10 @@ async function eventosAdmin() {
       listadoEstAct.map((i) => {
         const listadoUsertAct = listadoUser.filter((i) => i.id === i.id);
         const div = document.createElement("div");
+        div.classList.add("estudiante");
+        div.id = i.id;
         div.innerHTML = `
-          <div class="asignacion pointer"> 
+          <div id="${i.id}" class="asignacion pointer"> 
           <p>${i.fullName}</p>
           <p>${listadoUsertAct[0].email}</p>
           <p>${i.id}</p>
@@ -134,8 +139,10 @@ async function eventosAdmin() {
       }
       containerEst.innerHTML = "";
       const div = document.createElement("div");
+      div.classList.add("estudiante");
+      div.id = listadoUsertAct[0].id;
       div.innerHTML = `
-          <div class="asignacion pointer"> 
+          <div id="${listadoUsertAct[0].id}" class="asignacion pointer"> 
           <p>${listadoEstAct[0].fullName}</p>
           <p>${listadoUsertAct[0].email}</p>
           <p>${listadoUsertAct[0].id}</p>
@@ -143,7 +150,104 @@ async function eventosAdmin() {
         `;
       containerEst.appendChild(div);
     });
+
+    containerEst.addEventListener("click", async (e) => {
+      if (
+        e.target.parentElement.classList.contains("estudiante") ||
+        e.target.parentElement.classList.contains("asignacion")
+      ) {
+        const id = e.target.parentElement.id;
+        modal.classList.remove("hidden");
+        containerModal.innerHTML = `
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          id="closeModal"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="close-modal"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M6 18 18 6M6 6l12 12"
+          />
+        </svg>
+        <button id="editar" class="btn-est">Editar</button>
+        <div class="container-inputEst">
+          <label for="inputName">Nombre:</label>
+          <input id="inputName" readonly class="inputEst" type="text" />
+        </div>
+        <div class="container-inputEst">
+          <label for="inputEmail">Email:</label>
+          <input id="inputEmail" readonly class="inputEst" type="text" />
+        </div>
+        <div class="container-inputEst">
+          <label for="inputTelf">Teléfono:</label>
+          <input id="inputTelf" readonly class="inputEst" type="text" />
+        </div>
+        
+        `;
+
+        const closebtn = document.querySelector("#closeModal");
+        closebtn.addEventListener("click", () => {
+          modal.classList.add("hidden");
+        });
+
+        const estudiante = await buscarEstudiante(id);
+        const usuario = await buscarUsuario(id);
+        const inputName = document.querySelector("#inputName");
+        const inputEmail = document.querySelector("#inputEmail");
+        const inputTelf = document.querySelector("#inputTelf");
+        inputName.value = estudiante.data.fullName;
+        inputEmail.value = usuario.data.email;
+        const divDes = document.createElement("div");
+        divDes.classList.add("container-inputEst");
+        divDes.innerHTML = `
+        <label for="inputDesc">Descripción:</label>
+        <textarea id="inputDesc" class="inputEst areaEst"></textarea>
+        `;
+        const btnEditar = document.querySelector("#editar");
+        const aceptar = document.createElement("button");
+        aceptar.id = "aceptar";
+        aceptar.setAttribute("data-id", id);
+        aceptar.classList.add("btn-est");
+        aceptar.innerHTML = "Aceptar";
+        btnEditar.addEventListener("click", () => {
+          inputEmail.readOnly = false;
+          inputName.readOnly = false;
+          inputTelf.readOnly = false;
+          containerModal.appendChild(divDes);
+          containerModal.appendChild(aceptar);
+          const btnAceptar = document.querySelector("#aceptar");
+          btnAceptar.addEventListener("click", actEstudiante);
+        });
+      }
+    });
   });
+}
+
+async function actEstudiante(e) {
+  const id = e.target.getAttribute("data-id");
+  const inputDesc = document.querySelector("#inputDesc").value;
+  const inputName = document.querySelector("#inputName").value;
+  const inputEmail = document.querySelector("#inputEmail").value;
+  const inputTelf = document.querySelector("#inputTelf").value;
+
+  try {
+    const act = await actAlumno(
+      id,
+      {
+        fullName: inputName,
+        telefono: inputTelf,
+      },
+      { email: inputEmail }
+    );
+    crearMsg(act.data.message);
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 async function cargarEstudiantes() {
@@ -158,8 +262,10 @@ async function cargarEstudiantes() {
       listadoEst.push(est);
       listadoUser.push(i);
       const div = document.createElement("div");
+      div.classList.add("estudiante");
+      div.id = i.id;
       div.innerHTML = `
-      <div class="asignacion pointer"> 
+      <div id="${i.id}" class="asignacion pointer"> 
         <p>${est.fullName}</p>
         <p>${user.data.email}</p>
         <p>${i.id}</p>
@@ -519,7 +625,7 @@ function eventosProf(id) {
     <button id="crear" class="btnProf">Crear</button>
     `;
     containerBtn.appendChild(div);
-    crearBtn();
+    crearBtn(id);
     const containerAsig = document.querySelector("#asignaciones");
     containerAsig.innerHTML = `
     <div id="asignacion" class="asignacion">
@@ -636,7 +742,8 @@ async function eliminarAsignacion() {
       if (confirmar) {
         try {
           const eliminar = await eliminarAsig(id, path);
-          crearMsg(eliminar.data.message);
+          const act = await actAsigT(id, eliminar.data.idAsigT);
+          crearMsg(act.data.message);
           e.target.parentElement.parentElement.parentElement.remove();
         } catch (error) {
           crearMsg(error.response.data.message);
@@ -703,7 +810,7 @@ async function corregirAsignacion() {
   }
 }
 
-async function crearBtn() {
+async function crearBtn(idSubject) {
   const crea = document.querySelector("#crear");
   crea.addEventListener("click", async () => {
     modal.classList.toggle("hidden");
@@ -717,7 +824,7 @@ async function crearBtn() {
     closeModal.addEventListener("click", () => {
       modal.classList.toggle("hidden");
     });
-    guardarDatos(id);
+    guardarDatos(idSubject);
   });
 }
 
