@@ -9,6 +9,8 @@ const userRouter = require("./controllers/users");
 const teacherRouter = require("./controllers/teachers");
 const studentRouter = require("./controllers/students");
 const assigmentERouter = require("./controllers/assigmentsE");
+const quarterRouter = require("./controllers/quarters");
+const infoSubjectRouter = require("./controllers/infoSubjects");
 
 async function conectarDB() {
   try {
@@ -41,5 +43,7 @@ app.use("/api/subject", subjectRouter);
 app.use("/api/user", userRouter);
 app.use("/api/student", studentRouter);
 app.use("/api/teacher", teacherRouter);
+app.use("/api/quarter", quarterRouter);
+app.use("/api/infoSubject", infoSubjectRouter);
 
 module.exports = app;

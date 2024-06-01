@@ -6,15 +6,13 @@ const subjectSchema = new mongoose.Schema({
   id: String,
   assigmentT: String,
   dates: String,
+  CODSubject: String,
+  CODCareer: String,
+  CODFaculty: String,
   students: String,
+  status: Number,
+  cupos: Number,
   teacher: String,
-});
-
-subjectSchema.set("toJSON", {
-  transform: (document, returOBJ) => {
-    returOBJ.id = returOBJ._id.toString();
-    delete returOBJ._id;
-  },
 });
 
 const subject = mongoose.model("Subjects", subjectSchema);

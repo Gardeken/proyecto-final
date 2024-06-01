@@ -135,3 +135,58 @@ const imprimirCrearAsig = () => {
   </div>
 </div>`;
 };
+
+const imprimirContainerStaff = () => {
+  container.innerHTML = `
+  <div class="container-asig">
+          <section>
+            <h3 id="titulo" class="container-titulo">Trimestres</h3>
+          </section>
+        </div>
+        <div>
+          <button class="btnQuarter">Crear Trimestre</button>
+        </div>
+        <div class="container-modulos"></div>
+  `;
+};
+
+const imprimirCrearTrim = () => {
+  container2.innerHTML = `
+  <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          id="closeModal"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="close-modal"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M6 18 18 6M6 6l12 12"
+          />
+        </svg>
+        <div class="container-quarter">
+          <div class="input-quarter">
+            <label for="startDate">Fecha de inicio</label>
+            <input id="startDate" class="inputQuarter" type="text" />
+          </div>
+          <div class="input-quarter">
+            <label for="endDate">Fecha de finalización</label>
+            <input id="endDate" class="inputQuarter" type="text" />
+          </div>
+          <div class="input-quarter">
+            <label for="selectQuarter">Seleccione trimestre</label>
+            <select id="selectQuarter" class="selectQuarter inputQuarter">
+              <option selected disabled value="">...</option>
+              <option value="101">Módulo A</option>
+              <option value="102">Módulo B</option>
+              <option value="103">Módulo C</option>
+              <option value="104">Módulo de Verano</option>
+            </select>
+          </div>
+          <button id="aceptar" class="quarterBtn">Aceptar</button>
+        </div>
+  `;
+};

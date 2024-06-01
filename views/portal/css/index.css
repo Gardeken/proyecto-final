@@ -1,5 +1,5 @@
 :root {
-  --rojo-principal: #ec1c2c;
+  --rojo-principal: #e30032;
   --rojo-secundario: #a3141f;
   --rojo-terciario: #ff5764;
   --gris-principal: #2c2c2c;
@@ -112,7 +112,8 @@ input[type="file"],
 .container-input-Asig textarea,
 .grade-input,
 .inputSearch,
-.inputEst {
+.inputEst,
+.inputQuarter {
   border: solid 1px var(--rojo-secundario);
   border-radius: 0.3rem;
   padding: 0.5rem;
@@ -233,6 +234,33 @@ input[type="file"],
 
 /*
 <------------------------------------------------------------------------------->
+                            Estilos modal 4  
+*/
+
+.container-quarter {
+  width: 85%;
+  display: grid;
+}
+
+.input-quarter {
+  display: flex;
+  margin: 0.8rem 0;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.quarterBtn {
+  border: none;
+  background-color: var(--rojo-principal);
+  padding: 0.7rem;
+  color: white;
+  border-radius: 0.5rem;
+  margin: 1rem 0;
+  place-self: center;
+}
+
+/*
+<------------------------------------------------------------------------------->
                             Estilos nav  
 */
 
@@ -243,8 +271,9 @@ header {
 
 .container-perfil {
   display: flex;
-  justify-content: end;
-  gap: 1rem;
+  gap: 0.5rem;
+  flex-direction: column;
+  align-items: center;
   margin-right: 2rem;
   margin-top: 2rem;
 }
@@ -268,6 +297,7 @@ header {
   left: 0;
   bottom: 0;
   top: 0;
+  border-radius: 1.5rem;
   width: 20vw;
   background-color: var(--rojo-principal);
   position: fixed;
@@ -383,8 +413,8 @@ header {
 
 .container-main-1 {
   width: 78%;
-  border-radius: 0 0 0.5rem 0.5rem;
-  box-shadow: 2px 29px 51px 0px rgba(0, 0, 0, 0.75);
+  border-radius: 0.5rem;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.35);
 }
 
 .container-titulo {
@@ -498,6 +528,25 @@ header {
   height: 30rem;
 }
 
+.modulos {
+  place-items: center;
+  margin: 1.5rem 0.8rem;
+  padding: 0.8rem;
+  border-radius: 0.5rem;
+  border: 1.5px solid var(--gris-texto);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.btnQuarter {
+  margin: 1rem 1rem 0 1rem;
+  border: none;
+  background-color: var(--rojo-principal);
+  padding: 0.6rem;
+  border-radius: 0.5rem;
+  color: white;
+}
+
 .pointer {
   cursor: pointer;
 }
@@ -608,6 +657,13 @@ header {
   .container-search {
     display: flex;
     gap: 1rem;
+  }
+
+  .modulos {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
   }
 
   /*

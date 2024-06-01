@@ -3,6 +3,11 @@ import { buscarProfesor } from "./apis/APIteachers.js";
 import { buscarMateria, guardarAsignacionMat } from "./apis/APIsubject.js";
 import { buscarUsuario, buscarRol } from "./apis/APIuser.js";
 import {
+  guardarTrimestre,
+  listadoTrimestres,
+  actualizarTrimestres,
+} from "./apis/APIquarter.js";
+import {
   buscarAsignacion,
   guardarAsignacion,
   guardarAsignacionEst,
@@ -47,6 +52,7 @@ function crearMsg(text) {
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
+  actualizarTrimestres();
   if (rol === "student") {
     const usuario = await buscarEstudiante(id);
     printEst();
@@ -60,7 +66,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (rol === "admin") {
     eventosAdmin();
   }
+  if (rol === "staff") {
+    eventosStaff();
+  }
 });
+
+//eventos
 
 async function eventosAdmin() {
   const searchSt = document.querySelector("#searchSt");
@@ -228,158 +239,6 @@ async function eventosAdmin() {
   });
 }
 
-async function actEstudiante(e) {
-  const id = e.target.getAttribute("data-id");
-  const inputDesc = document.querySelector("#inputDesc").value;
-  const inputName = document.querySelector("#inputName").value;
-  const inputEmail = document.querySelector("#inputEmail").value;
-  const inputTelf = document.querySelector("#inputTelf").value;
-
-  try {
-    const act = await actAlumno(
-      id,
-      {
-        fullName: inputName,
-        telefono: inputTelf,
-      },
-      { email: inputEmail }
-    );
-    crearMsg(act.data.message);
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-async function cargarEstudiantes() {
-  const containerEst = document.querySelector("#estudiantes");
-  try {
-    const consulta = await buscarRol(4);
-    const listado = consulta.data;
-    listado.forEach(async (i) => {
-      const estudiante = await buscarEstudiante(i.id);
-      const user = await buscarUsuario(i.id);
-      const est = estudiante.data;
-      listadoEst.push(est);
-      listadoUser.push(i);
-      const div = document.createElement("div");
-      div.classList.add("estudiante");
-      div.id = i.id;
-      div.innerHTML = `
-      <div id="${i.id}" class="asignacion pointer"> 
-        <p>${est.fullName}</p>
-        <p>${user.data.email}</p>
-        <p>${i.id}</p>
-      </div>
-      `;
-      containerEst.appendChild(div);
-    });
-  } catch (error) {
-    crearMsg(error.response.data.message);
-  }
-}
-
-async function impListadoMat(list) {
-  const listado = JSON.parse(list);
-  listado.map(async (i) => {
-    const materia = await buscarMateria(i);
-    const li = document.createElement("li");
-    li.textContent = materia.data.name;
-    li.classList.add("subject");
-    li.id = i;
-    listadoMaterias.appendChild(li);
-  });
-}
-
-function printProf() {
-  listadoMaterias.addEventListener("click", async (e) => {
-    if (e.target.classList.contains("subject")) {
-      const id = e.target.id;
-      imprimirContainerProf();
-      consultaEst(id);
-      eventosProf(id);
-    }
-  });
-}
-
-function printEst() {
-  const gradesBtn = document.querySelector("#gradesBtn");
-  gradesBtn.addEventListener("click", async (e) => {
-    e.preventDefault();
-    imprimirContainerEst();
-    const titulo = document.querySelector("#titulo");
-    titulo.innerHTML = "Notas";
-    const containerGrades = document.querySelector("#asignaciones");
-    containerGrades.innerHTML = `
-    <div class="asignacion">
-    <div class="container-grades">
-      <label for"subjectSel">
-        Selecione la materia
-      </label>
-      <select class="subjectSel" id="subjectSel" name="subjectSel">
-          <option> 
-            ...
-          </option>
-      </select>
-    </div>
-    </div>
-    <div id="containerNotas"></div>
-    `;
-
-    const subjectSel = document.querySelector("#subjectSel");
-    try {
-      const estudiante = await buscarEstudiante(id);
-      const { subjects } = estudiante.data;
-      const listadoMat = JSON.parse(subjects);
-      listadoMat.forEach(async (i) => {
-        const materia = await buscarMateria(i);
-        const option = document.createElement("option");
-        option.value = i;
-        option.textContent = materia.data.name;
-        subjectSel.appendChild(option);
-      });
-    } catch (error) {}
-
-    subjectSel.addEventListener("change", async () => {
-      const idSubject = subjectSel.value;
-      const containerNotas = document.querySelector("#containerNotas");
-      containerNotas.innerHTML = "";
-      try {
-        const listadoNotas = await listadoAsigEst(id, idSubject);
-        const container = document.querySelector("#asignaciones");
-        const { data } = listadoNotas;
-        data.forEach(async (i) => {
-          if (i.grades) {
-            const asignacion = await buscarAsignacion(i.assigmentT);
-            const nota = document.createElement("div");
-            nota.innerHTML = `
-            <div id="asignacion" class="asignacion">
-              <p class="column">${asignacion.data.name}</p>
-              <div class="container-fecha">
-                <div class="separador"></div>
-                <p class="container-date">${i.grades}</p>
-              </div>
-            </div>
-            `;
-            containerNotas.appendChild(nota);
-            container.appendChild(containerNotas);
-          }
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    });
-  });
-
-  listadoMaterias.addEventListener("click", async (e) => {
-    if (e.target.classList.contains("subject")) {
-      const id = e.target.id;
-      imprimirContainerEst();
-      cargarAsig(id);
-      eventosEst(id);
-    }
-  });
-}
-
 async function eventosEst(idSubject) {
   const containerAsig = document.querySelector("#asignaciones");
   containerAsig.addEventListener("click", async (e) => {
@@ -544,55 +403,6 @@ async function eventosEst(idSubject) {
   });
 }
 
-//Asignaciones
-
-async function cargarAsig(id) {
-  const materia = await buscarMateria(id);
-  const containerM = document.querySelector("#asignaciones");
-  const titulo = document.querySelector("#titulo");
-  titulo.innerText = "Asignaciones";
-  const listadoAsig = JSON.parse(materia.data.assigmentT);
-  listadoAsig.forEach(async (i) => {
-    const asignacion = await buscarAsignacion(i);
-    const { name, date } = asignacion.data;
-    const div = document.createElement("div");
-    div.classList.add("asignacion", "pointer", "assigmentS");
-    div.innerHTML = `
-    <p class="column">${name}</p>
-    <div class="container-fecha">
-      <div class="separador"></div>
-      <p class="container-date">${date}</p>
-    </div>
-  `;
-    div.id = i;
-    containerM.appendChild(div);
-  });
-}
-
-async function consultaEst(id) {
-  const containerM = document.querySelector("#asignaciones");
-  const titulo = document.querySelector("#titulo");
-  titulo.innerText = "Alumnos";
-  const materia = await buscarMateria(id);
-  const listadoEst = JSON.parse(materia.data.students);
-  listadoEst.forEach(async (i) => {
-    const student = await buscarUsuario(i);
-    const namestudent = await buscarEstudiante(i);
-    const email = student.data.email;
-    const name = namestudent.data.fullName;
-    const div = document.createElement("div");
-    div.classList.add("asignacion");
-    div.innerHTML = `
-    <p class="column">${name}</p>
-    <div class="container-fecha">
-      <div class="separador"></div>
-      <p class="container-date">email: ${email}</p>
-    </div>
-  `;
-    containerM.appendChild(div);
-  });
-}
-
 function eventosProf(id) {
   const btnAsig = document.querySelector("#asig");
   const btnCalendar = document.querySelector("#calendario");
@@ -658,6 +468,298 @@ function eventosProf(id) {
     setTimeout(() => {
       cargarAsigEst();
     }, 500);
+  });
+}
+
+async function eventosStaff() {
+  const quarters = document.querySelector("#quarters");
+  const requests = document.querySelector("#request");
+  quarters.addEventListener("click", cargarTrimestres);
+}
+
+async function cargarTrimestres() {
+  imprimirContainerStaff();
+  imprimirTrimestres();
+  const btnQuarter = document.querySelector(".btnQuarter");
+  btnQuarter.addEventListener("click", () => {
+    imprimirCrearTrim();
+    flatpickr("#startDate", {
+      minDate: "today",
+      dateFormat: "d-m-Y",
+    });
+    flatpickr("#endDate", {
+      minDate: "today",
+      dateFormat: "d-m-Y",
+    });
+    modal.classList.remove("hidden");
+    const closebtn = document.querySelector("#closeModal");
+    closebtn.addEventListener("click", () => {
+      modal.classList.add("hidden");
+    });
+    const aceptarBtn = document.querySelector("#aceptar");
+    aceptarBtn.addEventListener("click", async () => {
+      const startDate = document.querySelector("#startDate").value;
+      const endDate = document.querySelector("#endDate").value;
+      const trim = document.querySelector("#selectQuarter").value;
+      const fechaIni = startDate.split("-");
+      const fechaFin = endDate.split("-");
+
+      if (!startDate || !endDate || !trim) {
+        return crearMsg("No puede dejar campos vacíos");
+      }
+      if (startDate === endDate) {
+        return crearMsg("No puede seleccionar las mismas fechas");
+      }
+      if (
+        Number(fechaIni[0]) > Number(fechaFin[0]) &&
+        Number(fechaIni[1]) >= Number(fechaFin[1]) &&
+        Number(fechaIni[2]) >= Number(fechaFin[2])
+      ) {
+        return crearMsg("Las fechas son incorrectas");
+      }
+      try {
+        const post = await guardarTrimestre(startDate, endDate, trim);
+        crearMsg(post.data.message);
+        modal.classList.add("hidden");
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  });
+}
+
+async function imprimirTrimestres() {
+  const objStatus = {
+    0: "Inactivo",
+    1: "Activo",
+    2: "Pendiente",
+  };
+  const objModulo = {
+    101: "Módulo A",
+    102: "Módulo B",
+    103: "Módulo C",
+    104: "Módulo de Verano",
+  };
+  const containerModulos = document.querySelector(".container-modulos");
+  containerModulos.innerHTML = "";
+  try {
+    const listado = await listadoTrimestres();
+    const { data } = listado;
+    data.forEach((i) => {
+      const div = document.createElement("div");
+      div.classList.add("modulos", "pointer");
+      const codigo = Number(i.quarter);
+      div.innerHTML = `
+      <span>${objModulo[codigo]}</span>
+            <span>Inicio: ${i.startDate}</span>
+            <span>Fin: ${i.endDate}</span>
+            <span>${objStatus[i.status]}</span>
+      `;
+      containerModulos.appendChild(div);
+    });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function actEstudiante(e) {
+  const id = e.target.getAttribute("data-id");
+  const inputDesc = document.querySelector("#inputDesc").value;
+  const inputName = document.querySelector("#inputName").value;
+  const inputEmail = document.querySelector("#inputEmail").value;
+  const inputTelf = document.querySelector("#inputTelf").value;
+
+  try {
+    const act = await actAlumno(
+      id,
+      {
+        fullName: inputName,
+        telefono: inputTelf,
+      },
+      { email: inputEmail }
+    );
+    crearMsg(act.data.message);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function cargarEstudiantes() {
+  const containerEst = document.querySelector("#estudiantes");
+  try {
+    const consulta = await buscarRol(4);
+    const listado = consulta.data;
+    listado.forEach(async (i) => {
+      const estudiante = await buscarEstudiante(i.id);
+      const user = await buscarUsuario(i.id);
+      const est = estudiante.data;
+      listadoEst.push(est);
+      listadoUser.push(i);
+      const div = document.createElement("div");
+      div.classList.add("estudiante");
+      div.id = i.id;
+      div.innerHTML = `
+      <div id="${i.id}" class="asignacion pointer"> 
+        <p>${est.fullName}</p>
+        <p>${user.data.email}</p>
+        <p>${i.id}</p>
+      </div>
+      `;
+      containerEst.appendChild(div);
+    });
+  } catch (error) {
+    crearMsg(error.response.data.message);
+  }
+}
+
+async function impListadoMat(list) {
+  const listado = JSON.parse(list);
+  listado.map(async (i) => {
+    const materia = await buscarMateria(i);
+    const li = document.createElement("li");
+    li.textContent = materia.data.name;
+    li.classList.add("subject");
+    li.id = i;
+    listadoMaterias.appendChild(li);
+  });
+}
+
+function printProf() {
+  listadoMaterias.addEventListener("click", async (e) => {
+    if (e.target.classList.contains("subject")) {
+      const id = e.target.id;
+      imprimirContainerProf();
+      consultaEst(id);
+      eventosProf(id);
+    }
+  });
+}
+
+function printEst() {
+  const gradesBtn = document.querySelector("#gradesBtn");
+  gradesBtn.addEventListener("click", async (e) => {
+    e.preventDefault();
+    imprimirContainerEst();
+    const titulo = document.querySelector("#titulo");
+    titulo.innerHTML = "Notas";
+    const containerGrades = document.querySelector("#asignaciones");
+    containerGrades.innerHTML = `
+    <div class="asignacion">
+    <div class="container-grades">
+      <label for"subjectSel">
+        Selecione la materia
+      </label>
+      <select class="subjectSel" id="subjectSel" name="subjectSel">
+          <option> 
+            ...
+          </option>
+      </select>
+    </div>
+    </div>
+    <div id="containerNotas"></div>
+    `;
+
+    const subjectSel = document.querySelector("#subjectSel");
+    try {
+      const estudiante = await buscarEstudiante(id);
+      const { subjects } = estudiante.data;
+      const listadoMat = JSON.parse(subjects);
+      listadoMat.forEach(async (i) => {
+        const materia = await buscarMateria(i);
+        const option = document.createElement("option");
+        option.value = i;
+        option.textContent = materia.data.name;
+        subjectSel.appendChild(option);
+      });
+    } catch (error) {}
+
+    subjectSel.addEventListener("change", async () => {
+      const idSubject = subjectSel.value;
+      const containerNotas = document.querySelector("#containerNotas");
+      containerNotas.innerHTML = "";
+      try {
+        const listadoNotas = await listadoAsigEst(id, idSubject);
+        const container = document.querySelector("#asignaciones");
+        const { data } = listadoNotas;
+        data.forEach(async (i) => {
+          if (i.grades) {
+            const asignacion = await buscarAsignacion(i.assigmentT);
+            const nota = document.createElement("div");
+            nota.innerHTML = `
+            <div id="asignacion" class="asignacion">
+              <p class="column">${asignacion.data.name}</p>
+              <div class="container-fecha">
+                <div class="separador"></div>
+                <p class="container-date">${i.grades}</p>
+              </div>
+            </div>
+            `;
+            containerNotas.appendChild(nota);
+            container.appendChild(containerNotas);
+          }
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  });
+
+  listadoMaterias.addEventListener("click", async (e) => {
+    if (e.target.classList.contains("subject")) {
+      const id = e.target.id;
+      imprimirContainerEst();
+      cargarAsig(id);
+      eventosEst(id);
+    }
+  });
+}
+
+//Asignaciones
+
+async function cargarAsig(id) {
+  const materia = await buscarMateria(id);
+  const containerM = document.querySelector("#asignaciones");
+  const titulo = document.querySelector("#titulo");
+  titulo.innerText = "Asignaciones";
+  const listadoAsig = JSON.parse(materia.data.assigmentT);
+  listadoAsig.forEach(async (i) => {
+    const asignacion = await buscarAsignacion(i);
+    const { name, date } = asignacion.data;
+    const div = document.createElement("div");
+    div.classList.add("asignacion", "pointer", "assigmentS");
+    div.innerHTML = `
+    <p class="column">${name}</p>
+    <div class="container-fecha">
+      <div class="separador"></div>
+      <p class="container-date">${date}</p>
+    </div>
+  `;
+    div.id = i;
+    containerM.appendChild(div);
+  });
+}
+
+async function consultaEst(id) {
+  const containerM = document.querySelector("#asignaciones");
+  const titulo = document.querySelector("#titulo");
+  titulo.innerText = "Alumnos";
+  const materia = await buscarMateria(id);
+  const listadoEst = JSON.parse(materia.data.students);
+  listadoEst.forEach(async (i) => {
+    const student = await buscarUsuario(i);
+    const namestudent = await buscarEstudiante(i);
+    const email = student.data.email;
+    const name = namestudent.data.fullName;
+    const div = document.createElement("div");
+    div.classList.add("asignacion");
+    div.innerHTML = `
+    <p class="column">${name}</p>
+    <div class="container-fecha">
+      <div class="separador"></div>
+      <p class="container-date">email: ${email}</p>
+    </div>
+  `;
+    containerM.appendChild(div);
   });
 }
 
