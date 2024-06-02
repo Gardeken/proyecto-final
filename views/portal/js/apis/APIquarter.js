@@ -1,8 +1,16 @@
-export const guardarTrimestre = async (startDate, endDate, quarter) => {
+export const guardarTrimestre = async (
+  startDate,
+  endDate,
+  quarter,
+  inscDate,
+  createDate
+) => {
   const trimestre = await axios.post("/api/quarter/guardar-trimestre", {
     startDate,
     endDate,
     IDquarter: quarter,
+    inscDate,
+    createDate,
   });
   return trimestre;
 };

@@ -684,6 +684,30 @@ async function rechazarPeticion(idReq) {
   }
 }
 
+async function actEstudiante(e) {
+  const id = e.target.getAttribute("data-id");
+  const inputDesc = document.querySelector("#inputDesc").value;
+  const inputName = document.querySelector("#inputName").value;
+  const inputEmail = document.querySelector("#inputEmail").value;
+  const inputTelf = document.querySelector("#inputTelf").value;
+
+  try {
+    const act = await cambioDatos(
+      id,
+      {
+        fullName: inputName,
+        telefono: inputTelf,
+      },
+      { email: inputEmail },
+      { inputDesc }
+    );
+    crearMsg(act.data.message);
+    modal.classList.add("hidden");
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 // trimestres
 
 async function cargarTrimestres() {
@@ -718,10 +742,11 @@ async function cargarTrimestres() {
       const startDate = document.querySelector("#startDate").value;
       const endDate = document.querySelector("#endDate").value;
       const trim = document.querySelector("#selectQuarter").value;
+      const inscDate = document.querySelector("#inscDate").value;
+      const createDate = document.querySelector("#createDate").value;
       const fechaIni = startDate.split("-");
       const fechaFin = endDate.split("-");
-
-      if (!startDate || !endDate || !trim) {
+      if (!startDate || !endDate || !trim || !inscDate || !createDate) {
         return crearMsg("No puede dejar campos vacíos");
       }
       if (startDate === endDate) {
@@ -735,7 +760,13 @@ async function cargarTrimestres() {
         return crearMsg("Las fechas son incorrectas");
       }
       try {
-        const post = await guardarTrimestre(startDate, endDate, trim);
+        const post = await guardarTrimestre(
+          startDate,
+          endDate,
+          trim,
+          inscDate,
+          createDate
+        );
         crearMsg(post.data.message);
         modal.classList.add("hidden");
         const containerModulos = document.querySelector(".container-modulos");
@@ -744,7 +775,7 @@ async function cargarTrimestres() {
         const { data } = listado;
         data.forEach((i) => {
           const div = document.createElement("div");
-          div.classList.add("modulos", "pointer");
+          div.classList.add("modulos");
           const codigo = Number(i.quarter);
           if (i.status === 2) {
             div.innerHTML = `
@@ -781,7 +812,7 @@ async function imprimirTrimestres() {
     const { data } = listado;
     data.forEach((i) => {
       const div = document.createElement("div");
-      div.classList.add("modulos", "pointer");
+      div.classList.add("modulos");
       const codigo = Number(i.quarter);
       if (i.status === 2) {
         div.innerHTML = `
@@ -821,29 +852,7 @@ async function eliminarQuarter(e) {
   }
 }
 
-async function actEstudiante(e) {
-  const id = e.target.getAttribute("data-id");
-  const inputDesc = document.querySelector("#inputDesc").value;
-  const inputName = document.querySelector("#inputName").value;
-  const inputEmail = document.querySelector("#inputEmail").value;
-  const inputTelf = document.querySelector("#inputTelf").value;
-
-  try {
-    const act = await cambioDatos(
-      id,
-      {
-        fullName: inputName,
-        telefono: inputTelf,
-      },
-      { email: inputEmail },
-      { inputDesc }
-    );
-    crearMsg(act.data.message);
-    modal.classList.add("hidden");
-  } catch (error) {
-    console.log(error);
-  }
-}
+// containers
 
 async function cargarEstudiantes() {
   const containerEst = document.querySelector("#estudiantes");

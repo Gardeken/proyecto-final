@@ -2,13 +2,15 @@ const quarterRouter = require("express").Router();
 const quarter = require("../model/quarter");
 
 quarterRouter.post("/guardar-trimestre", async (req, res) => {
-  const { startDate, endDate, IDquarter } = req.body;
+  const { startDate, endDate, IDquarter, inscDate, createDate } = req.body;
   try {
     let newQuarter = new quarter();
     newQuarter.quarter = IDquarter;
     newQuarter.startDate = startDate;
     newQuarter.endDate = endDate;
     newQuarter.id = Date.now();
+    newQuarter.insDate = inscDate;
+    newQuarter.createDate = createDate;
     const savedQuarter = await newQuarter.save();
     res.status(200).json({
       message: "El trimestre se ha creado con éxito",
@@ -34,7 +36,6 @@ quarterRouter.get("/listado-trimestres", async (req, res) => {
 quarterRouter.get("/actualizar-trimestre", async (req, res) => {
   try {
     const trimestreActual = await quarter.findOne({ status: 1 });
-    const fechaIni = trimestreActual.startDate.split("-");
     const fechaFin = trimestreActual.endDate.split("-");
     const diaActual = new Date().getDate();
     const mesActual = new Date().getMonth() + 1;
@@ -85,13 +86,21 @@ quarterRouter.get("/actualizar-trimestre", async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
+    res.status(200).json({
+      message: "No se ha actualizado el trimestre",
+    });
   }
 });
 
 quarterRouter.delete("/eliminar-trimestre", async (req, res) => {
   const { id } = req.query;
   try {
+    const consulta = await quarter.findOne({ id });
+    if (consulta.subjects3 || consulta.subjects6) {
+      res.status(400).json({
+        message: "Este trimestre ya no se puede eliminar",
+      });
+    }
     await quarter.findOneAndDelete({ id });
     res.status(200).json({
       message: "Se ha eliminado el trimestre con éxito",
