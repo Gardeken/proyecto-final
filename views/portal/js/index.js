@@ -724,29 +724,44 @@ async function cargarTrimestres() {
       minDate: "today",
       dateFormat: "d-m-Y",
     });
-    flatpickr("#inscDate", {
+    flatpickr("#startinscDate", {
       minDate: "today",
       dateFormat: "d-m-Y",
     });
-    flatpickr("#createDate", {
+    flatpickr("#endinscDate", {
+      minDate: "today",
+      dateFormat: "d-m-Y",
+    });
+    flatpickr("#startcreateDate", {
+      minDate: "today",
+      dateFormat: "d-m-Y",
+    });
+    flatpickr("#endcreateDate", {
       minDate: "today",
       dateFormat: "d-m-Y",
     });
     modal.classList.remove("hidden");
-    const closebtn = document.querySelector("#closeModal");
-    closebtn.addEventListener("click", () => {
-      modal.classList.add("hidden");
-    });
+    closeModalBtn();
     const aceptarBtn = document.querySelector("#aceptar");
     aceptarBtn.addEventListener("click", async () => {
       const startDate = document.querySelector("#startDate").value;
       const endDate = document.querySelector("#endDate").value;
       const trim = document.querySelector("#selectQuarter").value;
-      const inscDate = document.querySelector("#inscDate").value;
-      const createDate = document.querySelector("#createDate").value;
+      const inscDate = document.querySelector("#startinscDate").value;
+      const endinscDate = document.querySelector("#endinscDate").value;
+      const createDate = document.querySelector("#startcreateDate").value;
+      const endcreateDate = document.querySelector("#endcreateDate").value;
       const fechaIni = startDate.split("-");
       const fechaFin = endDate.split("-");
-      if (!startDate || !endDate || !trim || !inscDate || !createDate) {
+      if (
+        !startDate ||
+        !endDate ||
+        !trim ||
+        !inscDate ||
+        !createDate ||
+        !endinscDate ||
+        !endcreateDate
+      ) {
         return crearMsg("No puede dejar campos vacíos");
       }
       if (startDate === endDate) {
@@ -765,7 +780,9 @@ async function cargarTrimestres() {
           endDate,
           trim,
           inscDate,
-          createDate
+          createDate,
+          endinscDate,
+          endcreateDate
         );
         crearMsg(post.data.message);
         modal.classList.add("hidden");

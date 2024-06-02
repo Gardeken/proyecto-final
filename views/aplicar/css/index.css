@@ -133,8 +133,15 @@ body {
 
 .container-main-1 div {
   display: grid;
+  grid-template-columns: 1fr 1fr 0.5fr;
   margin: 1rem 0;
-  grid-template-columns: repeat(3, 1fr);
+}
+
+.requerido {
+  font-size: 1.5rem;
+  color: var(--rojo-principal);
+  place-self: center start;
+  margin-left: 0.5rem !important;
 }
 
 .container-radio {
@@ -157,7 +164,11 @@ select {
 
 label {
   text-align: start;
-  place-self: start;
+  place-self: center start;
+}
+
+.labelRadio {
+  place-self: start !important;
 }
 
 input[type="text"],
@@ -260,10 +271,10 @@ input[type="submit"] {
   margin-top: 3rem;
 }
 
-.requerido {
-  margin: 0;
-  place-self: center;
-  color: var(--rojo-principal);
+.container-submit {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
 }
 
 .form-final {

@@ -2,15 +2,25 @@ const quarterRouter = require("express").Router();
 const quarter = require("../model/quarter");
 
 quarterRouter.post("/guardar-trimestre", async (req, res) => {
-  const { startDate, endDate, IDquarter, inscDate, createDate } = req.body;
+  const {
+    startDate,
+    endDate,
+    IDquarter,
+    inscDate,
+    createDate,
+    endinscDate,
+    endcreateDate,
+  } = req.body;
   try {
     let newQuarter = new quarter();
     newQuarter.quarter = IDquarter;
     newQuarter.startDate = startDate;
     newQuarter.endDate = endDate;
     newQuarter.id = Date.now();
-    newQuarter.insDate = inscDate;
-    newQuarter.createDate = createDate;
+    newQuarter.startinscDate = inscDate;
+    newQuarter.endinscDate = endinscDate;
+    newQuarter.startcreateDate = createDate;
+    newQuarter.endcreateDate = endcreateDate;
     const savedQuarter = await newQuarter.save();
     res.status(200).json({
       message: "El trimestre se ha creado con éxito",
@@ -19,6 +29,15 @@ quarterRouter.post("/guardar-trimestre", async (req, res) => {
     res.status(400).json({
       message: "Hubo un error al crear el trimestre",
     });
+  }
+});
+
+quarterRouter.get("/listado-modulos-aplicar", async (req, res) => {
+  try {
+    const listadoModulos = await quarter.find({ status: 2 });
+    res.status(200).json(listadoModulos);
+  } catch (error) {
+    console.log(error);
   }
 });
 

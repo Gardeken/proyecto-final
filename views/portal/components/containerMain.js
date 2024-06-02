@@ -178,17 +178,31 @@ const imprimirCrearTrim = () => {
           </div>
           <div class="input-dates">
             <div class="input-quarter"> 
-            <label for="inscDate">Fecha de inscripciones</label>
-            <input id="inscDate" class="inputQuarter" type="text" />
+            <label for="startinscDate">Inicio de inscripciones</label>
+            <input id="startinscDate" class="inputQuarter" type="text" />
             </div>
-            <span>Esta es la fecha en la que empezaran las incripciones para las materias de este trimestre</span>
+            <span>Esta es la fecha en la que empezarán las incripciones para las materias de este trimestre</span>
             </div>
+            <div class="input-dates">
+            <div class="input-quarter">
+            <label for="endinscDate">Fin inscripciones</label>
+            <input id="endinscDate" class="inputQuarter" type="text" />
+            </div>
+            <span>Esta es la fecha en la que acabarán las inscripciones</span>
+          </div>
           <div class="input-dates">
             <div class="input-quarter">
-            <label for="createDate">Fecha de creación</label>
-            <input id="createDate" class="inputQuarter" type="text" />
+            <label for="startcreateDate">Inicio de creación de materias</label>
+            <input id="startcreateDate" class="inputQuarter" type="text" />
             </div>
             <span>Esta es la fecha en la que los profesores crearan sus materias para este trimestre</span>
+          </div>
+          <div class="input-dates">
+            <div class="input-quarter">
+            <label for="endcreateDate">Fin de creación de materias</label>
+            <input id="endcreateDate" class="inputQuarter" type="text" />
+            </div>
+            <span>Esta es la fecha en la que terminará el proceso de creación de materias</span>
           </div>
           <div class="input-quarter">
             <label for="selectQuarter">Seleccione trimestre</label>

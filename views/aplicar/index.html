@@ -12,6 +12,11 @@
       href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
       rel="stylesheet"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   </head>
   <body id="inicio">
@@ -130,100 +135,163 @@
             <label for="cedula">Número de cédula</label>
             <input
               required
+              class="inputRequerido"
               placeholder="ejem 27432912"
               type="text"
               id="cedula"
+              name="cedula"
             />
-            <p class="requerido">* Requerido</p>
+            <p class="requerido">*</p>
           </div>
           <div>
             <label for="nombre">Nombre</label>
-            <input required placeholder="Pedro" type="text" id="nombre" />
-            <p class="requerido">* Requerido</p>
+            <input
+              class="inputRequerido"
+              required
+              placeholder="Pedro"
+              type="text"
+              id="nombre"
+            />
+            <p class="requerido">*</p>
           </div>
           <div>
             <label for="segnombre">Segundo nombre</label>
-            <input placeholder="Ignacio" type="text" id="segnombre" />
-            <p class="requerido">* Requerido</p>
+            <input
+              class="inputRequerido"
+              required
+              placeholder="Ignacio"
+              type="text"
+              id="segnombre"
+            />
+            <p class="requerido">*</p>
           </div>
           <div>
             <label for="apellidos">Apellidos</label>
             <input
               required
+              class="inputRequerido"
               placeholder="Centeno Cabrera"
               type="text"
               id="apellidos"
             />
-            <p class="requerido">* Requerido</p>
+            <p class="requerido">*</p>
           </div>
           <div>
             <label for="email">Email</label>
             <input
               required
+              class="inputRequerido"
               placeholder="ejemplo@gmail.com"
               type="email"
               id="email"
+              name="email"
             />
-            <p class="requerido">* Requerido</p>
+            <p class="requerido">*</p>
           </div>
           <div>
             <label for="telefono">Teléfono</label>
             <input
               required
+              class="inputRequerido"
               placeholder="04124325567"
               type="text"
               id="telefono"
+              name="telefono"
             />
-            <p class="requerido">* Requerido</p>
+            <p class="requerido">*</p>
           </div>
           <div>
             <label for="telefonoCasa">Teléfono de casa</label>
             <input
               required
+              class="inputRequerido"
               placeholder="04124325567"
               type="text"
               id="telefonoCasa"
+              name="telfCasa"
             />
-            <p class="requerido">* Requerido</p>
+            <p class="requerido">*</p>
           </div>
           <div>
             <label for="calle">Calle</label>
-            <input required placeholder="" type="text" id="calle" />
-            <p class="requerido">* Requerido</p>
+            <input
+              required
+              class="inputRequerido"
+              placeholder=""
+              type="text"
+              id="calle"
+              name="calle"
+            />
+            <p class="requerido">*</p>
           </div>
           <div>
             <label for="ciudad">Ciudad</label>
-            <input required placeholder="" type="text" id="ciudad" />
-            <p class="requerido">* Requerido</p>
+            <input
+              required
+              class="inputRequerido"
+              placeholder=""
+              type="text"
+              id="ciudad"
+              name="ciudad"
+            />
+            <p class="requerido">*</p>
           </div>
           <div>
             <label for="estado">Estado / Provincia</label>
-            <input required placeholder="" type="text" id="estado" />
-            <p class="requerido">* Requerido</p>
+            <input
+              required
+              class="inputRequerido"
+              placeholder=""
+              type="text"
+              id="estado"
+              name="estado"
+            />
+            <p class="requerido">*</p>
           </div>
           <div>
             <label for="postal">ZIP / Código postal</label>
-            <input required placeholder="" type="text" id="postal" />
-            <p class="requerido">* Requerido</p>
+            <input
+              required
+              class="inputRequerido"
+              placeholder=""
+              type="text"
+              id="postal"
+              name="codigopost"
+            />
+            <p class="requerido">*</p>
           </div>
           <div>
             <label for="pais">País</label>
-            <input required placeholder="" type="text" id="pais" />
-            <p class="requerido">* Requerido</p>
+            <input
+              required
+              class="inputRequerido"
+              placeholder=""
+              type="text"
+              id="pais"
+              name="pais"
+            />
+            <p class="requerido">*</p>
           </div>
           <div>
             <label for="fechaNam">Fecha de nacimiento</label>
-            <input required placeholder="" type="text" id="fechaNam" />
-            <p class="requerido">* Requerido</p>
+            <input
+              required
+              class="inputRequerido"
+              placeholder=""
+              type="text"
+              id="fechaNam"
+              name="fechaNac"
+            />
+            <p class="requerido">*</p>
           </div>
           <div>
             <label for="sexo">Sexo</label>
-            <select name="" id="sexo">
+            <select class="inputRequerido" name="Sexo" id="sexo">
               <option value="">...</option>
-              <option value="">Masculino</option>
-              <option value="">Femenino</option>
+              <option value="M">Masculino</option>
+              <option value="F">Femenino</option>
             </select>
-            <p class="requerido">* Requerido</p>
+            <p class="requerido">*</p>
           </div>
           <div class="container-input-file">
             <label for="cedulaImg">Imagen de la cédula</label>
@@ -262,7 +330,12 @@
                   />
                 </svg>
               </div>
-              <input type="file" id="cedulaImg" />
+              <input
+                class="inputRequerido"
+                type="file"
+                name="cedulaImg"
+                id="cedulaImg"
+              />
             </div>
           </div>
           <div class="container-input-file">
@@ -305,7 +378,12 @@
                   />
                 </svg>
               </div>
-              <input type="file" name="titulo" id="tituloImg" />
+              <input
+                class="inputRequerido"
+                type="file"
+                name="tituloImg"
+                id="tituloImg"
+              />
             </div>
           </div>
           <div class="container-input-file">
@@ -348,7 +426,12 @@
                   />
                 </svg>
               </div>
-              <input type="file" id="notasImg" />
+              <input
+                class="inputRequerido"
+                type="file"
+                name="notasImg"
+                id="notasImg"
+              />
             </div>
           </div>
           <div class="container-input-file">
@@ -392,7 +475,12 @@
                   />
                 </svg>
               </div>
-              <input type="file" id="opsuImg" />
+              <input
+                class="inputRequerido"
+                type="file"
+                name="opsuImg"
+                id="opsuImg"
+              />
             </div>
           </div>
           <div class="container-input-file">
@@ -432,7 +520,12 @@
                   />
                 </svg>
               </div>
-              <input type="file" id="partidaNacImg" />
+              <input
+                class="inputRequerido"
+                type="file"
+                name="partidaNacImg"
+                id="partidaNacImg"
+              />
             </div>
           </div>
 
@@ -476,7 +569,12 @@
                   />
                 </svg>
               </div>
-              <input type="file" id="conductaImg" />
+              <input
+                class="inputRequerido"
+                type="file"
+                name="conductaImg"
+                id="conductaImg"
+              />
             </div>
           </div>
           <div class="container-input-file">
@@ -520,49 +618,84 @@
                 </svg>
               </div>
 
-              <input type="file" id="servicioImg" />
+              <input
+                class="inputRequerido"
+                type="file"
+                name="servicioImg"
+                id="servicioImg"
+              />
             </div>
           </div>
           <div class="container-input-file">
             <label for="lugarNam">Lugar de nacimiento</label>
-            <input type="text" id="lugarNam" />
+            <input type="text" name="lugarNam" id="lugarNam" />
           </div>
           <div>
             <label for="nacionalidad">Nacionalidad</label>
-            <input placeholder="" type="text" id="nacionalidad" />
-            <p class="requerido">* Requerido</p>
+            <input
+              class="inputRequerido"
+              required
+              placeholder=""
+              type="text"
+              name="nacionalidad"
+              id="nacionalidad"
+            />
+            <p class="requerido">*</p>
           </div>
           <div>
             <label for="estadoCivil">Estado Civil</label>
-            <select name="" id="estadoCivil">
+            <select class="inputRequerido" name="estCivil" id="estadoCivil">
               <option value="">...</option>
-              <option value="">Soltero/a</option>
-              <option value="">Casado/a</option>
-              <option value="">Viudo/a</option>
-              <option value="">Otro</option>
+              <option value="Soltero/a">Soltero/a</option>
+              <option value="Casado/a">Casado/a</option>
+              <option value="Viudo/a">Viudo/a</option>
+              <option value="Otro">Otro</option>
             </select>
-            <p class="requerido">* Requerido</p>
+            <p class="requerido">*</p>
           </div>
           <div>
             <label for="inscrito">Inscrito en: </label>
-            <select name="" id="inscrito">
-              <option value="">...</option>
+            <select name="inscrito" id="inscrito">
+              <option selected disabled value="">...</option>
             </select>
-            <p class="requerido">* Requerido</p>
+            <p class="requerido">*</p>
           </div>
           <div>
             <label for="programa">Programa</label>
-            <select name="" id="programa">
-              <option value="">...</option>
+            <select class="inputRequerido" name="programa" id="programa">
+              <option selected disabled value="">...</option>
+              <option value="2000">Diseño gráfico</option>
+              <option value="2001">Arquitectura</option>
+              <option value="2002">Diseño industrial</option>
+              <option value="2003">
+                Administración mención ciencias administrativas
+              </option>
+              <option value="2004">Contaduría pública</option>
+              <option value="2005">Administración Pública</option>
+              <option value="2006">Derecho</option>
+              <option value="2007">Educación Preescolar</option>
+              <option value="2008">Educación integral</option>
             </select>
-            <p class="requerido">* Requerido</p>
+            <p class="requerido">*</p>
           </div>
+          <input
+            id="facultad"
+            name="facultad"
+            class="inputRequerido"
+            style="display: none"
+            type="text"
+          />
           <div>
-            <label for="">Estudiante presento la prueba del CNU</label>
+            <label class="labelRadio" for=""
+              >Estudiante presento la prueba del CNU</label
+            >
             <div class="container-radio">
-              <div><input type="radio" name="" id="" /> Sí</div>
-              <div><input type="radio" name="" id="" /> No</div>
-              <div><input type="radio" name="" id="" /> No aplica</div>
+              <div><input type="radio" name="cnu" value="Si" id="" /> Sí</div>
+              <div><input type="radio" name="cnu" value="No" id="" /> No</div>
+              <div>
+                <input checked type="radio" name="cnu" value="No aplica" />
+                No aplica
+              </div>
             </div>
           </div>
           <section>
@@ -570,26 +703,57 @@
           </section>
           <div>
             <label for="nombreEmer">Nombre del contacto de emergencia</label>
-            <input placeholder="" type="text" id="nombreEmer" />
-            <p class="requerido">* Requerido</p>
+            <input
+              class="inputRequerido"
+              required
+              placeholder=""
+              type="text"
+              id="nombreEmer"
+              name="nomEmer"
+            />
+            <p class="requerido">*</p>
           </div>
           <div>
             <label for="relacion">Relación</label>
-            <input placeholder="" type="text" id="relacion" />
-            <p class="requerido">* Requerido</p>
+            <input
+              class="inputRequerido"
+              required
+              placeholder=""
+              type="text"
+              name="relacion"
+              id="relacion"
+            />
+            <p class="requerido">*</p>
           </div>
           <div>
             <label for="telefonoEmer">Teléfono de emergencia</label>
-            <input placeholder="" type="text" id="telefonoEmer" />
-            <p class="requerido">* Requerido</p>
+            <input
+              class="inputRequerido"
+              required
+              placeholder=""
+              type="text"
+              name="telfEmer"
+              id="telefonoEmer"
+            />
+            <p class="requerido">*</p>
           </div>
           <div>
             <label for="telefonoCasaEmer">Teléfono de casa</label>
-            <input placeholder="" type="text" id="telefonoCasaEmer" />
+            <input
+              placeholder=""
+              name="telfEmerCasa"
+              type="text"
+              id="telefonoCasaEmer"
+            />
           </div>
           <div>
             <label for="telefonoTrabajo">Teléfono de trabajo</label>
-            <input placeholder="" type="text" id="telefonoTrabajo" />
+            <input
+              placeholder=""
+              name="telfEmerTr"
+              type="text"
+              id="telefonoTrabajo"
+            />
           </div>
           <section>
             <h2>
@@ -599,181 +763,295 @@
           </section>
           <div>
             <label for="nombreRep">Nombre del guardián o representante</label>
-            <input placeholder="" type="text" id="nombreRep" />
+            <input name="nomRep" placeholder="" type="text" id="nombreRep" />
           </div>
           <div>
             <label for="relacionRep">Relación</label>
-            <input placeholder="" type="text" id="relacionRep" />
+            <input
+              placeholder=""
+              name="relacionRep"
+              type="text"
+              id="relacionRep"
+            />
           </div>
           <div>
             <label for="telefonoRep">Teléfono</label>
-            <input placeholder="" type="text" id="telefonoRep" />
+            <input placeholder="" name="telfRep" type="text" id="telefonoRep" />
           </div>
           <div>
             <label for="emailRep">Correo electrónico</label>
-            <input placeholder="" type="text" id="emailRep" />
+            <input placeholder="" name="emailRep" type="text" id="emailRep" />
           </div>
           <div>
             <label for="calleRep">Calle</label>
-            <input placeholder="" type="text" id="calleRep" />
+            <input placeholder="" name="calleRep" type="text" id="calleRep" />
           </div>
           <div>
             <label for="ciudadRep">Ciudad</label>
-            <input placeholder="" type="text" id="ciudadRep" />
+            <input placeholder="" name="ciudadRep" type="text" id="ciudadRep" />
           </div>
           <div>
             <label for="estadoRep">Estado / Provincia</label>
-            <input placeholder="" type="text" id="estadoRep" />
+            <input placeholder="" name="estadoRep" type="text" id="estadoRep" />
           </div>
           <div>
             <label for="paisRep">País</label>
-            <input placeholder="" type="text" id="paisRep" />
+            <input placeholder="" name="paisRep" type="text" id="paisRep" />
           </div>
           <div>
             <label for="postalRep">Código Postal</label>
-            <input placeholder="" type="text" id="postalRep" />
+            <input
+              placeholder=""
+              name="codigopostRep"
+              type="text"
+              id="postalRep"
+            />
           </div>
           <section>
             <h2>Información de Educación Previa</h2>
           </section>
           <div>
             <label for="plantel">Nombre del Plantel</label>
-            <input placeholder="" type="text" id="plantel" />
+            <input placeholder="" name="plantel" type="text" id="plantel" />
           </div>
           <div>
             <label for="tipoPlantel">Tipo de plantel</label>
-            <input placeholder="" type="text" id="tipoPlantel" />
+            <input
+              placeholder=""
+              name="tipoPlantel"
+              type="text"
+              id="tipoPlantel"
+            />
           </div>
           <div>
             <label for="especialidadPlantel">Especialidad</label>
-            <input placeholder="" type="text" id="especialidadPlantel" />
+            <input
+              placeholder=""
+              name="especialidad"
+              type="text"
+              id="especialidadPlantel"
+            />
           </div>
           <div>
             <label for="ira">Índice de Rendimiento Académico (IRA)</label>
-            <input placeholder="" type="text" id="ira" />
+            <input placeholder="" name="rendimiento" type="text" id="ira" />
           </div>
           <div>
             <label for="ciudadPlantel">Ciudad</label>
-            <input placeholder="" type="text" id="ciudadPlantel" />
+            <input
+              placeholder=""
+              name="ciudadPlantel"
+              type="text"
+              id="ciudadPlantel"
+            />
           </div>
           <div>
             <label for="estadoPlante">Estado</label>
-            <input placeholder="" type="text" id="estadoPlante" />
+            <input
+              placeholder=""
+              name="estadoPlantel"
+              type="text"
+              id="estadoPlante"
+            />
           </div>
           <div>
             <label for="paisPlantel">País</label>
-            <input placeholder="" type="text" id="paisPlantel" />
+            <input
+              placeholder=""
+              name="paisPlantel"
+              type="text"
+              id="paisPlantel"
+            />
           </div>
           <section>
             <h2>Información de Empleo</h2>
           </section>
           <div>
-            <label for="">El estudiante trabaja?</label>
+            <label class="labelRadio" for="">El estudiante trabaja?</label>
             <div class="container-radio">
-              <div><input type="radio" name="" id="" /> Sí</div>
-              <div><input type="radio" name="" id="" /> No</div>
-              <div><input type="radio" name="" id="" /> No aplica</div>
+              <div>
+                <input type="radio" name="trabaja" value="Si" id="" /> Sí
+              </div>
+              <div>
+                <input type="radio" name="trabaja" value="No" id="" /> No
+              </div>
+              <div>
+                <input
+                  checked
+                  type="radio"
+                  name="trabaja"
+                  value="No aplica"
+                  id=""
+                />
+                No aplica
+              </div>
             </div>
           </div>
           <div>
             <label for="sector">Sector laboral</label>
-            <input placeholder="" type="text" id="sector" />
+            <input placeholder="" name="sector" type="text" id="sector" />
           </div>
           <div>
             <label for="nombreEmpresa">Nombre de la Empresa</label>
-            <input placeholder="" type="text" id="nombreEmpresa" />
+            <input placeholder="" name="nomEm" type="text" id="nombreEmpresa" />
           </div>
           <div>
             <label for="direcEm">Dirección de la Empresa</label>
-            <input placeholder="" type="text" id="direcEm" />
+            <input placeholder="" name="direcEm" type="text" id="direcEm" />
           </div>
           <div>
             <label for="ciudadEmpresa">Ciudad</label>
-            <input placeholder="" type="text" id="ciudadEmpresa" />
+            <input
+              placeholder=""
+              name="ciudadEm"
+              type="text"
+              id="ciudadEmpresa"
+            />
           </div>
           <div>
             <label for="estadoEmpresa">Estado / Provincia</label>
-            <input placeholder="" type="text" id="estadoEmpresa" />
+            <input
+              placeholder=""
+              name="estadoEm"
+              type="text"
+              id="estadoEmpresa"
+            />
           </div>
           <div>
             <label for="paisEmpresa">País</label>
-            <input placeholder="" type="text" id="paisEmpresa" />
+            <input placeholder="" name="paisEm" type="text" id="paisEmpresa" />
           </div>
           <div>
             <label for="nombreSup">Nombre del supervisor</label>
-            <input placeholder="" type="text" id="nombreSup" />
+            <input placeholder="" name="nomSup" type="text" id="nombreSup" />
           </div>
           <div>
             <label for="telefonoEmpresa">Teléfono de la empresa</label>
-            <input placeholder="" type="text" id="telefonoEmpresa" />
+            <input
+              placeholder=""
+              name="telfEm"
+              type="text"
+              id="telefonoEmpresa"
+            />
           </div>
           <section>
             <h2>Información de estudiantes del area de postgrado</h2>
           </section>
           <div>
             <label for="institucion">Institución Universitaria</label>
-            <input placeholder="" type="text" id="institucion" />
+            <input placeholder="" name="instU" type="text" id="institucion" />
           </div>
           <div>
             <label for="tituloIns">Título Obtenido</label>
-            <input placeholder="" type="text" id="tituloIns" />
+            <input placeholder="" name="tituloObt" type="text" id="tituloIns" />
           </div>
           <div>
             <label for="fechaGrad">Fecha de graduación</label>
-            <input placeholder="" type="text" id="fechaGrad" />
+            <input placeholder="" name="fechaGrad" type="text" id="fechaGrad" />
           </div>
           <section>
             <h2>Información sobre discapacidad</h2>
           </section>
           <div>
-            <label for="">¿El estudiante tiene alguna discapacidad?</label>
+            <label class="labelRadio" for=""
+              >¿El estudiante tiene alguna discapacidad?</label
+            >
             <div class="container-radio">
-              <div><input type="radio" name="" id="" /> Sí</div>
-              <div><input type="radio" name="" id="" /> No</div>
-              <div><input type="radio" name="" id="" /> No aplica</div>
+              <div>
+                <input type="radio" name="discapacidad" value="Si" id="" /> Sí
+              </div>
+              <div>
+                <input type="radio" name="discapacidad" value="No" id="" /> No
+              </div>
+              <div>
+                <input
+                  checked
+                  type="radio"
+                  name="discapacidad"
+                  value="No aplica"
+                  id=""
+                />
+                No aplica
+              </div>
             </div>
           </div>
           <div>
-            <label for="">Descripción de la discapacidad</label>
-            <textarea name="" id=""></textarea>
+            <label class="labelRadio" for=""
+              >Descripción de la discapacidad</label
+            >
+            <textarea name="descDisc" id=""></textarea>
           </div>
           <div>
-            <label for=""
+            <label class="labelRadio" for=""
               >¿El estudiante tiene dificultades del aprendizaje?</label
             >
             <div class="container-radio">
-              <div><input type="radio" name="" id="" /> Sí</div>
-              <div><input type="radio" name="" id="" /> No</div>
-              <div><input type="radio" name="" id="" /> No aplica</div>
+              <div>
+                <input type="radio" name="difAp" value="Si" id="" />
+                Sí
+              </div>
+              <div>
+                <input type="radio" name="difAp" value="No" id="" />
+                No
+              </div>
+              <div>
+                <input
+                  type="radio"
+                  name="difAp"
+                  value="No aplica"
+                  checked
+                  id=""
+                />
+                No aplica
+              </div>
             </div>
           </div>
           <div>
-            <label for=""
+            <label class="labelRadio" for=""
               >Descripción de las dificultades del aprendizaje</label
             >
-            <textarea name="" id=""></textarea>
+            <textarea name="descDif" id=""></textarea>
           </div>
           <section>
             <h2>Confirmación del estudiante</h2>
           </section>
           <div>
             <label for="fechaSol">Fecha de Solicitud</label>
-            <input placeholder="" type="text" id="fechaSol" />
-            <p class="requerido">* Requerido</p>
+            <input
+              class="inputRequerido"
+              required
+              placeholder=""
+              type="text"
+              id="fechaSol"
+              name="fechaSol"
+            />
+            <p class="requerido">*</p>
           </div>
           <div>
             <label for="nombreEst">Nombre completo de estudiante</label>
-            <input placeholder="" type="text" id="nombreEst" />
-            <p class="requerido">* Requerido</p>
+            <input
+              class="inputRequerido"
+              required
+              placeholder=""
+              type="text"
+              id="nombreEst"
+              name="fullName"
+            />
+            <p class="requerido">*</p>
           </div>
           <div>
             <label for="nombreRepCom"
               >Nombre completo de representante legal</label
             >
-            <input placeholder="" type="text" id="nombreRepCom" />
+            <input
+              placeholder=""
+              name="fullNameRep"
+              type="text"
+              id="nombreRepCom"
+            />
           </div>
           <div class="form-final">
-            <input type="checkbox" name="" id="" />
+            <input type="checkbox" required name="" id="inputCheck" />
             <p>
               Entiendo que esta solicitud es para ingresar a la Universidad José
               María Vargas. También entiendo y acepto que cumpliré las
@@ -787,7 +1065,7 @@
               inmediatamente a la Oficina de Admisiones.
             </p>
           </div>
-          <div>
+          <div class="container-submit">
             <input type="submit" value="Enviar formulario" />
           </div>
         </form>
