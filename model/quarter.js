@@ -7,6 +7,8 @@ const quarterSchema = new mongoose.Schema({
   quarter: String,
   id: String,
   COD: String,
+  insDate: String,
+  createDate: String,
   status: {
     type: Number,
     default: 2,

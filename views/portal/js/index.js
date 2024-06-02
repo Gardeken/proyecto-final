@@ -3,9 +3,18 @@ import { buscarProfesor } from "./apis/APIteachers.js";
 import { buscarMateria, guardarAsignacionMat } from "./apis/APIsubject.js";
 import { buscarUsuario, buscarRol } from "./apis/APIuser.js";
 import {
+  cambioDatos,
+  listadoRequestStaff,
+  listadoRequestFilt,
+  aceptarReq,
+  rechazarReq,
+  eliminarReq,
+} from "./apis/APIrequest.js";
+import {
   guardarTrimestre,
   listadoTrimestres,
   actualizarTrimestres,
+  eliminarTrimestres,
 } from "./apis/APIquarter.js";
 import {
   buscarAsignacion,
@@ -23,6 +32,29 @@ import {
   listadoAsigEst,
 } from "./apis/APIassigmentE.js";
 
+const objStatus = {
+  0: "Inactivo",
+  1: "Activo",
+  2: "Pendiente",
+};
+const objStatusPet = {
+  0: "Aceptada",
+  1: "Pendiente",
+  2: "Rechazada",
+};
+const objPeticion = {
+  4001: "Cambio de datos",
+  4002: "Aplicación",
+  4003: "Crear Materia",
+  4004: "Procesar Pago",
+  4005: "Contactar",
+};
+const objModulo = {
+  101: "Módulo A",
+  102: "Módulo B",
+  103: "Módulo C",
+  104: "Módulo de Verano",
+};
 const listadoEst = [];
 const listadoUser = [];
 const containerMaterias = document.querySelector("#materias");
@@ -217,7 +249,7 @@ async function eventosAdmin() {
         divDes.classList.add("container-inputEst");
         divDes.innerHTML = `
         <label for="inputDesc">Descripción:</label>
-        <textarea id="inputDesc" class="inputEst areaEst"></textarea>
+        <textarea placeholder="Sea específico explicando los cambios que realizó para que su petición sea aceptada" id="inputDesc" class="inputEst areaEst"></textarea>
         `;
         const btnEditar = document.querySelector("#editar");
         const aceptar = document.createElement("button");
@@ -473,9 +505,186 @@ function eventosProf(id) {
 
 async function eventosStaff() {
   const quarters = document.querySelector("#quarters");
-  const requests = document.querySelector("#request");
+  const requests = document.querySelector("#requests");
   quarters.addEventListener("click", cargarTrimestres);
+  requests.addEventListener("click", cargarPeticiones);
 }
+
+function closeModalBtn() {
+  const closeModal = document.querySelector("#closeModal");
+  closeModal.addEventListener("click", () => {
+    modal.classList.add("hidden");
+  });
+}
+
+// peticiones
+
+async function cargarPeticiones() {
+  imprimirPeticiones();
+  filtrarReq();
+  imprimirRequest();
+}
+
+async function filtrarReq() {
+  const typeRequest = document.querySelector("#typeRequest");
+  typeRequest.addEventListener("change", () => {
+    const filtro = typeRequest.value;
+    imprimirRequestFilt(filtro);
+  });
+}
+
+async function imprimirRequestFilt(filter) {
+  const containerReq = document.querySelector(".container-request");
+  containerReq.innerHTML = "";
+  try {
+    const listado = await listadoRequestFilt(filter);
+    const { data } = listado;
+    data.forEach(async (i) => {
+      const div = document.createElement("div");
+      div.classList.add("request");
+      div.setAttribute("data-request", i.type);
+      const codigo = Number(i.type);
+      if (i.type === "4005") {
+        const datos = JSON.parse(i.data);
+        div.innerHTML = `
+        <span>${datos.nombre}</span>
+                <span>${objPeticion[codigo]}</span>
+                <span>${objStatusPet[i.status]}</span>
+        <button id="${i.id}" class="delete-request">Eliminar</button>
+        `;
+        div.addEventListener("click", (e) => {
+          modalPeticiones(e, i.data, i.id, i.idUser);
+        });
+        return containerReq.appendChild(div);
+      }
+      const usuario = await buscarUsuario(i.idUser);
+      if (i.status === 0) {
+        div.innerHTML = `
+      <span>${usuario.data.name}</span>
+              <span>${objPeticion[codigo]}</span>
+              <span>${objStatusPet[i.status]}</span>
+      `;
+      } else {
+        div.innerHTML = `
+        <span>${usuario.data.name}</span>
+                <span>${objPeticion[codigo]}</span>
+                <span>${objStatusPet[i.status]}</span>
+        <button id="${i.id}" class="delete-request">Eliminar</button>
+        `;
+      }
+
+      div.addEventListener("click", (e) => {
+        modalPeticiones(e, i.data, i.id, i.idUser);
+      });
+      containerReq.appendChild(div);
+    });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function imprimirRequest() {
+  const containerReq = document.querySelector(".container-request");
+  containerReq.innerHTML = "";
+  try {
+    const listado = await listadoRequestStaff();
+    const { data } = listado;
+    data.forEach(async (i) => {
+      const div = document.createElement("div");
+      div.classList.add("request");
+      div.setAttribute("data-request", i.type);
+      const codigo = Number(i.type);
+      if (i.type === "4005") {
+        const datos = JSON.parse(i.data);
+        div.innerHTML = `
+        <span>${datos.nombre}</span>
+                <span>${objPeticion[codigo]}</span>
+                <span>${objStatusPet[i.status]}</span>
+        <button id="${i.id}" class="delete-request">Eliminar</button>
+        `;
+        div.addEventListener("click", (e) => {
+          modalPeticiones(e, i.data, i.id, i.idUser);
+        });
+        return containerReq.appendChild(div);
+      }
+      const usuario = await buscarUsuario(i.idUser);
+      if (i.status === 0) {
+        div.innerHTML = `
+      <span>${usuario.data.name}</span>
+              <span>${objPeticion[codigo]}</span>
+              <span>${objStatusPet[i.status]}</span>
+      `;
+      } else {
+        div.innerHTML = `
+        <span>${usuario.data.name}</span>
+                <span>${objPeticion[codigo]}</span>
+                <span>${objStatusPet[i.status]}</span>
+        <button id="${i.id}" class="delete-request">Eliminar</button>
+        `;
+      }
+
+      div.addEventListener("click", (e) => {
+        modalPeticiones(e, i.data, i.id, i.idUser);
+      });
+      containerReq.appendChild(div);
+    });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function modalPeticiones(e, data, idReq, idUser) {
+  if (e.target.classList.contains("delete-request")) {
+    const id = e.target.id;
+    try {
+      const eliminar = await eliminarReq(id);
+      crearMsg(eliminar.data.message);
+      return imprimirRequest();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  const tipo = e.target.closest("div").dataset.request;
+  if (tipo === "4001") {
+    const info = JSON.parse(data);
+    modal.classList.remove("hidden");
+    imprimirCambioDatos(info.description);
+    closeModalBtn();
+    const aceptar = document.querySelector("#aceptar");
+    const rechazar = document.querySelector("#rechazar");
+    aceptar.addEventListener("click", () => {
+      aceptarPeticion(idReq, info, idUser);
+    });
+    rechazar.addEventListener("click", () => {
+      rechazarPeticion(idReq);
+    });
+  }
+}
+
+async function aceptarPeticion(idReq, info, idUser) {
+  try {
+    const act = await actAlumno(idUser, info.dataStudent, info.dataUser);
+    const actReq = await aceptarReq(idReq);
+    crearMsg(actReq.data.message);
+    modal.classList.add("hidden");
+    imprimirRequest();
+  } catch (error) {
+    crearMsg(error);
+  }
+}
+
+async function rechazarPeticion(idReq) {
+  try {
+    const act = await rechazarReq(idReq);
+    crearMsg(act.data.message);
+    modal.classList.add("hidden");
+    imprimirRequest();
+  } catch (error) {
+    crearMsg(error.response.data.message);
+  }
+}
+
+// trimestres
 
 async function cargarTrimestres() {
   imprimirContainerStaff();
@@ -488,6 +697,14 @@ async function cargarTrimestres() {
       dateFormat: "d-m-Y",
     });
     flatpickr("#endDate", {
+      minDate: "today",
+      dateFormat: "d-m-Y",
+    });
+    flatpickr("#inscDate", {
+      minDate: "today",
+      dateFormat: "d-m-Y",
+    });
+    flatpickr("#createDate", {
       minDate: "today",
       dateFormat: "d-m-Y",
     });
@@ -521,6 +738,34 @@ async function cargarTrimestres() {
         const post = await guardarTrimestre(startDate, endDate, trim);
         crearMsg(post.data.message);
         modal.classList.add("hidden");
+        const containerModulos = document.querySelector(".container-modulos");
+        containerModulos.innerHTML = "";
+        const listado = await listadoTrimestres();
+        const { data } = listado;
+        data.forEach((i) => {
+          const div = document.createElement("div");
+          div.classList.add("modulos", "pointer");
+          const codigo = Number(i.quarter);
+          if (i.status === 2) {
+            div.innerHTML = `
+        <span>${objModulo[codigo]}</span>
+              <span>Inicio: ${i.startDate}</span>
+              <span>Fin: ${i.endDate}</span>
+              <span>${objStatus[i.status]}</span>
+              <button class="delete-quarter" id="${i.id}">Eliminar</button>
+        `;
+            containerModulos.appendChild(div);
+          } else {
+            div.innerHTML = `
+        <span>${objModulo[codigo]}</span>
+              <span>Inicio: ${i.startDate}</span>
+              <span>Fin: ${i.endDate}</span>
+              <span>${objStatus[i.status]}</span>
+        `;
+            containerModulos.appendChild(div);
+          }
+          containerModulos.addEventListener("click", eliminarQuarter);
+        });
       } catch (error) {
         console.log(error);
       }
@@ -529,17 +774,6 @@ async function cargarTrimestres() {
 }
 
 async function imprimirTrimestres() {
-  const objStatus = {
-    0: "Inactivo",
-    1: "Activo",
-    2: "Pendiente",
-  };
-  const objModulo = {
-    101: "Módulo A",
-    102: "Módulo B",
-    103: "Módulo C",
-    104: "Módulo de Verano",
-  };
   const containerModulos = document.querySelector(".container-modulos");
   containerModulos.innerHTML = "";
   try {
@@ -549,16 +783,41 @@ async function imprimirTrimestres() {
       const div = document.createElement("div");
       div.classList.add("modulos", "pointer");
       const codigo = Number(i.quarter);
-      div.innerHTML = `
-      <span>${objModulo[codigo]}</span>
-            <span>Inicio: ${i.startDate}</span>
-            <span>Fin: ${i.endDate}</span>
-            <span>${objStatus[i.status]}</span>
-      `;
-      containerModulos.appendChild(div);
+      if (i.status === 2) {
+        div.innerHTML = `
+        <span>${objModulo[codigo]}</span>
+              <span>Inicio: ${i.startDate}</span>
+              <span>Fin: ${i.endDate}</span>
+              <span>${objStatus[i.status]}</span>
+              <button class="delete-quarter" id="${i.id}">Eliminar</button>
+        `;
+        containerModulos.appendChild(div);
+      } else {
+        div.innerHTML = `
+        <span>${objModulo[codigo]}</span>
+              <span>Inicio: ${i.startDate}</span>
+              <span>Fin: ${i.endDate}</span>
+              <span>${objStatus[i.status]}</span>
+        `;
+        containerModulos.appendChild(div);
+      }
+      containerModulos.addEventListener("click", eliminarQuarter);
     });
   } catch (error) {
     console.log(error);
+  }
+}
+
+async function eliminarQuarter(e) {
+  if (e.target.classList.contains("delete-quarter")) {
+    const IDquarter = e.target.id;
+    try {
+      const eliminar = await eliminarTrimestres(IDquarter);
+      crearMsg(eliminar.data.message);
+      e.target.parentElement.remove();
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
 
@@ -570,15 +829,17 @@ async function actEstudiante(e) {
   const inputTelf = document.querySelector("#inputTelf").value;
 
   try {
-    const act = await actAlumno(
+    const act = await cambioDatos(
       id,
       {
         fullName: inputName,
         telefono: inputTelf,
       },
-      { email: inputEmail }
+      { email: inputEmail },
+      { inputDesc }
     );
     crearMsg(act.data.message);
+    modal.classList.add("hidden");
   } catch (error) {
     console.log(error);
   }

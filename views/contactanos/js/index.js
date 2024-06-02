@@ -53,6 +53,7 @@ const formulario = document.querySelector("#form1");
 const inputNombre = document.querySelector("#nombre");
 const inputEmail = document.querySelector("#email");
 const inputTelf = document.querySelector("#telf");
+const inputMensaje = document.querySelector("#mensaje");
 const message = document.querySelector("#message");
 
 function mostrarAlerta(msg) {
@@ -67,15 +68,30 @@ function mostrarAlerta(msg) {
   }, 3000);
 }
 
-formulario.addEventListener("submit", (e) => {
+//acciones backend
+
+formulario.addEventListener("submit", async (e) => {
   e.preventDefault();
   const listadoInputs = [
     inputNombre.value,
     inputEmail.value,
     inputTelf.value,
+    inputMensaje.value,
   ].some((i) => i === "");
 
   if (listadoInputs) {
     return mostrarAlerta("No puede dejar los campos vacíos");
+  }
+  try {
+    const contact = await axios.post("/api/request/contactar", {
+      nombre: inputNombre.value,
+      email: inputEmail.value,
+      telefono: inputTelf.value,
+      mensaje: inputMensaje.value,
+    });
+    formulario.reset();
+    mostrarAlerta(contact.data.message);
+  } catch (error) {
+    mostrarAlerta(error.response.data.message);
   }
 });

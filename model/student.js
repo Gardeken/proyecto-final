@@ -3,6 +3,7 @@ const studentsRouter = require("../controllers/students.js");
 
 const studentSchema = new mongoose.Schema({
   id: String,
+  listSubjects: String,
   subjects: String,
   telefono: String,
   telfCasa: String,

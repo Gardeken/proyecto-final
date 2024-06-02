@@ -89,4 +89,18 @@ quarterRouter.get("/actualizar-trimestre", async (req, res) => {
   }
 });
 
+quarterRouter.delete("/eliminar-trimestre", async (req, res) => {
+  const { id } = req.query;
+  try {
+    await quarter.findOneAndDelete({ id });
+    res.status(200).json({
+      message: "Se ha eliminado el trimestre con éxito",
+    });
+  } catch (error) {
+    res.status(400).json({
+      message: "Hubo un error al eliminar el trimestre",
+    });
+  }
+});
+
 module.exports = quarterRouter;
