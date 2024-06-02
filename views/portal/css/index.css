@@ -1,4 +1,10 @@
 :root {
+  --fc-button-bg-color: #e30032;
+  --fc-button-border-color: #e30032;
+  --fc-button-hover-bg-color: #a3141f;
+  --fc-button-hover-border-color: #a3141f;
+  --fc-button-active-bg-color: #a3141f;
+  --fc-button-active-border-color: #a3141f;
   --rojo-principal: #e30032;
   --rojo-secundario: #a3141f;
   --rojo-terciario: #ff5764;
@@ -466,6 +472,7 @@ header {
 .barra-lateral {
   left: 0;
   bottom: 0;
+  z-index: 5;
   top: 0;
   border-radius: 1.5rem;
   width: 20vw;
@@ -758,6 +765,11 @@ header {
   cursor: pointer;
 }
 
+/*
+<------------------------------------------------------------------------------->
+                            Estilos calendario
+*/
+
 @media (max-width: 1030px) {
   /*
 <------------------------------------------------------------------------------->
@@ -897,7 +909,7 @@ header {
 
   .barra-lateral {
     width: 50vw;
-    z-index: 1;
+    z-index: 5;
     transition: 0.5s;
     left: -52vw;
   }
@@ -912,6 +924,7 @@ header {
     display: block;
   }
   .bg {
+    z-index: 4;
     position: fixed;
     top: 0;
     left: 0;

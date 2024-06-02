@@ -974,6 +974,9 @@ function printEst() {
     });
   });
 
+  const calendar = document.querySelector("#calendar");
+  calendar.addEventListener("click", renderCalendar);
+
   listadoMaterias.addEventListener("click", async (e) => {
     if (e.target.classList.contains("subject")) {
       const id = e.target.id;
@@ -982,6 +985,17 @@ function printEst() {
       eventosEst(id);
     }
   });
+}
+
+//Calendario
+
+function renderCalendar() {
+  const containerMain = document.querySelector("#container-main");
+  containerMain.innerHTML = "";
+  const calendar = new FullCalendar.Calendar(containerMain, {
+    initialView: "dayGridMonth",
+  });
+  calendar.render();
 }
 
 //Asignaciones
