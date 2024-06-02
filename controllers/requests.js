@@ -56,7 +56,7 @@ requestRouter.put("/aceptar-peticion", async (req, res) => {
       }
     );
     res.status(200).json({
-      message: "Peticion aceptada",
+      message: "Petición aceptada",
     });
   } catch (error) {
     res.status(400).json({
