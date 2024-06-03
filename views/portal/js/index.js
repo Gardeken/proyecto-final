@@ -4,11 +4,13 @@ import {
   aceptarAlumno,
   eliminarEstudiante,
 } from "./apis/APIstudent.js";
+import { buscarInfoMateria } from "./apis/APIinfoSubject.js";
 import { buscarProfesor } from "./apis/APIteachers.js";
 import { buscarMateria, guardarAsignacionMat } from "./apis/APIsubject.js";
 import { buscarUsuario, buscarRol, crearUser } from "./apis/APIuser.js";
 import {
   cambioDatos,
+  crearSubject,
   listadoRequestStaff,
   listadoRequestFilt,
   aceptarReq,
@@ -37,6 +39,7 @@ import {
   eliminarAsig,
   listadoAsigEst,
 } from "./apis/APIassigmentE.js";
+import { buscarCarrerasFac } from "./apis/APIinfoCareer.js";
 
 const objStatus = {
   0: "Inactivo",
@@ -114,23 +117,76 @@ document.addEventListener("DOMContentLoaded", async () => {
     const prof = await buscarProfesor(id);
     printProf();
     const createSub = document.querySelector("#createSub");
-    createSub.addEventListener("click", async () => {
-      const validacion = await validarCreate();
-      if (validacion.status === 200) {
-        imprimirCrearMatProf();
-      } else {
-        imprimir404("Crear materia", "Aún no es fecha de creación");
-      }
-    });
+    createSub.addEventListener("click", crearMateria);
     return impListadoMat(prof.data.subjects);
   }
   if (rol === "admin") {
-    eventosAdmin();
+    return eventosAdmin();
   }
   if (rol === "staff") {
-    eventosStaff();
+    return eventosStaff();
   }
 });
+
+async function crearMateria() {
+  const validacion = await validarCreate();
+  if (validacion.status === 200) {
+    imprimirCrearMatProf();
+    const formCreate = document.querySelector("#formCreate");
+    const inputPensum = document.querySelector("#filePensum");
+    const delPensum = document.querySelector("#delPensum");
+    const endClass = document.querySelector("#endClass");
+    const startClass = document.querySelector("#startClass");
+    const selectSubject = document.querySelector("#selectSubject");
+    const selectCareer = document.querySelector("#selectCareer");
+    const selectFac = document.querySelector("#selectFac");
+    eventoVal(inputPensum);
+    deleteFile(delPensum, inputPensum);
+
+    selectFac.addEventListener("change", () => {
+      cargarCarreras(selectFac.value);
+      cargarMaterias({ CODFaculty: selectFac.value });
+    });
+    selectCareer.addEventListener("change", () => {
+      if (selectCareer.value === "") {
+        return cargarMaterias({ CODFaculty: selectFac.value });
+      }
+      cargarMaterias({ CODCareer: selectCareer.value });
+    });
+
+    formCreate.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const listadoInputs = [
+        inputPensum,
+        endClass,
+        startClass,
+        selectSubject,
+        selectFac,
+      ].some((i) => i.value === "");
+      if (listadoInputs) {
+        return crearMsg("No puede dejar los campos vacíos");
+      }
+      const data = new FormData(formCreate);
+      let contador = 0;
+      const validacion = data.forEach((i) => {
+        if (i === "1") {
+          contador += 1;
+        }
+      });
+      if (contador === 0) {
+        return crearMsg("Tiene que selecionar un día");
+      }
+      try {
+        const crear = await crearSubject(data, id);
+        crearMsg(crear.data.message);
+      } catch (error) {
+        crearMsg(error.response.data.message);
+      }
+    });
+  } else {
+    imprimir404("Crear materia", "Aún no es fecha de creación");
+  }
+}
 
 async function cargarNombre() {
   const usuario = await buscarUsuario(id);
@@ -139,6 +195,37 @@ async function cargarNombre() {
   const { name } = usuario.data;
   userName.innerHTML = name;
   idContainer.innerHTML = `ID: ${usuario.data.id}`;
+}
+
+// crear materias
+
+async function cargarCarreras(facultad) {
+  const listadoCarreras = await buscarCarrerasFac(facultad);
+  const selectCareer = document.querySelector("#selectCareer");
+  const { data } = listadoCarreras;
+  selectCareer.innerHTML = `
+  <option value="">...</option>
+  `;
+  data.forEach((i) => {
+    const option = document.createElement("option");
+    option.value = i.CODCareer;
+    option.textContent = i.name;
+    selectCareer.appendChild(option);
+  });
+}
+async function cargarMaterias(filtro) {
+  const listado = await buscarInfoMateria(filtro);
+  const selectSubject = document.querySelector("#selectSubject");
+  const { data } = listado;
+  selectSubject.innerHTML = `
+  <option selected disabled value="">...</option>
+  `;
+  data.forEach((i) => {
+    const option = document.createElement("option");
+    option.value = i.CODSubject;
+    option.textContent = i.name;
+    selectSubject.appendChild(option);
+  });
 }
 
 //eventos
@@ -740,7 +827,7 @@ async function modalPeticiones(e, data, idReq, idUser) {
   if (e.target.classList.contains("delete-request")) {
     const id = e.target.id;
     try {
-      const eliminar = await eliminarReq(id);
+      const eliminar = await eliminarReq(idReq, data);
       crearMsg(eliminar.data.message);
       return imprimirRequest();
     } catch (error) {
@@ -761,6 +848,33 @@ async function modalPeticiones(e, data, idReq, idUser) {
     rechazar.addEventListener("click", () => {
       rechazarPeticion(idReq);
     });
+  }
+  if (tipo === "4003") {
+    const datos = JSON.parse(data);
+    console.log(datos);
+    let dias = "";
+    if (datos.lunes) {
+      dias += "Lunes ";
+    }
+    if (datos.martes) {
+      dias += "Martes ";
+    }
+    if (datos.miercoles) {
+      dias += "Miércoles ";
+    }
+    if (datos.jueves) {
+      dias += "Jueves ";
+    }
+    if (datos.viernes) {
+      dias += "Viernes ";
+    }
+    if (datos.sabado) {
+      dias += "Sábado ";
+    }
+    console.log(dias);
+    modal.classList.remove("hidden");
+    imprimirCrearMat();
+    closeModalBtn();
   }
 }
 

@@ -900,7 +900,7 @@ const imprimirCrearMatProf = () => {
           <form id="formCreate" class="form-create" action="">
             <div class="selects">
               <label for="selectFac">Elegir Facultad</label>
-              <select name="selectFac" id="selectFac">
+              <select  name="selectFac" id="selectFac">
                 <option selected disabled value="">...</option>
                 <option value="3001">Facultad de Diseño</option>
                 <option value="3002">Facultad de Administración</option>
@@ -912,44 +912,44 @@ const imprimirCrearMatProf = () => {
             <div class="selects">
               <label for="selectCareer">Elegir Carrera</label>
               <select name="selectCareer" id="selectCareer">
-                <option selected disabled value="">...</option>
+                <option value="">...</option>
               </select>
             </div>
             <div class="selects">
               <label for="selectSubject">Elegir materia</label>
-              <select name="selectSubject" id="selectSubject">
+              <select   name="selectSubject" id="selectSubject">
                 <option selected disabled value="">...</option>
               </select>
             </div>
             <div class="times">
               <label for="startClass">Inicio de la clase</label>
-              <input type="time" name="startClass" id="startClass" />
+              <input  type="time" name="startClass" id="startClass" />
             </div>
             <div class="times">
               <label for="endClass">Fin de la clase</label>
-              <input type="time" name="endClass" id="endClass" />
+              <input  type="time" name="endClass" id="endClass" />
             </div>
             <div class="days">
               <label for="">Elegir días</label>
 
               <div class="inputDays">
                 <div>
-                  <input name="lunes" value="1" type="checkbox" /> Lunes
+                  <input value="1" name="lunes" type="checkbox" /> Lunes
                 </div>
                 <div>
-                  <input name="martes" value="2" type="checkbox" /> Martes
+                  <input value="1" name="martes" type="checkbox" /> Martes
                 </div>
                 <div>
-                  <input name="miercoles" value="3" type="checkbox" /> Miércoles
+                  <input value="1" name="miercoles" type="checkbox" /> Miércoles
                 </div>
                 <div>
-                  <input name="jueves" value="4" type="checkbox" /> Jueves
+                  <input value="1" name="jueves" type="checkbox" /> Jueves
                 </div>
                 <div>
-                  <input name="viernes" value="5" type="checkbox" /> Viernes
+                  <input value="1" name="viernes" type="checkbox" /> Viernes
                 </div>
                 <div>
-                  <input name="sabado" value="6" type="checkbox" /> Sábado
+                  <input value="1" name="sabado" type="checkbox" /> Sábado
                 </div>
               </div>
             </div>
@@ -989,7 +989,7 @@ const imprimirCrearMatProf = () => {
                 </svg>
               </div>
 
-              <input type="file" name="" id="filePensum" />
+              <input  type="file" name="filePensum" id="filePensum" />
             </div>
 
             <button class="btnCreate" type="submit">Enviar</button>

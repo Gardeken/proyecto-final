@@ -1,5 +1,17 @@
 const requestRouter = require("express").Router();
 const request = require("../model/request");
+const multer = require("multer");
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "pensum");
+  },
+  filename: function (req, file, cb) {
+    const exp = file.originalname.split(".");
+    cb(null, file.fieldname + "-" + Date.now() + "." + exp[1]);
+  },
+});
+const upload = multer({ storage });
+const fs = require("fs");
 
 requestRouter.get("/listado-filtrado", async (req, res) => {
   const { filter } = req.query;
@@ -127,8 +139,43 @@ requestRouter.post("/aplicar", async (req, res) => {
   }
 });
 
+requestRouter.post(
+  "/crearMateria",
+  upload.single("filePensum"),
+  async (req, res) => {
+    const trans = JSON.stringify(req.body);
+    const obj = JSON.parse(trans);
+    obj.path = req.file.path;
+    const newRequest = new request();
+    newRequest.id = Date.now();
+    newRequest.type = "4003";
+    newRequest.idUser = req.query.idUser;
+    newRequest.data = JSON.stringify(obj);
+    try {
+      await newRequest.save();
+      res.status(200).json({
+        message: "Se ha creado la petición con éxito",
+      });
+    } catch (error) {
+      res.status(400).json({
+        message: "Hubo un error al crear la petición",
+      });
+    }
+  }
+);
+
 requestRouter.delete("/eliminar-peticion", async (req, res) => {
   const { idReq } = req.query;
+  if (req.query.data) {
+    const datos = JSON.parse(req.query.data);
+    fs.unlink(datos.path, (err) => {
+      if (err) {
+        res.status(400).json({
+          message: "Hubo un error al eliminar la petición",
+        });
+      }
+    });
+  }
   try {
     await request.findOneAndDelete({ id: idReq });
     res.status(200).json({

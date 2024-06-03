@@ -25,9 +25,10 @@ export const rechazarReq = async (idReq) => {
   return rechazar;
 };
 
-export const eliminarReq = async (idReq) => {
+export const eliminarReq = async (idReq, data) => {
   const eliminar = await axios.delete("/api/request/eliminar-peticion", {
     params: {
+      data,
       idReq,
     },
   });
@@ -41,4 +42,13 @@ export const listadoRequestFilt = async (filter) => {
     },
   });
   return listado;
+};
+
+export const crearSubject = async (data, idUser) => {
+  const crear = await axios.post("/api/request/crearMateria", data, {
+    params: {
+      idUser,
+    },
+  });
+  return crear;
 };

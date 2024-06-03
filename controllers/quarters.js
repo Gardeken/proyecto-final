@@ -131,4 +131,90 @@ quarterRouter.delete("/eliminar-trimestre", async (req, res) => {
   }
 });
 
+quarterRouter.get("/validar-create-prof", async (req, res) => {
+  const trimestreActual = await quarter.findOne({ status: 1 });
+
+  if (trimestreActual.quarter === "101") {
+    const trimestreSig = await quarter.findOne({ status: 2, quarter: "102" });
+    const fechaCreacion = trimestreSig.startcreateDate.split("-");
+    const mesActual = new Date().getMonth() + 1;
+    if (
+      fechaCreacion[0] > new Date().getDate() &&
+      fechaCreacion[1] >= mesActual &&
+      fechaCreacion[2] >= new Date().getFullYear
+    ) {
+      res.status(400).json({
+        message: "Aún no es fecha de creación",
+      });
+    } else {
+      res.status(200).json({
+        message: "Es fecha de creación",
+      });
+    }
+  }
+  if (trimestreActual.quarter === "102") {
+    const trimestreSig = await quarter.findOne({ status: 2, quarter: "103" });
+    const fechaCreacion = trimestreSig.startcreateDate.split("-");
+    const fechaEndCreacion = trimestreSig.endcreateDate.split("-");
+    const mesActual = new Date().getMonth() + 1;
+    if (
+      fechaCreacion[0] > new Date().getDate() &&
+      fechaCreacion[1] >= mesActual &&
+      fechaCreacion[2] >= new Date().getFullYear
+    ) {
+      res.status(400).json({
+        message: "Aún no es fecha de creación",
+      });
+    } else if (
+      fechaCreacion[0] <= new Date().getDate() &&
+      fechaCreacion[1] <= mesActual &&
+      fechaCreacion[2] <= new Date().getFullYear
+    ) {
+      res.status(400).json({
+        message: "Aún no es fecha de creación",
+      });
+    } else {
+      res.status(200).json({
+        message: "Es fecha de creación",
+      });
+    }
+  }
+  if (trimestreActual.quarter === "103") {
+    const trimestreSig = await quarter.findOne({ status: 2, quarter: "104" });
+    const fechaCreacion = trimestreSig.startcreateDate.split("-");
+    const mesActual = new Date().getMonth() + 1;
+    if (
+      fechaCreacion[0] > new Date().getDate() &&
+      fechaCreacion[1] >= mesActual &&
+      fechaCreacion[2] >= new Date().getFullYear
+    ) {
+      res.status(400).json({
+        message: "Aún no es fecha de creación",
+      });
+    } else {
+      res.status(200).json({
+        message: "Es fecha de creación",
+      });
+    }
+  }
+  if (trimestreActual.quarter === "104") {
+    const trimestreSig = await quarter.findOne({ status: 2, quarter: "101" });
+    const fechaCreacion = trimestreSig.startcreateDate.split("-");
+    const mesActual = new Date().getMonth() + 1;
+    if (
+      fechaCreacion[0] > new Date().getDate() &&
+      fechaCreacion[1] >= mesActual &&
+      fechaCreacion[2] >= new Date().getFullYear
+    ) {
+      res.status(400).json({
+        message: "Aún no es fecha de creación",
+      });
+    } else {
+      res.status(200).json({
+        message: "Es fecha de creación",
+      });
+    }
+  }
+});
+
 module.exports = quarterRouter;

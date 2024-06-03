@@ -48,7 +48,7 @@ app.use("/api/user", userRouter);
 app.use("/api/student", studentRouter);
 app.use("/api/teacher", teacherRouter);
 app.use("/api/quarter", quarterRouter);
-app.use("/api/infoSubject", infoSubjectRouter);
+app.use("/api/infosubject", infoSubjectRouter);
 app.use("/api/request", requestRouter);
 app.use("/api/infocareer", infoCareerRouter);
 
