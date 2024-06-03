@@ -27,3 +27,19 @@ export const actAlumno = async (id, data, data2) => {
 
   return actUser;
 };
+
+export const eliminarEstudiante = async (student) => {
+  const eliminar = await axios.delete("/api/student/eliminar-est", {
+    params: {
+      idStudent: student.id,
+      cedulaPath: student.cedulaPath,
+      conductaPath: student.conductaPath,
+      militarPath: student.militarPath,
+      nacimientoPath: student.nacimientoPath,
+      notasPath: student.notasPath,
+      opsuPath: student.opsuPath,
+      tituloPath: student.tituloPath,
+    },
+  });
+  return eliminar;
+};

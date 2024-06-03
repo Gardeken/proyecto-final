@@ -2,6 +2,7 @@ import {
   buscarEstudiante,
   actAlumno,
   aceptarAlumno,
+  eliminarEstudiante,
 } from "./apis/APIstudent.js";
 import { buscarProfesor } from "./apis/APIteachers.js";
 import { buscarMateria, guardarAsignacionMat } from "./apis/APIsubject.js";
@@ -603,6 +604,17 @@ async function imprimirRequestFilt(filter) {
       }
       if (i.type === "4002") {
         const estudiante = await buscarEstudiante(i.idUser);
+        if (i.status === 0) {
+          div.innerHTML = `
+        <span>${estudiante.data.fullName}</span>
+                <span>${objPeticion[codigo]}</span>
+                <span>${objStatusPet[i.status]}</span>
+        `;
+          div.addEventListener("click", (e) => {
+            modalAplicaciones(e, i.id, estudiante.data, i.status);
+          });
+          return containerReq.appendChild(div);
+        }
         div.innerHTML = `
         <span>${estudiante.data.fullName}</span>
                 <span>${objPeticion[codigo]}</span>
@@ -610,7 +622,7 @@ async function imprimirRequestFilt(filter) {
         <button id="${i.id}" class="delete-request">Eliminar</button>
         `;
         div.addEventListener("click", (e) => {
-          modalAplicaciones(i.id, estudiante.data);
+          modalAplicaciones(e, i.id, estudiante.data, i.status);
         });
         return containerReq.appendChild(div);
       }
@@ -666,6 +678,17 @@ async function imprimirRequest() {
       }
       if (i.type === "4002") {
         const estudiante = await buscarEstudiante(i.idUser);
+        if (i.status === 0) {
+          div.innerHTML = `
+        <span>${estudiante.data.fullName}</span>
+                <span>${objPeticion[codigo]}</span>
+                <span>${objStatusPet[i.status]}</span>
+        `;
+          div.addEventListener("click", (e) => {
+            modalAplicaciones(e, i.id, estudiante.data, i.status);
+          });
+          return containerReq.appendChild(div);
+        }
         div.innerHTML = `
         <span>${estudiante.data.fullName}</span>
                 <span>${objPeticion[codigo]}</span>
@@ -673,7 +696,7 @@ async function imprimirRequest() {
         <button id="${i.id}" class="delete-request">Eliminar</button>
         `;
         div.addEventListener("click", (e) => {
-          modalAplicaciones(i.id, estudiante.data);
+          modalAplicaciones(e, i.id, estudiante.data, i.status);
         });
         return containerReq.appendChild(div);
       }
@@ -731,16 +754,32 @@ async function modalPeticiones(e, data, idReq, idUser) {
   }
 }
 
-async function modalAplicaciones(idReq, student) {
+async function modalAplicaciones(e, idReq, student, status) {
   imprimirAplicar(student);
+  if (e.target.classList.contains("delete-request")) {
+    try {
+      const deleteEst = await eliminarEstudiante(student);
+      const deletePet = await eliminarReq(idReq);
+      return crearMsg(deletePet.data.message);
+    } catch (error) {
+      return crearMsg(error.response.data.message);
+    }
+  }
   modal.classList.remove("hidden");
   closeModalBtn();
+
   const aceptar = document.querySelector("#aceptar");
   const rechazar = document.querySelector("#rechazar");
   aceptar.addEventListener("click", (e) => {
+    if (status === 0) {
+      return crearMsg("Usted ya acepto esta petición");
+    }
     aceptarAplicación(student.fullName, student.email, student.id, idReq);
   });
   rechazar.addEventListener("click", () => {
+    if (status === 0) {
+      return crearMsg("Usted ya acepto esta petición");
+    }
     rechazarPeticion(idReq);
   });
 }
@@ -1124,6 +1163,27 @@ function renderCalendar() {
   containerMain.innerHTML = "";
   const calendar = new FullCalendar.Calendar(containerMain, {
     initialView: "dayGridMonth",
+    events: [
+      {
+        title: "Taller de diseño Gráfico I",
+        daysOfWeek: [2, 3],
+        startTime: "09:00AM",
+        endTime: "12:00PM",
+      },
+      {
+        title: "Taller de diseño",
+        daysOfWeek: [2, 3],
+        startTime: "01:00PM",
+        endTime: "7:00PM",
+      },
+    ],
+    eventContent: (info) => {
+      return {
+        html: `
+        <div class="evento">${info.event.title}</div>
+        `,
+      };
+    },
   });
   calendar.render();
 }

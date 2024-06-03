@@ -4,6 +4,7 @@ const subjectRouter = require("../controllers/subjects.js");
 const subjectSchema = new mongoose.Schema({
   name: String,
   id: String,
+  price: Number,
   assigmentT: String,
   dates: String,
   CODSubject: String,

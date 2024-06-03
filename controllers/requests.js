@@ -115,6 +115,16 @@ requestRouter.post("/aplicar", async (req, res) => {
   newRequest.id = id;
   newRequest.idUser = idUser;
   newRequest.type = "4002";
+  try {
+    await newRequest.save();
+    res.status(200).json({
+      message: "Se ha creado la petición con éxito",
+    });
+  } catch (error) {
+    res.status(400).json({
+      message: "Hubo un error al crear la petición",
+    });
+  }
 });
 
 requestRouter.delete("/eliminar-peticion", async (req, res) => {

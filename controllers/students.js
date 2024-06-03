@@ -11,6 +11,7 @@ const storage = multer.diskStorage({
   },
 });
 const upload = multer({ storage });
+const fs = require("fs");
 
 studentRouter.get("/buscar-est", async (req, res) => {
   const { id } = req.query;
@@ -102,6 +103,49 @@ studentRouter.put("/aceptar-al", async (req, res) => {
   } catch (error) {
     res.status(400).json({
       message: "Hubo un error al crear el usuario",
+    });
+  }
+});
+
+studentRouter.delete("/eliminar-est", async (req, res) => {
+  const {
+    idStudent,
+    cedulaPath,
+    conductaPath,
+    militarPath,
+    nacimientoPath,
+    notasPath,
+    opsuPath,
+    tituloPath,
+  } = req.query;
+
+  const listadoPaths = [
+    cedulaPath,
+    conductaPath,
+    militarPath,
+    nacimientoPath,
+    notasPath,
+    opsuPath,
+    tituloPath,
+  ];
+
+  try {
+    await student.findOneAndDelete({ id: idStudent });
+    listadoPaths.forEach((i) => {
+      fs.unlink(i, (err) => {
+        if (err) {
+          res.status(400).json({
+            message: "Hubo un error al eliminar la asignación",
+          });
+        }
+      });
+    });
+    res.status(200).json({
+      message: "Se ha eliminado el estudiante con éxito",
+    });
+  } catch (error) {
+    res.status(400).json({
+      message: "Hubo un error inesperado",
     });
   }
 });
