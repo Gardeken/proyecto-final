@@ -102,6 +102,7 @@ function crearMsg(text) {
 
 document.addEventListener("DOMContentLoaded", async () => {
   actualizarTrimestres();
+  cargarNombre();
   if (rol === "student") {
     const usuario = await buscarEstudiante(id);
     printEst();
@@ -119,6 +120,15 @@ document.addEventListener("DOMContentLoaded", async () => {
     eventosStaff();
   }
 });
+
+async function cargarNombre() {
+  const usuario = await buscarUsuario(id);
+  const userName = document.querySelector("#userName");
+  const idContainer = document.querySelector("#idContainer");
+  const { name } = usuario.data;
+  userName.innerHTML = name;
+  idContainer.innerHTML = `ID: ${usuario.data.id}`;
+}
 
 //eventos
 
@@ -560,6 +570,9 @@ async function filtrarReq() {
   const typeRequest = document.querySelector("#typeRequest");
   typeRequest.addEventListener("change", () => {
     const filtro = typeRequest.value;
+    if (!filtro) {
+      imprimirRequest();
+    }
     imprimirRequestFilt(filtro);
   });
 }
