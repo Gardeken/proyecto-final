@@ -401,6 +401,11 @@ input[type="file"],
 
 .container-datosEst div {
   display: grid;
+  gap: 1rem;
+  margin: 2rem 0;
+  padding: 1rem 0;
+  border-top: 1px solid var(--gris-principal);
+  border-bottom: 1px solid var(--gris-principal);
   grid-template-columns: 1.5fr 2fr;
 }
 

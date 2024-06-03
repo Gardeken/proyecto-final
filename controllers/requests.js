@@ -108,6 +108,15 @@ requestRouter.post("/contactar", async (req, res) => {
   }
 });
 
+requestRouter.post("/aplicar", async (req, res) => {
+  const { idUser } = req.body;
+  const id = Date.now();
+  const newRequest = new request();
+  newRequest.id = id;
+  newRequest.idUser = idUser;
+  newRequest.type = "4002";
+});
+
 requestRouter.delete("/eliminar-peticion", async (req, res) => {
   const { idReq } = req.query;
   try {

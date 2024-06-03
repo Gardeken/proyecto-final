@@ -154,6 +154,9 @@ formulario.addEventListener("submit", async (e) => {
         id: crear.data.id,
       },
     });
+    const crearRequest = await axios.post("/api/request/aplicar", {
+      idUser: crear.data.id,
+    });
     alert(act.data.message);
     formulario.reset();
   } catch (error) {

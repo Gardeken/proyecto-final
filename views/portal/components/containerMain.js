@@ -1,5 +1,23 @@
 const container = document.querySelector("#container-main");
 const container2 = document.querySelector("#container-modal");
+const objModulo = {
+  101: "Módulo A",
+  102: "Módulo B",
+  103: "Módulo C",
+  104: "Módulo de Verano",
+};
+
+const objCarreras = {
+  2000: "Diseño gráfico",
+  2001: "Arquitectura",
+  2002: "Diseño Industrial",
+  2003: "Administración mención ciencias administrativas",
+  2004: "Contaduría pública",
+  2005: "Administración Pública",
+  2006: "Derecho",
+  2007: "Educación Preescolar",
+  2008: "Educación integral",
+};
 
 const imprimirContainerEst = () => {
   container.innerHTML = `<div class="container-asig">
@@ -417,7 +435,7 @@ const imprimirProcePago = () => {
   `;
 };
 
-const imprimirAplicar = () => {
+const imprimirAplicar = (estudiante) => {
   container2.innerHTML = `
   <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -438,236 +456,236 @@ const imprimirAplicar = () => {
           <div class="container-datosEst">
             <div>
               <span>Cédula:</span>
-              <span>Pedro Centeno</span>
+              <span>${estudiante.cedula}</span>
             </div>
             <div>
               <span>Nombre:</span>
-              <span>Pedro Centeno</span>
+              <span>${estudiante.fullName}</span>
             </div>
             <div>
               <span>Email:</span>
-              <span>Pedro Centeno</span>
+              <span>${estudiante.email}</span>
             </div>
             <div>
               <span>Teléfono:</span>
-              <span>Pedro Centeno</span>
+              <span>${estudiante.telefono}</span>
             </div>
             <div>
               <span>Teléfono de Casa:</span>
-              <span>Pedro Centeno</span>
+              <span>${estudiante.telfCasa}</span>
             </div>
             <div>
               <span>Calle:</span>
-              <span>Pedro Centeno</span>
+              <span>${estudiante.calle}</span>
             </div>
             <div>
               <span>Ciudad:</span>
-              <span>Pedro Centeno</span>
+              <span>${estudiante.ciudad}</span>
             </div>
             <div>
               <span>Estado/Provincia:</span>
-              <span>Pedro Centeno</span>
+              <span>${estudiante.estado}</span>
             </div>
             <div>
               <span>ZIP/Código postal:</span>
-              <span>Pedro Centeno</span>
+              <span>${estudiante.codigopost}</span>
             </div>
             <div>
               <span>País:</span>
-              <span>Pedro Centeno</span>
+              <span>${estudiante.pais}</span>
             </div>
             <div>
               <span>Fecha Nacimiento:</span>
-              <span>Pedro Centeno</span>
+              <span>${estudiante.fechaNac}</span>
             </div>
             <div>
               <span>Sexo:</span>
-              <span>Pedro Centeno</span>
+              <span>${estudiante.Sexo}</span>
             </div>
             <div>
               <span>Lugar de nacimiento:</span>
-              <span>Pedro Centeno</span>
+              <span>${estudiante.lugarNac}</span>
             </div>
             <div>
               <span>Nacionalidad:</span>
-              <span>Pedro Centeno</span>
+              <span>${estudiante.nacionalidad}</span>
             </div>
             <div>
               <span>Estado Civil:</span>
-              <span>Pedro Centeno</span>
+              <span>${estudiante.estCivil}</span>
             </div>
             <div>
               <span>Inscrito en:</span>
-              <span>Pedro Centeno</span>
+              <span>${objModulo[Number(estudiante.inscrito)]}</span>
             </div>
             <div>
               <span>Programa:</span>
-              <span>Pedro Centeno</span>
+              <span>${objCarreras[Number(estudiante.programa)]}</span>
             </div>
             <div>
               <span>Prueba CNU:</span>
-              <span>Pedro Centeno</span>
+              <span>${estudiante.cnu}</span>
             </div>
             <div>
               <span>Nombre contacto emergencia:</span>
-              <span>Pedro Centeno</span>
+              <span>${estudiante.nomEmer}</span>
             </div>
             <div>
               <span>Relación:</span>
-              <span>Pedro Centeno</span>
+              <span>${estudiante.relacion}</span>
             </div>
             <div>
               <span>Teléfono de emergencia:</span>
-              <span>Pedro Centeno</span>
+              <span>${estudiante.telfEmer}</span>
             </div>
             <div>
               <span>Teléfono de casa:</span>
-              <span>Pedro Centeno</span>
+              <span>${estudiante.telfEmerCasa}</span>
             </div>
             <div>
               <span>Teléfono de trabajo:</span>
-              <span>Pedro Centeno</span>
+              <span>${estudiante.telfEmerTr}</span>
             </div>
             <div>
               <span>Nombre del representante:</span>
-              <span>Pedro Centeno</span>
+              <span>${estudiante.nomRep}</span>
             </div>
             <div>
               <span>Relación:</span>
-              <span>Pedro Centeno</span>
+              <span>${estudiante.relacionRep}</span>
             </div>
             <div>
               <span>Teléfono:</span>
-              <span>Pedro Centeno</span>
+              <span>${estudiante.telfRep}</span>
             </div>
             <div>
               <span>Email:</span>
-              <span>Pedro Centeno</span>
+              <span>${estudiante.emailRep}</span>
             </div>
             <div>
               <span>Calle:</span>
-              <span>Pedro Centeno</span>
+              <span>${estudiante.calleRep}</span>
             </div>
             <div>
               <span>Ciudad:</span>
-              <span>Pedro Centeno</span>
+              <span>${estudiante.ciudadRep}</span>
             </div>
             <div>
               <span>Estado/Provincia:</span>
-              <span>Pedro Centeno</span>
+              <span>${estudiante.estadoRep}</span>
             </div>
             <div>
               <span>País:</span>
-              <span>Pedro Centeno</span>
+              <span>${estudiante.paisRep}</span>
             </div>
             <div>
               <span>Código Postal:</span>
-              <span>Pedro Centeno</span>
+              <span>${estudiante.codigopostRep}</span>
             </div>
             <div>
               <span>Nombre del Plantel:</span>
-              <span>Pedro Centeno</span>
+              <span>${estudiante.plantel}</span>
             </div>
             <div>
               <span>Tipo de Plantel:</span>
-              <span>Pedro Centeno</span>
+              <span>${estudiante.tipoPlantel}</span>
             </div>
             <div>
               <span>Especialidad:</span>
-              <span>Pedro Centeno</span>
+              <span>${estudiante.especialidad}</span>
             </div>
             <div>
               <span>Índice de Rendimiento Académico:</span>
-              <span>Pedro Centeno</span>
+              <span>${estudiante.rendimiento}</span>
             </div>
             <div>
               <span>Ciudad:</span>
-              <span>Pedro Centeno</span>
+              <span>${estudiante.ciudadPlantel}</span>
             </div>
             <div>
               <span>Estado:</span>
-              <span>Pedro Centeno</span>
+              <span>${estudiante.estadoPlantel}</span>
             </div>
             <div>
               <span>País:</span>
-              <span>Pedro Centeno</span>
+              <span>${estudiante.paisPlantel}</span>
             </div>
             <div>
               <span>Trabaja?</span>
-              <span>Pedro Centeno</span>
+              <span>${estudiante.trabaja}</span>
             </div>
             <div>
               <span>Sector laboral:</span>
-              <span>Pedro Centeno</span>
+              <span>${estudiante.sector}</span>
             </div>
             <div>
               <span>Nombre de la Empresa:</span>
-              <span>Pedro Centeno</span>
+              <span>${estudiante.nomEm}</span>
             </div>
             <div>
               <span>Dirección de la empresa:</span>
-              <span>Pedro Centeno</span>
+              <span>${estudiante.direcEm}</span>
             </div>
             <div>
               <span>Ciudad:</span>
-              <span>Pedro Centeno</span>
+              <span>${estudiante.ciudadEm}</span>
             </div>
             <div>
               <span>Estado/Provincia:</span>
-              <span>Pedro Centeno</span>
+              <span>${estudiante.estadoEm}</span>
             </div>
             <div>
               <span>País:</span>
-              <span>Pedro Centeno</span>
+              <span>${estudiante.paisEm}</span>
             </div>
             <div>
               <span>Nombre del supervisor:</span>
-              <span>Pedro Centeno</span>
+              <span>${estudiante.nomSup}</span>
             </div>
             <div>
               <span>Teléfono de la empresa:</span>
-              <span>Pedro Centeno</span>
+              <span>${estudiante.telfEm}</span>
             </div>
             <div>
               <span>Institución Universitaria:</span>
-              <span>Pedro Centeno</span>
+              <span>${estudiante.instU}</span>
             </div>
             <div>
               <span>Título Obtenido:</span>
-              <span>Pedro Centeno</span>
+              <span>${estudiante.tituloObt}</span>
             </div>
             <div>
               <span>Fecha de graduación:</span>
-              <span>Pedro Centeno</span>
+              <span>${estudiante.fechaGrad}</span>
             </div>
             <div>
               <span>Tiene discapacidad?:</span>
-              <span>Pedro Centeno</span>
+              <span>${estudiante.discapacidad}</span>
             </div>
             <div>
               <span>Descripción de la discapacidad:</span>
-              <span>Pedro Centeno</span>
+              <span>${estudiante.descDisc}</span>
             </div>
             <div>
               <span>Tiene dificultades del aprendizaje?:</span>
-              <span>Pedro Centeno</span>
+              <span>${estudiante.difAp}</span>
             </div>
             <div>
               <span>Descripción de la dificultad:</span>
-              <span>Pedro Centeno</span>
+              <span>${estudiante.descDif}</span>
             </div>
             <div>
               <span>Fecha de solicitud:</span>
-              <span>Pedro Centeno</span>
+              <span>${estudiante.fechaSol}</span>
             </div>
             <div>
               <span>Nombre del representante legal:</span>
-              <span>Pedro Centeno</span>
+              <span>${estudiante.nomRep}</span>
             </div>
           </div>
           <div class="container-downloadPensum container-downloadData">
             <span>Descargar Foto Cédula</span>
-            <a download="" class="download-pensum">
+            <a href="../${estudiante.cedulaPath}" class="download-pensum">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -686,7 +704,9 @@ const imprimirAplicar = () => {
           </div>
           <div class="container-downloadPensum container-downloadData">
             <span>Descargar Foto Título</span>
-            <a download="" class="download-pensum">
+            <a download href="../${
+              estudiante.tituloPath
+            }" class="download-pensum">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -705,7 +725,9 @@ const imprimirAplicar = () => {
           </div>
           <div class="container-downloadPensum container-downloadData">
             <span>Descargar Foto Notas</span>
-            <a download="" class="download-pensum">
+            <a download href="../${
+              estudiante.notasPath
+            }" class="download-pensum">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -724,7 +746,9 @@ const imprimirAplicar = () => {
           </div>
           <div class="container-downloadPensum container-downloadData">
             <span>Descargar Foto Certificado Opsu</span>
-            <a download="" class="download-pensum">
+            <a download href="../${
+              estudiante.opsuPath
+            }" class="download-pensum">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -743,7 +767,9 @@ const imprimirAplicar = () => {
           </div>
           <div class="container-downloadPensum container-downloadData">
             <span>Descargar Foto Partida Nacimiento</span>
-            <a download="" class="download-pensum">
+            <a download href="../${
+              estudiante.nacimientoPath
+            }" class="download-pensum">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -762,7 +788,9 @@ const imprimirAplicar = () => {
           </div>
           <div class="container-downloadPensum container-downloadData">
             <span>Descargar Foto Carta buena conducta</span>
-            <a download="" class="download-pensum">
+            <a download href="../${
+              estudiante.conductaPath
+            }" class="download-pensum">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -781,7 +809,9 @@ const imprimirAplicar = () => {
           </div>
           <div class="container-downloadPensum container-downloadData">
             <span>Descargar Foto Servicio militar</span>
-            <a download="" class="download-pensum">
+            <a download href="../${
+              estudiante.militarPath
+            }" class="download-pensum">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"

@@ -87,4 +87,23 @@ studentRouter.put(
   }
 );
 
+studentRouter.put("/aceptar-al", async (req, res) => {
+  const { idStudent } = req.body;
+  try {
+    await student.findOneAndUpdate(
+      { id: idStudent },
+      {
+        pendding: false,
+      }
+    );
+    res.status(200).json({
+      message: "Se ha creado el usuario con éxito",
+    });
+  } catch (error) {
+    res.status(400).json({
+      message: "Hubo un error al crear el usuario",
+    });
+  }
+});
+
 module.exports = studentRouter;

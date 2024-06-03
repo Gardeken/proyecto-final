@@ -1,7 +1,11 @@
-import { buscarEstudiante, actAlumno } from "./apis/APIstudent.js";
+import {
+  buscarEstudiante,
+  actAlumno,
+  aceptarAlumno,
+} from "./apis/APIstudent.js";
 import { buscarProfesor } from "./apis/APIteachers.js";
 import { buscarMateria, guardarAsignacionMat } from "./apis/APIsubject.js";
-import { buscarUsuario, buscarRol } from "./apis/APIuser.js";
+import { buscarUsuario, buscarRol, crearUser } from "./apis/APIuser.js";
 import {
   cambioDatos,
   listadoRequestStaff,
@@ -55,6 +59,19 @@ const objModulo = {
   103: "Módulo C",
   104: "Módulo de Verano",
 };
+
+const objCarreras = {
+  2000: "Diseño gráfico",
+  2001: "Arquitectura",
+  2002: "Diseño Industrial",
+  2003: "Administración mención ciencias administrativas",
+  2004: "Contaduría pública",
+  2005: "Administración Pública",
+  2006: "Derecho",
+  2007: "Educación Preescolar",
+  2008: "Educación integral",
+};
+
 const listadoEst = [];
 const listadoUser = [];
 const containerMaterias = document.querySelector("#materias");
@@ -571,6 +588,19 @@ async function imprimirRequestFilt(filter) {
         });
         return containerReq.appendChild(div);
       }
+      if (i.type === "4002") {
+        const estudiante = await buscarEstudiante(i.idUser);
+        div.innerHTML = `
+        <span>${estudiante.data.fullName}</span>
+                <span>${objPeticion[codigo]}</span>
+                <span>${objStatusPet[i.status]}</span>
+        <button id="${i.id}" class="delete-request">Eliminar</button>
+        `;
+        div.addEventListener("click", (e) => {
+          modalAplicaciones(i.id, estudiante.data);
+        });
+        return containerReq.appendChild(div);
+      }
       const usuario = await buscarUsuario(i.idUser);
       if (i.status === 0) {
         div.innerHTML = `
@@ -618,6 +648,19 @@ async function imprimirRequest() {
         `;
         div.addEventListener("click", (e) => {
           modalPeticiones(e, i.data, i.id, i.idUser);
+        });
+        return containerReq.appendChild(div);
+      }
+      if (i.type === "4002") {
+        const estudiante = await buscarEstudiante(i.idUser);
+        div.innerHTML = `
+        <span>${estudiante.data.fullName}</span>
+                <span>${objPeticion[codigo]}</span>
+                <span>${objStatusPet[i.status]}</span>
+        <button id="${i.id}" class="delete-request">Eliminar</button>
+        `;
+        div.addEventListener("click", (e) => {
+          modalAplicaciones(i.id, estudiante.data);
         });
         return containerReq.appendChild(div);
       }
@@ -673,6 +716,49 @@ async function modalPeticiones(e, data, idReq, idUser) {
       rechazarPeticion(idReq);
     });
   }
+}
+
+async function modalAplicaciones(idReq, student) {
+  imprimirAplicar(student);
+  modal.classList.remove("hidden");
+  closeModalBtn();
+  const aceptar = document.querySelector("#aceptar");
+  const rechazar = document.querySelector("#rechazar");
+  aceptar.addEventListener("click", (e) => {
+    aceptarAplicación(student.fullName, student.email, student.id, idReq);
+  });
+  rechazar.addEventListener("click", () => {
+    rechazarPeticion(idReq);
+  });
+}
+
+async function aceptarAplicación(name, email, idStudent, idReq) {
+  imprimirCrearUsuModal();
+  closeModalBtn();
+  const createBtn = document.querySelector(".createBtn");
+  const createUser = document.querySelector("#createUser");
+  const passwordUser = document.querySelector("#passwordUser");
+  createBtn.addEventListener("click", async () => {
+    if (!createUser.value || !passwordUser.value) {
+      return crearMsg("No puede dejar los campos vacíos");
+    }
+    try {
+      const crear = await crearUser(
+        createUser.value,
+        passwordUser.value,
+        email,
+        name,
+        idStudent
+      );
+      const aceptar = await aceptarReq(idReq);
+      const act = await aceptarAlumno(idStudent);
+      crearMsg(act.data.message);
+      modal.classList.add("hidden");
+      imprimirRequest();
+    } catch (error) {
+      crearMsg(error.response.data.message);
+    }
+  });
 }
 
 async function aceptarPeticion(idReq, info, idUser) {
