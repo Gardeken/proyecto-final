@@ -68,6 +68,22 @@ document.addEventListener("DOMContentLoaded", async () => {
   const conductaImg = document.querySelector("#conductaImg");
   const servicioImg = document.querySelector("#servicioImg");
 
+  const delCedula = document.querySelector("#delCedula");
+  const delTitulo = document.querySelector("#delTitulo");
+  const delNotas = document.querySelector("#delNotas");
+  const delOpsu = document.querySelector("#delOpsu");
+  const delPartida = document.querySelector("#delPartida");
+  const delConducta = document.querySelector("#delConducta");
+  const delServicio = document.querySelector("#delServicio");
+
+  deleteFile(delCedula, cedulaImg);
+  deleteFile(delTitulo, tituloImg);
+  deleteFile(delNotas, notasImg);
+  deleteFile(delOpsu, opsuImg);
+  deleteFile(delPartida, partidaNacImg);
+  deleteFile(delConducta, conductaImg);
+  deleteFile(delServicio, servicioImg);
+
   eventoVal(cedulaImg);
   eventoVal(tituloImg);
   eventoVal(notasImg);
@@ -162,6 +178,12 @@ selectPrograma.addEventListener("change", () => {
     falcultad.value = "3005";
   }
 });
+
+function deleteFile(inputdel, input) {
+  inputdel.addEventListener("click", () => {
+    input.value = "";
+  });
+}
 
 function eventoVal(input) {
   input.addEventListener("change", () => {

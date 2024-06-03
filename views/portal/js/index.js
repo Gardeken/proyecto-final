@@ -407,6 +407,20 @@ async function eventosEst(idSubject) {
 
         const inputFile = document.querySelector("#uploadAsig");
         inputFile.addEventListener("change", () => {
+          const tamaño = transformarBytes(inputFile.files[0].size);
+          const extension = validarExtension(
+            inputFile.files[0].name,
+            inputFile
+          );
+          if (extension) {
+            return crearMsg(
+              "Solo se pueden enviar archivos comprimidos (.zip o .rar)"
+            );
+          }
+          if (tamaño > 10) {
+            inputFile.value = "";
+            return crearMsg("No puede mandar un archivo tan pesado");
+          }
           aceptar.classList.remove("hidden");
         });
         const saveAsigE = document.querySelector("#saveAsigE");
@@ -1234,6 +1248,11 @@ async function crearBtn(idSubject) {
 async function guardarDatos(idSubject) {
   const formulario = document.querySelector("#formulario");
   const aceptar = document.querySelector("#aceptar");
+  const fileAsig = document.querySelector("#fileAsig");
+  eventoVal(fileAsig);
+  const delAsig = document.querySelector("#delAsig");
+  deleteFile(delAsig, fileAsig);
+
   aceptar.addEventListener("click", async (e) => {
     e.preventDefault();
     const fecha = document.querySelector("#dateAsig").value;
@@ -1255,6 +1274,48 @@ async function guardarDatos(idSubject) {
       crearMsg(error.response.data.message);
     }
   });
+}
+
+// validar inputs file
+
+function eventoVal(input) {
+  input.addEventListener("change", () => {
+    const tamaño = transformarBytes(input.files[0].size);
+    const extension = validarExtension(input.files[0].name, input);
+    if (extension) {
+      return crearMsg(
+        "Solo se pueden enviar archivos comprimidos (.zip o .rar)"
+      );
+    }
+    if (tamaño > 10) {
+      input.value = "";
+      return crearMsg("No puede mandar un archivo tan pesado");
+    }
+  });
+}
+
+function deleteFile(inputdel, input) {
+  inputdel.addEventListener("click", () => {
+    input.value = "";
+  });
+}
+
+function validarExtension(nombre, input) {
+  const extension = nombre.split(".");
+  if (extension[1] === "zip") {
+    return false;
+  } else if (extension[1] === "rar") {
+    return false;
+  } else {
+    input.value = "";
+    return true;
+  }
+}
+
+function transformarBytes(size) {
+  const kilobyte = size / 1000;
+  const megabyte = kilobyte / 1000;
+  return megabyte;
 }
 
 //Notas
