@@ -44,9 +44,10 @@ export const listadoRequestFilt = async (filter) => {
   return listado;
 };
 
-export const crearSubject = async (data, idUser) => {
+export const crearSubject = async (data, idUser, IDquarter) => {
   const crear = await axios.post("/api/request/crearMateria", data, {
     params: {
+      IDquarter,
       idUser,
     },
   });

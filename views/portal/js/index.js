@@ -65,6 +65,14 @@ const objModulo = {
   104: "Módulo de Verano",
 };
 
+const objFacultad = {
+  3001: "Facultad de Diseño",
+  3002: "Falcultad de Administración",
+  3003: "Facultad de Derecho",
+  3004: "Facultad de ingienería",
+  3005: "Facultad de educación",
+};
+
 const objCarreras = {
   2000: "Diseño gráfico",
   2001: "Arquitectura",
@@ -117,7 +125,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     const prof = await buscarProfesor(id);
     printProf();
     const createSub = document.querySelector("#createSub");
-    createSub.addEventListener("click", crearMateria);
+    try {
+      const validacion = await validarCreate();
+      createSub.addEventListener("click", () => {
+        crearMateria(validacion.data.IDquarter);
+      });
+    } catch (error) {
+      return imprimir404("Crear materia", "Aún no es fecha de creación");
+    }
     return impListadoMat(prof.data.subjects);
   }
   if (rol === "admin") {
@@ -128,64 +143,60 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 });
 
-async function crearMateria() {
-  const validacion = await validarCreate();
-  if (validacion.status === 200) {
-    imprimirCrearMatProf();
-    const formCreate = document.querySelector("#formCreate");
-    const inputPensum = document.querySelector("#filePensum");
-    const delPensum = document.querySelector("#delPensum");
-    const endClass = document.querySelector("#endClass");
-    const startClass = document.querySelector("#startClass");
-    const selectSubject = document.querySelector("#selectSubject");
-    const selectCareer = document.querySelector("#selectCareer");
-    const selectFac = document.querySelector("#selectFac");
-    eventoVal(inputPensum);
-    deleteFile(delPensum, inputPensum);
+async function crearMateria(IDquarter) {
+  imprimirCrearMatProf();
+  const formCreate = document.querySelector("#formCreate");
+  const inputPensum = document.querySelector("#filePensum");
+  const delPensum = document.querySelector("#delPensum");
+  const endClass = document.querySelector("#endClass");
+  const startClass = document.querySelector("#startClass");
+  const selectSubject = document.querySelector("#selectSubject");
+  const selectCareer = document.querySelector("#selectCareer");
+  const selectFac = document.querySelector("#selectFac");
+  eventoVal(inputPensum);
+  deleteFile(delPensum, inputPensum);
 
-    selectFac.addEventListener("change", () => {
-      cargarCarreras(selectFac.value);
-      cargarMaterias({ CODFaculty: selectFac.value });
-    });
-    selectCareer.addEventListener("change", () => {
-      if (selectCareer.value === "") {
-        return cargarMaterias({ CODFaculty: selectFac.value });
-      }
-      cargarMaterias({ CODCareer: selectCareer.value });
-    });
+  selectFac.addEventListener("change", () => {
+    cargarCarreras(selectFac.value);
+    cargarMaterias({ CODFaculty: selectFac.value });
+  });
+  selectCareer.addEventListener("change", () => {
+    if (selectCareer.value === "") {
+      return cargarMaterias({ CODFaculty: selectFac.value });
+    }
+    cargarMaterias({ CODCareer: selectCareer.value });
+  });
 
-    formCreate.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const listadoInputs = [
-        inputPensum,
-        endClass,
-        startClass,
-        selectSubject,
-        selectFac,
-      ].some((i) => i.value === "");
-      if (listadoInputs) {
-        return crearMsg("No puede dejar los campos vacíos");
-      }
-      const data = new FormData(formCreate);
-      let contador = 0;
-      const validacion = data.forEach((i) => {
-        if (i === "1") {
-          contador += 1;
-        }
-      });
-      if (contador === 0) {
-        return crearMsg("Tiene que selecionar un día");
-      }
-      try {
-        const crear = await crearSubject(data, id);
-        crearMsg(crear.data.message);
-      } catch (error) {
-        crearMsg(error.response.data.message);
+  formCreate.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const listadoInputs = [
+      inputPensum,
+      endClass,
+      startClass,
+      selectSubject,
+      selectFac,
+    ].some((i) => i.value === "");
+    if (listadoInputs) {
+      return crearMsg("No puede dejar los campos vacíos");
+    }
+    const data = new FormData(formCreate);
+    let contador = 0;
+    const validacion = data.forEach((i) => {
+      if (i === "1") {
+        contador += 1;
       }
     });
-  } else {
-    imprimir404("Crear materia", "Aún no es fecha de creación");
-  }
+    if (contador === 0) {
+      return crearMsg("Tiene que selecionar un día");
+    }
+    try {
+      const crear = await crearSubject(data, id, IDquarter);
+      crearMsg(crear.data.message);
+      formCreate.reset();
+    } catch (error) {
+      console.log(error);
+    }
+  });
 }
 
 async function cargarNombre() {
@@ -851,7 +862,6 @@ async function modalPeticiones(e, data, idReq, idUser) {
   }
   if (tipo === "4003") {
     const datos = JSON.parse(data);
-    console.log(datos);
     let dias = "";
     if (datos.lunes) {
       dias += "Lunes ";
@@ -871,9 +881,34 @@ async function modalPeticiones(e, data, idReq, idUser) {
     if (datos.sabado) {
       dias += "Sábado ";
     }
-    console.log(dias);
+    const prof = await buscarUsuario(idUser);
+    const materia = await buscarInfoMateria({
+      CODSubject: datos.selectSubject,
+    });
+    if (datos.selectCareer !== "") {
+      imprimirCrearMat(
+        prof.data.name,
+        objFacultad[Number(datos.selectFac)],
+        objCarreras[Number(datos.selectCareer)],
+        materia.data[0].name,
+        dias,
+        datos.startClass,
+        datos.endClass,
+        datos.path
+      );
+    } else {
+      imprimirCrearMat(
+        prof.data.name,
+        objFacultad[Number(datos.selectFac)],
+        "",
+        materia.data[0].name,
+        dias,
+        datos.startClass,
+        datos.endClass,
+        datos.path
+      );
+    }
     modal.classList.remove("hidden");
-    imprimirCrearMat();
     closeModalBtn();
   }
 }

@@ -267,7 +267,16 @@ const imprimirCambioDatos = (desc) => {
   `;
 };
 
-const imprimirCrearMat = () => {
+const imprimirCrearMat = (
+  name,
+  facultad,
+  carrera,
+  materia,
+  dias,
+  startH,
+  endH,
+  path
+) => {
   container2.innerHTML = `
   <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -288,25 +297,34 @@ const imprimirCrearMat = () => {
           <div class="desc-crearMat">
             <div>
               <span> Profesor: </span>
-              <span> Daniuska Soto </span>
+              <span> ${name} </span>
             </div>
 
             <div>
               <span> Facultad: </span>
-              <span> Facultad de Diseño </span>
+              <span> ${facultad} </span>
             </div>
             <div>
               <span> Carrera: </span>
-              <span> Diseño Gráfico </span>
+              <span> ${carrera} </span>
             </div>
             <div>
               <span> Materia: </span>
-              <span> Taller de Diseño Gráfico I </span>
+              <span> ${materia} </span>
             </div>
+            <div>
+              <span> Días: </span>
+              <span> ${dias} </span>
+            </div>
+            <div>
+            <span> Horas: </span>
+            <span>${startH} - ${endH}</span>
           </div>
+          </div>
+          
           <div class="container-downloadPensum">
             <span>Descargar Pensum</span>
-            <a download="" id="downloadPensum" class="download-pensum">
+            <a download href="../${path}" id="downloadPensum" class="download-pensum">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"

@@ -146,6 +146,7 @@ requestRouter.post(
     const trans = JSON.stringify(req.body);
     const obj = JSON.parse(trans);
     obj.path = req.file.path;
+    obj.IDquarter = req.query.IDquarter;
     const newRequest = new request();
     newRequest.id = Date.now();
     newRequest.type = "4003";
