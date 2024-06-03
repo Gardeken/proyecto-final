@@ -156,6 +156,7 @@ input[type="file"],
 }
 
 .delete-file {
+  background-color: var(--gris-principal);
   align-self: start;
 }
 
@@ -766,6 +767,78 @@ header {
   grid-template-columns: repeat(4, 1fr);
 }
 
+.aviso {
+  display: grid;
+  margin: 1rem 0;
+  place-items: center;
+}
+
+/*
+<------------------------------------------------------------------------------->
+                            Estilos main create
+*/
+
+.form-create {
+  display: grid;
+}
+
+.selects,
+.times,
+.days {
+  margin: 1rem;
+  width: 60%;
+  display: grid;
+  place-items: center start;
+  grid-template-columns: 0.5fr 1fr;
+}
+
+.days {
+  place-items: start;
+}
+
+.days input[type="checkbox"] {
+  appearance: none;
+  cursor: pointer;
+  width: 1rem;
+  height: 1rem;
+  border: 1px var(--rojo-principal) solid;
+  border-radius: 0.3rem;
+}
+
+.days input[type="checkbox"]:checked {
+  background-color: var(--rojo-principal);
+}
+
+.selects select,
+.times input[type="time"] {
+  outline: none;
+  cursor: pointer;
+  border: 1px solid var(--rojo-principal);
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+}
+
+.selects select {
+  width: 100%;
+}
+
+.container-svgCreate {
+  display: flex;
+  align-items: center;
+  margin: 1rem;
+  gap: 2rem;
+}
+
+.btnCreate {
+  place-self: center;
+  color: white;
+  background-color: var(--rojo-principal);
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.8rem;
+  margin: 1rem;
+}
+
 .pointer {
   cursor: pointer;
 }
@@ -924,6 +997,17 @@ header {
     flex-direction: column;
     align-items: center;
     gap: 0.5rem;
+  }
+
+  .selects,
+  .times,
+  .days {
+    width: 78vw;
+    gap: 1rem;
+  }
+
+  .container-svgCreate {
+    flex-direction: column;
   }
 
   /*

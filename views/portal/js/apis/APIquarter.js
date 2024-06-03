@@ -36,3 +36,8 @@ export const eliminarTrimestres = async (id) => {
   });
   return eliminar;
 };
+
+export const validarCreate = async () => {
+  const consulta = await axios.get("/api/quarter/validar-create-prof");
+  return consulta;
+};

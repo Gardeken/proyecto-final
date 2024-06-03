@@ -20,6 +20,7 @@ import {
   listadoTrimestres,
   actualizarTrimestres,
   eliminarTrimestres,
+  validarCreate,
 } from "./apis/APIquarter.js";
 import {
   buscarAsignacion,
@@ -112,6 +113,15 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (rol === "teacher") {
     const prof = await buscarProfesor(id);
     printProf();
+    const createSub = document.querySelector("#createSub");
+    createSub.addEventListener("click", async () => {
+      const validacion = await validarCreate();
+      if (validacion.status === 200) {
+        imprimirCrearMatProf();
+      } else {
+        imprimir404("Crear materia", "Aún no es fecha de creación");
+      }
+    });
     return impListadoMat(prof.data.subjects);
   }
   if (rol === "admin") {
@@ -1120,6 +1130,12 @@ function printEst() {
         const listadoNotas = await listadoAsigEst(id, idSubject);
         const container = document.querySelector("#asignaciones");
         const { data } = listadoNotas;
+        if (data.length === 0) {
+          const div = document.createElement("div");
+          div.innerHTML = "No hay notas para esta materia";
+          div.classList.add("aviso");
+          containerNotas.appendChild(div);
+        }
         data.forEach(async (i) => {
           if (i.grades) {
             const asignacion = await buscarAsignacion(i.assigmentT);
@@ -1144,7 +1160,7 @@ function printEst() {
   });
 
   const calendar = document.querySelector("#calendar");
-  calendar.addEventListener("click", renderCalendar);
+  //calendar.addEventListener("click", renderCalendar);
 
   listadoMaterias.addEventListener("click", async (e) => {
     if (e.target.classList.contains("subject")) {
@@ -1157,36 +1173,6 @@ function printEst() {
 }
 
 //Calendario
-
-function renderCalendar() {
-  const containerMain = document.querySelector("#container-main");
-  containerMain.innerHTML = "";
-  const calendar = new FullCalendar.Calendar(containerMain, {
-    initialView: "dayGridMonth",
-    events: [
-      {
-        title: "Taller de diseño Gráfico I",
-        daysOfWeek: [2, 3],
-        startTime: "09:00AM",
-        endTime: "12:00PM",
-      },
-      {
-        title: "Taller de diseño",
-        daysOfWeek: [2, 3],
-        startTime: "01:00PM",
-        endTime: "7:00PM",
-      },
-    ],
-    eventContent: (info) => {
-      return {
-        html: `
-        <div class="evento">${info.event.title}</div>
-        `,
-      };
-    },
-  });
-  calendar.render();
-}
 
 //Asignaciones
 

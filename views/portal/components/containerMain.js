@@ -890,3 +890,123 @@ const imprimirPeticiones = () => {
         </div>
   `;
 };
+
+const imprimirCrearMatProf = () => {
+  container.innerHTML = `
+  <div class="container-asig">
+          <section>
+            <h3 id="titulo" class="container-titulo">Crear Materia</h3>
+          </section>
+          <form id="formCreate" class="form-create" action="">
+            <div class="selects">
+              <label for="selectFac">Elegir Facultad</label>
+              <select name="selectFac" id="selectFac">
+                <option selected disabled value="">...</option>
+                <option value="3001">Facultad de Diseño</option>
+                <option value="3002">Facultad de Administración</option>
+                <option value="3003">Facultad de Derecho</option>
+                <option value="3004">Facultad de Ingienería</option>
+                <option value="3005">Facultad de Educación</option>
+              </select>
+            </div>
+            <div class="selects">
+              <label for="selectCareer">Elegir Carrera</label>
+              <select name="selectCareer" id="selectCareer">
+                <option selected disabled value="">...</option>
+              </select>
+            </div>
+            <div class="selects">
+              <label for="selectSubject">Elegir materia</label>
+              <select name="selectSubject" id="selectSubject">
+                <option selected disabled value="">...</option>
+              </select>
+            </div>
+            <div class="times">
+              <label for="startClass">Inicio de la clase</label>
+              <input type="time" name="startClass" id="startClass" />
+            </div>
+            <div class="times">
+              <label for="endClass">Fin de la clase</label>
+              <input type="time" name="endClass" id="endClass" />
+            </div>
+            <div class="days">
+              <label for="">Elegir días</label>
+
+              <div class="inputDays">
+                <div>
+                  <input name="lunes" value="1" type="checkbox" /> Lunes
+                </div>
+                <div>
+                  <input name="martes" value="2" type="checkbox" /> Martes
+                </div>
+                <div>
+                  <input name="miercoles" value="3" type="checkbox" /> Miércoles
+                </div>
+                <div>
+                  <input name="jueves" value="4" type="checkbox" /> Jueves
+                </div>
+                <div>
+                  <input name="viernes" value="5" type="checkbox" /> Viernes
+                </div>
+                <div>
+                  <input name="sabado" value="6" type="checkbox" /> Sábado
+                </div>
+              </div>
+            </div>
+            <div class="container-svgCreate">
+              <label for="filePensum">Agregar Pensum</label>
+              <div>
+                <label class="label-svg" for="filePensum">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="upload-svg"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"
+                    />
+                  </svg>
+                </label>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  id="delPensum"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="delete-file"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M6 18 18 6M6 6l12 12"
+                  />
+                </svg>
+              </div>
+
+              <input type="file" name="" id="filePensum" />
+            </div>
+
+            <button class="btnCreate" type="submit">Enviar</button>
+          </form>
+        </div>
+  `;
+};
+
+const imprimir404 = (titulo, message) => {
+  container.innerHTML = `
+  <div class="container-asig">
+          <section>
+            <h3 id="titulo" class="container-titulo">${titulo}</h3>
+          </section>
+          <p style="display: grid; place-items: center">
+            ${message}
+          </p>
+        </div>
+  `;
+};
