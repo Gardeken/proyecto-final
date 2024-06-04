@@ -63,14 +63,14 @@ assigmentERouter.get("/buscar-listado", async (req, res) => {
 
 assigmentERouter.get("/buscar-una-asig", async (req, res) => {
   const { idAsigT, idUser } = req.query;
-  const asignacion = await AssigmentE.findOne({
-    user: idUser,
-    assigmentT: idAsigT,
-  });
-  if (asignacion) {
+  try {
+    const asignacion = await AssigmentE.findOne({
+      user: idUser,
+      assigmentT: idAsigT,
+    });
     res.status(200).json(asignacion);
-  } else {
-    res.status(400).json({
+  } catch (error) {
+    res.status(404).json({
       message: "No se encontro la asignacion",
     });
   }

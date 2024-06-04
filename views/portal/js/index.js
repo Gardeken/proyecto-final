@@ -413,185 +413,6 @@ async function eventosAdmin() {
   });
 }
 
-async function eventosEst(idSubject) {
-  const containerAsig = document.querySelector("#asignaciones");
-  containerAsig.addEventListener("click", async (e) => {
-    const containerModal = document.querySelector("#container-modal");
-    const modal = document.querySelector("#modal");
-    if (e.target.parentElement.classList.contains("assigmentS")) {
-      const idAsig = e.target.parentElement.id;
-      const asig = await buscarAsignacion(idAsig);
-      const { name, date, description } = asig.data;
-      console.log(asig.data);
-      try {
-        const existe = await buscarUnaAsig(id, idAsig);
-        if (existe.data) {
-          containerModal.innerHTML = `
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          id="closeModal"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          class="close-modal"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M6 18 18 6M6 6l12 12"
-          />
-        </svg>
-          <div class="container-nameAsig">
-              <p>Nombre:</p>
-              <p>${name}</p>
-            </div>
-            <div class="container-dateAsig">
-              <p>Fecha de entrega:</p>
-              <p>${date}</p>
-            </div>
-            <div class="container-descAsig">
-              <p>Descripción:</p>
-              <p>${description}</p>
-            </div>
-            <div class="container-download">
-            <label class="download-asig">Entregado</label>
-            
-            </div>
-
-        `;
-          modal.classList.remove("hidden");
-          const closeModal = document.querySelector("#closeModal");
-          return closeModal.addEventListener("click", () => {
-            modal.classList.add("hidden");
-          });
-        }
-      } catch (error) {
-        if (asig.data.path) {
-          containerModal.innerHTML = `
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          id="closeModal"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          class="close-modal"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M6 18 18 6M6 6l12 12"
-          />
-        </svg>
-          <div class="container-nameAsig">
-          <p>Nombre:</p>
-          <p>${name}</p>
-        </div>
-        <div class="container-dateAsig">
-          <p>Fecha de entrega:</p>
-          <p>${date}</p>
-        </div>
-        <div class="container-descAsig">
-          <p>Descripción:</p>
-          <p>${description}</p>
-        </div>
-        <div class="container-download">
-          <a href="../${asig.data.path}" download class="download-asig">Descargar</a>
-          <label id="labelEnt" class="download-asig pointer" for="uploadAsig">Entregar</label>
-          <form id="saveAsigE">
-            <input type="file" name="studentAsig" class="hidden" id="uploadAsig">
-            <button class="download-asig hidden" id="aceptar">Aceptar</button>
-          </form>
-        </div>`;
-        } else {
-          containerModal.innerHTML = `
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          id="closeModal"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          class="close-modal"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M6 18 18 6M6 6l12 12"
-          />
-        </svg>
-          <div class="container-nameAsig">
-              <p>Nombre:</p>
-              <p>${name}</p>
-            </div>
-            <div class="container-dateAsig">
-              <p>Fecha de entrega:</p>
-              <p>${date}</p>
-            </div>
-            <div class="container-descAsig">
-              <p>Descripción:</p>
-              <p>${description}</p>
-            </div>
-            <form class="container-download" id="saveAsigE">
-            <label id="labelEnt" class="download-asig pointer" for="uploadAsig">Entregar</label>
-          
-            <input type="file" name="studentAsig" class="hidden" id="uploadAsig">
-            <button class="download-asig hidden" id="aceptar">Aceptar</button>
-          
-          </form>
-            `;
-        }
-        modal.classList.remove("hidden");
-        const closeModal = document.querySelector("#closeModal");
-        closeModal.addEventListener("click", () => {
-          modal.classList.add("hidden");
-        });
-
-        const inputFile = document.querySelector("#uploadAsig");
-        inputFile.addEventListener("change", () => {
-          const tamaño = transformarBytes(inputFile.files[0].size);
-          const extension = validarExtension(
-            inputFile.files[0].name,
-            inputFile
-          );
-          if (extension) {
-            return crearMsg(
-              "Solo se pueden enviar archivos comprimidos (.zip o .rar)"
-            );
-          }
-          if (tamaño > 10) {
-            inputFile.value = "";
-            return crearMsg("No puede mandar un archivo tan pesado");
-          }
-          aceptar.classList.remove("hidden");
-        });
-        const saveAsigE = document.querySelector("#saveAsigE");
-        saveAsigE.addEventListener("submit", async (e) => {
-          e.preventDefault();
-          const data = new FormData(saveAsigE);
-          try {
-            if (!inputFile.value) {
-              return crearMsg("Tiene que cargar un archivo antes de enviar");
-            }
-            const post = await guardarAsignacionEstudiante(
-              data,
-              idSubject,
-              id,
-              idAsig
-            );
-            const act = await guardarAsignacionEst(post.data.id, idAsig);
-            crearMsg(act.data.message);
-            modal.classList.add("hidden");
-          } catch (error) {
-            crearMsg(error.response.data.message);
-          }
-        });
-      }
-    }
-  });
-}
-
 function eventosProf(idSubject) {
   const btnAsig = document.querySelector("#asig");
   const btnCalendar = document.querySelector("#calendario");
@@ -642,7 +463,7 @@ function eventosProf(idSubject) {
       if (!asignacion.data) {
         return;
       }
-      const { name, date, id, assigmentE } = asignacion.data;
+      const { name, date, id, assigmentE, porcentaje } = asignacion.data;
       const divA = document.createElement("div");
       divA.id = i;
       divA.classList.add("asignacion", "pointer", "studentAsig");
@@ -653,11 +474,13 @@ function eventosProf(idSubject) {
         <div class="separador"></div>
         <p class="container-date">${date}</p>
       </div>
+      <p>${porcentaje}%</p>
       <button data-id="${id}" id="delete" class="delete-asig">Eliminar</button>
     `;
       } else {
         divA.innerHTML = `
       <p class="column">${name}</p>
+      <p>${porcentaje}</p>
       <div class="container-fecha">
         <div class="separador"></div>
         <p class="container-date">${date}</p>
@@ -669,7 +492,7 @@ function eventosProf(idSubject) {
         if (e.target.classList.contains("delete-asig")) {
           return eliminarAsigT(e, idSubject);
         }
-        const id = e.target.closest("div").id;
+        const idAsigT = e.target.closest("div").id;
         containerAsig.innerHTML = `
       <div id="asignacion" class="asignacion">
     <p class="column">Nombre</p>
@@ -679,11 +502,11 @@ function eventosProf(idSubject) {
     </div>
   </div>
         `;
-        const listado = await listadoAsignaciones(id);
+        const listado = await listadoAsignaciones(idAsigT);
         const { data } = listado;
+        console.log(listado);
         data.forEach(async (i) => {
           const { id, user, path } = i;
-
           const estudiante = await buscarEstudiante(user);
           const { fullName } = estudiante.data;
           const divA = document.createElement("div");
@@ -1488,7 +1311,6 @@ function printEst() {
       const id = e.target.id;
       imprimirContainerEst();
       cargarAsig(id);
-      eventosEst(id);
     }
   });
 }
@@ -1498,6 +1320,7 @@ function printEst() {
 //Asignaciones
 
 async function cargarAsig(id) {
+  const idSubject = id;
   const materia = await buscarMateria(id);
   const containerM = document.querySelector("#asignaciones");
   const titulo = document.querySelector("#titulo");
@@ -1517,6 +1340,227 @@ async function cargarAsig(id) {
   `;
     div.id = i;
     containerM.appendChild(div);
+    div.addEventListener("click", async (e) => {
+      const idAsig = id;
+      const asig = await buscarAsignacion(idAsig);
+      const { name, date, description, porcentaje } = asig.data;
+      const fechaEnt = date.split("-");
+      const mesAct = new Date().getMonth() + 1;
+      try {
+        const existe = await buscarUnaAsig(id, idAsig);
+        if (existe.data) {
+          containerModal.innerHTML = `
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          id="closeModal"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="close-modal"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M6 18 18 6M6 6l12 12"
+          />
+        </svg>
+          <div class="container-nameAsig">
+              <p>Nombre:</p>
+              <p>${name}</p>
+            </div>
+            <div class="container-dateAsig">
+              <p>Fecha de entrega:</p>
+              <p>${date}</p>
+            </div>
+            <div class="container-dateAsig">
+              <p>Porcentaje:</p>
+              <p>${porcentaje}%</p>
+            </div>
+            <div class="container-descAsig">
+              <p>Descripción:</p>
+              <p>${description}</p>
+            </div>
+            <div class="container-download">
+            <label class="download-asig">Entregado</label>
+            
+            </div>
+
+        `;
+        } else if (
+          fechaEnt[0] <= new Date().getDate() &&
+          fechaEnt[1] <= mesAct &&
+          fechaEnt[2] <= new Date().getFullYear
+        ) {
+          containerModal.innerHTML = `
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            id="closeModal"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="close-modal"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M6 18 18 6M6 6l12 12"
+            />
+          </svg>
+            <div class="container-nameAsig">
+                <p>Nombre:</p>
+                <p>${name}</p>
+              </div>
+              <div class="container-dateAsig">
+                <p>Fecha de entrega:</p>
+                <p>${date}</p>
+              </div>
+              <div class="container-dateAsig">
+                <p>Porcentaje:</p>
+                <p>${porcentaje}%</p>
+              </div>
+              <div class="container-descAsig">
+                <p>Descripción:</p>
+                <p>${description}</p>
+              </div>
+              <div class="container-download">
+              </div>
+  
+          `;
+          modal.classList.remove("hidden");
+          return closeModalBtn();
+        } else if (asig.data.path) {
+          containerModal.innerHTML = `
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          id="closeModal"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="close-modal"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M6 18 18 6M6 6l12 12"
+          />
+        </svg>
+          <div class="container-nameAsig">
+          <p>Nombre:</p>
+          <p>${name}</p>
+        </div>
+        <div class="container-dateAsig">
+          <p>Fecha de entrega:</p>
+          <p>${date}</p>
+        </div>
+        <div class="container-dateAsig">
+              <p>Porcentaje:</p>
+              <p>${porcentaje}%</p>
+            </div>
+        <div class="container-descAsig">
+          <p>Descripción:</p>
+          <p>${description}</p>
+        </div>
+        <div class="container-download">
+          <a href="../${asig.data.path}" download class="download-asig">Descargar</a>
+          <label id="labelEnt" class="download-asig pointer" for="uploadAsig">Entregar</label>
+          <form id="saveAsigE">
+            <input type="file" name="studentAsig" class="hidden" id="uploadAsig">
+            <button class="download-asig hidden" id="aceptar">Aceptar</button>
+          </form>
+        </div>`;
+        } else {
+          containerModal.innerHTML = `
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          id="closeModal"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="close-modal"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M6 18 18 6M6 6l12 12"
+          />
+        </svg>
+          <div class="container-nameAsig">
+              <p>Nombre:</p>
+              <p>${name}</p>
+            </div>
+            <div class="container-dateAsig">
+              <p>Fecha de entrega:</p>
+              <p>${date}</p>
+            </div>
+            <div class="container-dateAsig">
+              <p>Porcentaje:</p>
+              <p>${porcentaje}%</p>
+            </div>
+            <div class="container-descAsig">
+              <p>Descripción:</p>
+              <p>${description}</p>
+            </div>
+            <form class="container-download" id="saveAsigE">
+            <label id="labelEnt" class="download-asig pointer" for="uploadAsig">Entregar</label>
+          
+            <input type="file" name="studentAsig" class="hidden" id="uploadAsig">
+            <button class="download-asig hidden" id="aceptar">Aceptar</button>
+          
+          </form>
+            `;
+        }
+        modal.classList.remove("hidden");
+        closeModalBtn();
+        const inputFile = document.querySelector("#uploadAsig");
+        inputFile.addEventListener("change", () => {
+          const tamaño = transformarBytes(inputFile.files[0].size);
+          const extension = validarExtension(
+            inputFile.files[0].name,
+            inputFile
+          );
+          if (extension) {
+            return crearMsg(
+              "Solo se pueden enviar archivos comprimidos (.zip o .rar)"
+            );
+          }
+          if (tamaño > 10) {
+            inputFile.value = "";
+            return crearMsg("No puede mandar un archivo tan pesado");
+          }
+          aceptar.classList.remove("hidden");
+        });
+        const saveAsigE = document.querySelector("#saveAsigE");
+        saveAsigE.addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const data = new FormData(saveAsigE);
+          try {
+            if (!inputFile.value) {
+              return crearMsg("Tiene que cargar un archivo antes de enviar");
+            }
+            const idUser = URL.get("id");
+            const post = await guardarAsignacionEstudiante(
+              data,
+              idSubject,
+              idUser,
+              idAsig
+            );
+            const act = await guardarAsignacionEst(post.data.id, idAsig);
+            crearMsg(act.data.message);
+            modal.classList.add("hidden");
+          } catch (error) {
+            console.log(error);
+          }
+        });
+        modal.classList.remove("hidden");
+        return closeModalBtn();
+      } catch (error) {
+        console.log(error);
+      }
+    });
   });
 }
 

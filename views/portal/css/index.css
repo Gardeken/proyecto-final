@@ -743,7 +743,8 @@ header {
 }
 
 .studentAsig {
-  grid-template-columns: 1fr 1fr 1fr 0.5fr;
+  place-items: center;
+  grid-template-columns: 1fr 1fr 1fr 1fr 0.5fr;
 }
 
 .container-selectReq {
