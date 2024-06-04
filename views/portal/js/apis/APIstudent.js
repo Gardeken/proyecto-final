@@ -43,3 +43,11 @@ export const eliminarEstudiante = async (student) => {
   });
   return eliminar;
 };
+
+export const actualizarMatEst = async (idStudent, CODSubject) => {
+  const act = await axios.put("/api/student/act-materias-est", {
+    idStudent,
+    CODSubject,
+  });
+  return act;
+};

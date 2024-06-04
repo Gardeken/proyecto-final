@@ -107,6 +107,48 @@ studentRouter.put("/aceptar-al", async (req, res) => {
   }
 });
 
+studentRouter.put("/act-materias-est", async (req, res) => {
+  const { idStudent, CODSubject } = req.body;
+  const validar = await student.findOne({ id: idStudent });
+  const lista = [CODSubject.toString()];
+  console.log(validar);
+  if (validar.listSubjects) {
+    try {
+      const listado = JSON.parse(validar.listSubjects);
+      listado.push(CODSubject.toString());
+      await student.findOneAndUpdate(
+        { id: idStudent },
+        {
+          listSubjects: JSON.stringify(listado),
+        }
+      );
+      res.status(200).json({
+        message: "Se ha guardado con éxito la materia",
+      });
+    } catch (error) {
+      res.status(400).json({
+        message: "Hubo un error al guardar la materia",
+      });
+    }
+  } else {
+    try {
+      await student.findOneAndUpdate(
+        { id: idStudent },
+        {
+          listSubjects: JSON.stringify(lista),
+        }
+      );
+      res.status(200).json({
+        message: "Se ha guardado con éxito la materia",
+      });
+    } catch (error) {
+      res.status(400).json({
+        message: "Hubo un error al guardar la materia",
+      });
+    }
+  }
+});
+
 studentRouter.delete("/eliminar-est", async (req, res) => {
   const {
     idStudent,

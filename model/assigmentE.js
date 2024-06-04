@@ -8,6 +8,7 @@ const assigmentSchema = new mongoose.Schema({
   grades: Number,
   assigmentT: String,
   subject: String,
+  porcentaje: Number,
 });
 
 const AssigmentE = mongoose.model("AssigmentE", assigmentSchema);

@@ -98,10 +98,11 @@ assigmentERouter.post(
       });
     }
     const { path } = req.file;
-    const { idUser, idAsigT, idSubject } = req.query;
+    const { idUser, idAsigT, idSubject, porcentaje } = req.query;
     const id = Date.now();
     const newAssigmentE = new AssigmentE();
     newAssigmentE.user = idUser;
+    newAssigmentE.porcentaje = Number(porcentaje);
     newAssigmentE.subject = idSubject;
     newAssigmentE.assigmentT = idAsigT;
     newAssigmentE.id = id;

@@ -57,3 +57,12 @@ export const eliminarAsignacionT = async (idAsigT) => {
   });
   return eliminar;
 };
+
+export const listadoAsigT = async (idSubject) => {
+  const listado = await axios.get("/api/assigment/listado-asignaciones", {
+    params: {
+      idSubject,
+    },
+  });
+  return listado;
+};

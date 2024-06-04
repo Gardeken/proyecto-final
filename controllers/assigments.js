@@ -108,6 +108,12 @@ assigmentRouter.get("/buscar-asig", async (req, res) => {
   }
 });
 
+assigmentRouter.get("/listado-asignaciones", async (req, res) => {
+  const { idSubject } = req.query;
+  const listado = await assigment.find({ idSubject });
+  res.status(200).json(listado);
+});
+
 assigmentRouter.put("/act-listado-asigE", async (req, res) => {
   const { idAsigE, idAsigT } = req.body;
   try {

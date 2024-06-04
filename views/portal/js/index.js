@@ -3,6 +3,7 @@ import {
   actAlumno,
   aceptarAlumno,
   eliminarEstudiante,
+  actualizarMatEst,
 } from "./apis/APIstudent.js";
 import { buscarInfoMateria } from "./apis/APIinfoSubject.js";
 import { buscarProfesor } from "./apis/APIteachers.js";
@@ -35,6 +36,7 @@ import {
   guardarAsignacionEst,
   actAsigT,
   eliminarAsignacionT,
+  listadoAsigT,
 } from "./apis/APIassigment.js";
 import {
   buscarAsignacionE,
@@ -415,7 +417,6 @@ async function eventosAdmin() {
 
 function eventosProf(idSubject) {
   const btnAsig = document.querySelector("#asig");
-  const btnCalendar = document.querySelector("#calendario");
   const btnEst = document.querySelector("#alumnos");
   btnEst.addEventListener("click", () => {
     if (document.querySelector("#crear")) {
@@ -504,7 +505,6 @@ function eventosProf(idSubject) {
         `;
         const listado = await listadoAsignaciones(idAsigT);
         const { data } = listado;
-        console.log(listado);
         data.forEach(async (i) => {
           const { id, user, path } = i;
           const estudiante = await buscarEstudiante(user);
@@ -527,6 +527,25 @@ function eventosProf(idSubject) {
               
             </div>
         `;
+            divA.addEventListener("click", async (e) => {
+              if (e.target.classList.contains("eliminar-asig")) {
+                const id = e.target.dataset.id;
+                const path = e.target.id;
+                const confirmar = confirm(
+                  "Está seguro de que quiere eliminar esta asignación?"
+                );
+                if (confirmar) {
+                  try {
+                    const eliminar = await eliminarAsig(id, path);
+                    const act = await actAsigT(id, eliminar.data.idAsigT);
+                    crearMsg(act.data.message);
+                    e.target.parentElement.parentElement.parentElement.remove();
+                  } catch (error) {
+                    crearMsg(error.response.data.message);
+                  }
+                }
+              }
+            });
             containerAsig.appendChild(divA);
           } else {
             divA.innerHTML = `
@@ -562,6 +581,7 @@ function eventosProf(idSubject) {
                   }
                 }
               } else if (e.target.classList.contains("corregir")) {
+                const btn = e.target;
                 const id = e.target.dataset.id;
                 modal.classList.remove("hidden");
                 containerModal.innerHTML = `
@@ -588,10 +608,7 @@ function eventosProf(idSubject) {
           Aceptar
         </button>
       `;
-                const closebtn = document.querySelector("#closeModal");
-                closebtn.addEventListener("click", () => {
-                  modal.classList.add("hidden");
-                });
+                closeModalBtn();
                 const gradeInput = document.querySelector("#gradeInput");
                 const aceptar = document.querySelector("#aceptar");
                 aceptar.addEventListener("click", async (e) => {
@@ -606,11 +623,29 @@ function eventosProf(idSubject) {
                     return crearMsg("No puede poner texto como nota");
                   try {
                     const act = await corregirAsig(id, gradeInput.value);
+                    const materia = await buscarMateria(idSubject);
+                    if (materia.data.porcentaje > 55) {
+                      const listadoAsig = await listadoAsigEst(user, idSubject);
+                      const { data } = listadoAsig;
+                      let total = 0;
+                      data.forEach((i) => {
+                        if (i.grades) {
+                          const transformar = (i.grades * i.porcentaje) / 100;
+                          total += transformar;
+                        }
+                      });
+                      if (total > 50) {
+                        const act = await actualizarMatEst(
+                          user,
+                          materia.data.CODSubject
+                        );
+                      }
+                    }
                     btn.remove();
                     crearMsg(act.data.message);
                     modal.classList.add("hidden");
                   } catch (error) {
-                    crearMsg(error.response.data.message);
+                    console.log(error);
                   }
                 });
               }
@@ -1347,7 +1382,8 @@ async function cargarAsig(id) {
       const fechaEnt = date.split("-");
       const mesAct = new Date().getMonth() + 1;
       try {
-        const existe = await buscarUnaAsig(id, idAsig);
+        const idUser = URL.get("id");
+        const existe = await buscarUnaAsig(idUser, idAsig);
         if (existe.data) {
           containerModal.innerHTML = `
         <svg
@@ -1546,7 +1582,8 @@ async function cargarAsig(id) {
               data,
               idSubject,
               idUser,
-              idAsig
+              idAsig,
+              porcentaje
             );
             const act = await guardarAsignacionEst(post.data.id, idAsig);
             crearMsg(act.data.message);
