@@ -4,14 +4,20 @@ import {
   aceptarAlumno,
   eliminarEstudiante,
   actualizarMatEst,
+  agregarSubStudent,
 } from "./apis/APIstudent.js";
-import { buscarInfoMateria } from "./apis/APIinfoSubject.js";
+import {
+  buscarInfoMateria,
+  buscarRequerimientos,
+} from "./apis/APIinfoSubject.js";
 import { actMatProf, buscarProfesor } from "./apis/APIteachers.js";
 import {
   buscarMateria,
   guardarAsignacionMat,
   createSubject,
   actualizarMateria,
+  listAgregarMaterias,
+  actualizarSubject,
 } from "./apis/APIsubject.js";
 import { buscarUsuario, buscarRol, crearUser } from "./apis/APIuser.js";
 import {
@@ -29,6 +35,7 @@ import {
   actualizarTrimestres,
   eliminarTrimestres,
   validarCreate,
+  validarInsc,
 } from "./apis/APIquarter.js";
 import {
   buscarAsignacion,
@@ -1339,8 +1346,52 @@ function printEst() {
     });
   });
 
-  const calendar = document.querySelector("#calendar");
-  //calendar.addEventListener("click", renderCalendar);
+  const agregarMat = document.querySelector("#agregarMat");
+
+  agregarMat.addEventListener("click", async () => {
+    imprimirAgregarMat();
+    const containerSub = document.querySelector(".container-subjects");
+    containerSub.innerHTML = "";
+    const validar = await validarInsc();
+    if (validar.status === 200) {
+      try {
+        const listado = await listAgregarMaterias();
+        const { data } = listado;
+        data.forEach(async (i) => {
+          if (i.cupos === 0) {
+            return;
+          }
+          const div = document.createElement("div");
+          const usuario = await buscarUsuario(i.teacher);
+          const { name } = usuario.data;
+          div.classList.add("subjects");
+          const fechas = JSON.parse(i.dates);
+          div.innerHTML = `
+          <span class="textSub">${i.name}</span>
+          <span>${fechas.days} </span>
+          <span>${fechas.startClass} - ${fechas.endClass}</span>
+          <span>Cupos: ${i.cupos}/30</span>
+          <span>${name}</span>
+          `;
+          const btn = document.createElement("button");
+          btn.innerHTML = "Agregar";
+          btn.id = i.id;
+          btn.classList.add("btnAgregar");
+          btn.addEventListener("click", (e) => {
+            agregarMatEst(e);
+          });
+          div.appendChild(btn);
+          containerSub.appendChild(div);
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      containerSub.innerHTML = `
+      <span>Aún no son fechas de inscripción</span>
+      `;
+    }
+  });
 
   listadoMaterias.addEventListener("click", async (e) => {
     if (e.target.classList.contains("subject")) {
@@ -1349,6 +1400,52 @@ function printEst() {
       cargarAsig(id);
     }
   });
+}
+
+async function agregarMatEst(e) {
+  const idSubject = e.target.id;
+  const idUser = URL.get("id");
+  const materia = await buscarMateria(idSubject);
+  if (materia.data.students) {
+    const { students } = materia.data;
+    const listadoS = JSON.parse(students);
+    const idUser = URL.get("id");
+    const agrego = listadoS.some((i) => i === idUser);
+    if (agrego) {
+      return crearMsg("Usted ya agregó esta materia");
+    }
+  }
+  const info = await buscarRequerimientos(materia.data.CODSubject);
+  if (info.data.requirements) {
+    const requerimientos = JSON.parse(info.data.requirements);
+    const estudiante = await buscarEstudiante(idUser);
+    if (estudiante.data.listSubjects) {
+      const listadoM = JSON.parse(estudiante.data.listSubjects);
+      const tieneRequisito = requerimientos.every((i) => listadoM.includes(i));
+      if (tieneRequisito) {
+        agregar(idSubject, idUser);
+      } else {
+        crearMsg("Usted no puede agregar esta materia");
+      }
+    } else {
+      crearMsg("Usted no puede agregar esta materia");
+    }
+  } else {
+    agregar(idUser, idSubject);
+  }
+}
+
+async function agregar(idUser, idSubject) {
+  const confirmar = confirm("Está seguro de que quiere agregar esta materia");
+  if (confirmar) {
+    try {
+      const agregar = await agregarSubStudent(idUser, idSubject);
+      const act = await actualizarSubject(idUser, idSubject);
+      crearMsg(act.data.message);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }
 
 //Calendario

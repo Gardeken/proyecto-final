@@ -6,3 +6,12 @@ export const buscarInfoMateria = async (filtro) => {
   });
   return listado;
 };
+
+export const buscarRequerimientos = async (CODSubject) => {
+  const consulta = await axios.get("/api/infosubject/requirements", {
+    params: {
+      CODSubject,
+    },
+  });
+  return consulta;
+};

@@ -1031,3 +1031,20 @@ const imprimir404 = (titulo, message) => {
         </div>
   `;
 };
+
+const imprimirAgregarMat = () => {
+  container.innerHTML = `
+  <div class="container-asig">
+          <section>
+            <h3 id="titulo" class="container-titulo">Agregar materias</h3>
+          </section>
+          <div class="container-selectCareer">
+            <label for="">Filtrar por carrera</label>
+            <select class="selectCareer" name="" id="selectCareer">
+              <option value="">...</option>
+            </select>
+          </div>
+          <div class="container-subjects"></div>
+        </div>
+  `;
+};

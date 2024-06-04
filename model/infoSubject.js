@@ -9,6 +9,7 @@ const infoSubjectSchema = new mongoose.Schema({
   CODFaculty: String,
   cupos: Number,
   time: Number,
+  requirements: String,
 });
 
 const infoSubject = mongoose.model("infoSubjects", infoSubjectSchema);

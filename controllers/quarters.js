@@ -111,88 +111,6 @@ quarterRouter.get("/actualizar-trimestre", async (req, res) => {
   }
 });
 
-quarterRouter.put("/agregar-mat", async (req, res) => {
-  const { time, idSubject, IDQuarter } = req.body;
-  const lista = [`${idSubject}`];
-  try {
-    const consulta = await quarter.findOne({ id: IDQuarter });
-    if (time === 6) {
-      if (consulta.subjects6) {
-        const listado = JSON.parse(consulta.subjects6);
-        listado.push(idSubject);
-        await quarter.findOneAndUpdate(
-          { id: IDQuarter },
-          {
-            subjects6: JSON.stringify(listado),
-          }
-        );
-        res.status(200).json({
-          message: "Se ha creado la materia con éxito",
-        });
-      } else {
-        await quarter.findOneAndUpdate(
-          { id: IDQuarter },
-          {
-            subjects6: JSON.stringify(lista),
-          }
-        );
-        res.status(200).json({
-          message: "Se ha creado la materia con éxito",
-        });
-      }
-    } else {
-      if (consulta.subjects3) {
-        const listado = JSON.parse(consulta.subjects3);
-        listado.push(idSubject);
-        await quarter.findOneAndUpdate(
-          { id: IDQuarter },
-          {
-            subjects3: JSON.stringify(listado),
-          }
-        );
-        res.status(200).json({
-          message: "Se ha creado la materia con éxito",
-        });
-      } else {
-        await quarter.findOneAndUpdate(
-          { id: IDQuarter },
-          {
-            subjects3: JSON.stringify(lista),
-          }
-        );
-        res.status(200).json({
-          message: "Se ha creado la materia con éxito",
-        });
-      }
-    }
-  } catch (error) {
-    console.log(error);
-    res.status(400).json({
-      message: "Hubo un error inesperado",
-    });
-  }
-});
-
-quarterRouter.delete("/eliminar-trimestre", async (req, res) => {
-  const { id } = req.query;
-  try {
-    const consulta = await quarter.findOne({ id });
-    if (consulta.subjects3 || consulta.subjects6) {
-      res.status(400).json({
-        message: "Este trimestre ya no se puede eliminar",
-      });
-    }
-    await quarter.findOneAndDelete({ id });
-    res.status(200).json({
-      message: "Se ha eliminado el trimestre con éxito",
-    });
-  } catch (error) {
-    res.status(400).json({
-      message: "Hubo un error al eliminar el trimestre",
-    });
-  }
-});
-
 quarterRouter.get("/validar-create-prof", async (req, res) => {
   const trimestreActual = await quarter.findOne({ status: 1 });
 
@@ -307,6 +225,205 @@ quarterRouter.get("/validar-create-prof", async (req, res) => {
         message: "Es fecha de creación",
       });
     }
+  }
+});
+
+quarterRouter.get("/validar-insc-al", async (req, res) => {
+  const trimestreActual = await quarter.findOne({ status: 1 });
+
+  if (trimestreActual.quarter === "101") {
+    const trimestreSig = await quarter.findOne({ status: 2, quarter: "102" });
+    const fechaCreacion = trimestreSig.startinscDate.split("-");
+    const fechaEndCreacion = trimestreSig.endinscDate.split("-");
+    const mesActual = new Date().getMonth() + 1;
+    if (
+      fechaCreacion[0] > new Date().getDate() &&
+      fechaCreacion[1] >= mesActual &&
+      fechaCreacion[2] >= new Date().getFullYear
+    ) {
+      res.status(400).json({
+        message: "Aún no es fecha de creación",
+      });
+    } else if (
+      fechaEndCreacion[0] <= new Date().getDate() &&
+      fechaEndCreacion[1] <= mesActual &&
+      fechaEndCreacion[2] <= new Date().getFullYear
+    ) {
+      res.status(400).json({
+        message: "Aún no es fecha de creación",
+      });
+    } else {
+      res.status(200).json({
+        IDquarter: trimestreSig.id,
+        message: "Es fecha de creación",
+      });
+    }
+  }
+  if (trimestreActual.quarter === "102") {
+    const trimestreSig = await quarter.findOne({ status: 2, quarter: "103" });
+    const fechaCreacion = trimestreSig.startinscDate.split("-");
+    const fechaEndCreacion = trimestreSig.endinscDate.split("-");
+    const mesActual = new Date().getMonth() + 1;
+    if (
+      fechaCreacion[0] > new Date().getDate() &&
+      fechaCreacion[1] >= mesActual &&
+      fechaCreacion[2] >= new Date().getFullYear
+    ) {
+      res.status(400).json({
+        message: "Aún no es fecha de creación",
+      });
+    } else if (
+      fechaEndCreacion[0] <= new Date().getDate() &&
+      fechaEndCreacion[1] <= mesActual &&
+      fechaEndCreacion[2] <= new Date().getFullYear
+    ) {
+      res.status(400).json({
+        message: "Aún no es fecha de creación",
+      });
+    } else {
+      res.status(200).json({
+        IDquarter: trimestreSig.id,
+        message: "Es fecha de creación",
+      });
+    }
+  }
+  if (trimestreActual.quarter === "103") {
+    const trimestreSig = await quarter.findOne({ status: 2, quarter: "104" });
+    const fechaCreacion = trimestreSig.startinscDate.split("-");
+    const fechaEndCreacion = trimestreSig.endinscDate.split("-");
+    const mesActual = new Date().getMonth() + 1;
+    if (
+      fechaCreacion[0] > new Date().getDate() &&
+      fechaCreacion[1] >= mesActual &&
+      fechaCreacion[2] >= new Date().getFullYear
+    ) {
+      res.status(400).json({
+        message: "Aún no es fecha de creación",
+      });
+    } else if (
+      fechaEndCreacion[0] <= new Date().getDate() &&
+      fechaEndCreacion[1] <= mesActual &&
+      fechaEndCreacion[2] <= new Date().getFullYear
+    ) {
+      res.status(400).json({
+        message: "Aún no es fecha de creación",
+      });
+    } else {
+      res.status(200).json({
+        IDquarter: trimestreSig.id,
+        message: "Es fecha de creación",
+      });
+    }
+  }
+  if (trimestreActual.quarter === "104") {
+    const trimestreSig = await quarter.findOne({ status: 2, quarter: "101" });
+    const fechaCreacion = trimestreSig.startinscDate.split("-");
+    const fechaEndCreacion = trimestreSig.endinscDate.split("-");
+    const mesActual = new Date().getMonth() + 1;
+    if (
+      fechaCreacion[0] > new Date().getDate() &&
+      fechaCreacion[1] >= mesActual &&
+      fechaCreacion[2] >= new Date().getFullYear
+    ) {
+      res.status(400).json({
+        message: "Aún no es fecha de creación",
+      });
+    } else if (
+      fechaEndCreacion[0] <= new Date().getDate() &&
+      fechaEndCreacion[1] <= mesActual &&
+      fechaEndCreacion[2] <= new Date().getFullYear
+    ) {
+      res.status(400).json({
+        message: "Aún no es fecha de creación",
+      });
+    } else {
+      res.status(200).json({
+        IDquarter: trimestreSig.id,
+        message: "Es fecha de creación",
+      });
+    }
+  }
+});
+
+quarterRouter.put("/agregar-mat", async (req, res) => {
+  const { time, idSubject, IDQuarter } = req.body;
+  const lista = [`${idSubject}`];
+  try {
+    const consulta = await quarter.findOne({ id: IDQuarter });
+    if (time === 6) {
+      if (consulta.subjects6) {
+        const listado = JSON.parse(consulta.subjects6);
+        listado.push(idSubject);
+        await quarter.findOneAndUpdate(
+          { id: IDQuarter },
+          {
+            subjects6: JSON.stringify(listado),
+          }
+        );
+        res.status(200).json({
+          message: "Se ha creado la materia con éxito",
+        });
+      } else {
+        await quarter.findOneAndUpdate(
+          { id: IDQuarter },
+          {
+            subjects6: JSON.stringify(lista),
+          }
+        );
+        res.status(200).json({
+          message: "Se ha creado la materia con éxito",
+        });
+      }
+    } else {
+      if (consulta.subjects3) {
+        const listado = JSON.parse(consulta.subjects3);
+        listado.push(idSubject);
+        await quarter.findOneAndUpdate(
+          { id: IDQuarter },
+          {
+            subjects3: JSON.stringify(listado),
+          }
+        );
+        res.status(200).json({
+          message: "Se ha creado la materia con éxito",
+        });
+      } else {
+        await quarter.findOneAndUpdate(
+          { id: IDQuarter },
+          {
+            subjects3: JSON.stringify(lista),
+          }
+        );
+        res.status(200).json({
+          message: "Se ha creado la materia con éxito",
+        });
+      }
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({
+      message: "Hubo un error inesperado",
+    });
+  }
+});
+
+quarterRouter.delete("/eliminar-trimestre", async (req, res) => {
+  const { id } = req.query;
+  try {
+    const consulta = await quarter.findOne({ id });
+    if (consulta.subjects3 || consulta.subjects6) {
+      res.status(400).json({
+        message: "Este trimestre ya no se puede eliminar",
+      });
+    }
+    await quarter.findOneAndDelete({ id });
+    res.status(200).json({
+      message: "Se ha eliminado el trimestre con éxito",
+    });
+  } catch (error) {
+    res.status(400).json({
+      message: "Hubo un error al eliminar el trimestre",
+    });
   }
 });
 

@@ -41,3 +41,8 @@ export const validarCreate = async () => {
   const consulta = await axios.get("/api/quarter/validar-create-prof");
   return consulta;
 };
+
+export const validarInsc = async () => {
+  const consulta = await axios.get("/api/quarter/validar-insc-al");
+  return consulta;
+};

@@ -39,6 +39,37 @@ studentRouter.put("/act-alumno", async (req, res) => {
   }
 });
 
+studentRouter.put("/agregar-materias", async (req, res) => {
+  const { idStudent, idSubject } = req.body;
+  const consulta = await student.findOne({ id: idStudent });
+  const lista = [idSubject.toString()];
+  try {
+    if (consulta.subjects) {
+      const listado = JSON.parse(consulta.subjects);
+      listado.push(idSubject.toString());
+      await student.findOneAndUpdate(
+        { id: idStudent },
+        { subjects: JSON.stringify(listado) }
+      );
+      res.status(200).json({
+        message: "Materia agregada con éxito",
+      });
+    } else {
+      await student.findOneAndUpdate(
+        { id: idStudent },
+        { subjects: JSON.stringify(lista) }
+      );
+      res.status(200).json({
+        message: "Materia agregada con éxito",
+      });
+    }
+  } catch (error) {
+    res.status(400).json({
+      message: "Hubo un error al agregar la materia",
+    });
+  }
+});
+
 studentRouter.post("/crear-estudiante", async (req, res) => {
   const newStudent = new student();
   const idStudent = Date.now();

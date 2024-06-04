@@ -51,3 +51,11 @@ export const actualizarMatEst = async (idStudent, CODSubject) => {
   });
   return act;
 };
+
+export const agregarSubStudent = async (idStudent, idSubject) => {
+  const act = await axios.put("/api/student/agregar-materias", {
+    idStudent,
+    idSubject,
+  });
+  return act;
+};

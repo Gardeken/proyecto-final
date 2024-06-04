@@ -11,6 +11,17 @@ subjectRouter.get("/buscar-materia", async (req, res) => {
   }
 });
 
+subjectRouter.get("/listado-agregar", async (req, res) => {
+  try {
+    const listado = await subject.find({ status: 3 });
+    res.status(200).json(listado);
+  } catch (error) {
+    res.status(404).json({
+      message: "No se encontraron materias",
+    });
+  }
+});
+
 subjectRouter.put("/guardar-asigT", async (req, res) => {
   const { idAsig, idSubject, porcentaje } = req.body;
   try {
@@ -47,6 +58,38 @@ subjectRouter.put("/guardar-asigT", async (req, res) => {
     console.log(error);
     res.status(400).json({
       message: "No se pudo guardar la asignación",
+    });
+  }
+});
+
+subjectRouter.put("/agregar-alumno", async (req, res) => {
+  const { idStudent, idSubject } = req.body;
+  const consulta = await subject.findOne({ id: idSubject });
+  const lista = [idStudent.toString()];
+  const cuposRes = consulta.cupos - 1;
+  try {
+    if (consulta.students) {
+      const listado = JSON.parse(consulta.students);
+      listado.push(idStudent.toString());
+      await subject.findOneAndUpdate(
+        { id: idSubject },
+        { students: JSON.stringify(listado), cupos: cuposRes }
+      );
+      res.status(200).json({
+        message: "Materia agregada con éxito",
+      });
+    } else {
+      await subject.findOneAndUpdate(
+        { id: idSubject },
+        { students: JSON.stringify(lista), cupos: cuposRes }
+      );
+      res.status(200).json({
+        message: "Materia agregada con éxito",
+      });
+    }
+  } catch (error) {
+    res.status(400).json({
+      message: "Hubo un error al agregar la materia",
     });
   }
 });

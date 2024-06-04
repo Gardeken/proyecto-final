@@ -42,3 +42,16 @@ export const actualizarMateria = async (idAsigT, idSubject, porcentaje) => {
   });
   return act;
 };
+
+export const listAgregarMaterias = async () => {
+  const listado = await axios.get("/api/subject/listado-agregar");
+  return listado;
+};
+
+export const actualizarSubject = async (idStudent, idSubject) => {
+  const act = await axios.put("/api/subject/agregar-alumno", {
+    idStudent,
+    idSubject,
+  });
+  return act;
+};

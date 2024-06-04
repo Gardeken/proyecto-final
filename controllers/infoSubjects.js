@@ -7,4 +7,10 @@ infoSubjectRouter.get("/buscar-materiasFilt", async (req, res) => {
   res.status(200).json(listado);
 });
 
+infoSubjectRouter.get("/requirements", async (req, res) => {
+  const { CODSubject } = req.query;
+  const consulta = await infoSubject.findOne({ CODSubject });
+  res.status(200).json(consulta);
+});
+
 module.exports = infoSubjectRouter;
