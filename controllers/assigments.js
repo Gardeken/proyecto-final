@@ -36,7 +36,8 @@ assigmentRouter.post(
     newAssigment.id = id;
     newAssigment.name = objAsig["0"];
     newAssigment.date = objAsig["1"];
-    newAssigment.description = objAsig["2"];
+    newAssigment.porcentaje = objAsig["2"];
+    newAssigment.description = objAsig["3"];
 
     if (req.file) {
       newAssigment.path = req.file.path;
@@ -46,6 +47,7 @@ assigmentRouter.post(
       res.status(200).json({
         message: "Asignacion creada con exito",
         id: id,
+        porcentaje: objAsig["2"],
       });
     } catch (error) {
       console.log(error);
@@ -124,6 +126,20 @@ assigmentRouter.put("/act-listado-asigE", async (req, res) => {
   } catch (error) {
     res.status(400).json({
       message: "Error al eliminar la asignación",
+    });
+  }
+});
+
+assigmentRouter.delete("/eliminar-asigT", async (req, res) => {
+  const { idAsigT } = req.query;
+  try {
+    await assigment.findOneAndDelete({ id: idAsigT });
+    res.status(200).json({
+      message: "Se ha eliminado la asignación con éxito",
+    });
+  } catch (error) {
+    res.status(400).json({
+      message: "Hubo un error al eliminar la asignación",
     });
   }
 });

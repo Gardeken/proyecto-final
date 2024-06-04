@@ -62,7 +62,6 @@ const imprimirContainerProf = () => {
           <div class="container-btn">
             <div>
               <button id="alumnos" class="btnProf">Alumnos</button>
-              <button id="calendario" class="btnProf">Calendario</button>
               <button id="asig" class="btnProf">Asignaciones</button>
             </div>
           </div>
@@ -103,6 +102,10 @@ const imprimirCrearAsig = () => {
   <div>
     <label for="dateAsig">Fecha máxima de entrega</label>
     <input placeholder="Seleccione una fecha..." name="campos" id="dateAsig" type="text" />
+  </div>
+  <div>
+    <label for="porcentajeAsig">Porcentaje de la asignación</label>
+    <input name="campos" min="0" placeholder="No hace falta que ponga %" id="porcentajeAsig" type="number" />
   </div>
   <div>
     <label for="descAsig">Descripción de la asignación</label>

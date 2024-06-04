@@ -9,6 +9,7 @@ const assigmentSchema = new mongoose.Schema({
   date: String,
   description: String,
   subject: String,
+  porcentaje: Number,
   assigmentE: String,
 });
 

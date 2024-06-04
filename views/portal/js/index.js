@@ -6,7 +6,12 @@ import {
 } from "./apis/APIstudent.js";
 import { buscarInfoMateria } from "./apis/APIinfoSubject.js";
 import { buscarProfesor } from "./apis/APIteachers.js";
-import { buscarMateria, guardarAsignacionMat } from "./apis/APIsubject.js";
+import {
+  buscarMateria,
+  guardarAsignacionMat,
+  createSubject,
+  actualizarMateria,
+} from "./apis/APIsubject.js";
 import { buscarUsuario, buscarRol, crearUser } from "./apis/APIuser.js";
 import {
   cambioDatos,
@@ -29,6 +34,7 @@ import {
   guardarAsignacion,
   guardarAsignacionEst,
   actAsigT,
+  eliminarAsignacionT,
 } from "./apis/APIassigment.js";
 import {
   buscarAsignacionE,
@@ -416,6 +422,7 @@ async function eventosEst(idSubject) {
       const idAsig = e.target.parentElement.id;
       const asig = await buscarAsignacion(idAsig);
       const { name, date, description } = asig.data;
+      console.log(asig.data);
       try {
         const existe = await buscarUnaAsig(id, idAsig);
         if (existe.data) {
@@ -585,7 +592,7 @@ async function eventosEst(idSubject) {
   });
 }
 
-function eventosProf(id) {
+function eventosProf(idSubject) {
   const btnAsig = document.querySelector("#asig");
   const btnCalendar = document.querySelector("#calendario");
   const btnEst = document.querySelector("#alumnos");
@@ -617,39 +624,179 @@ function eventosProf(id) {
     <button id="crear" class="btnProf">Crear</button>
     `;
     containerBtn.appendChild(div);
-    crearBtn(id);
+    crearBtn(idSubject);
     const containerAsig = document.querySelector("#asignaciones");
     containerAsig.innerHTML = `
-    <div id="asignacion" class="asignacion">
+    <div id="asignacion" class="asignacion  studentAsig">
     <p class="column">Nombre</p>
     <div class="container-fecha">
       <div class="separador"></div>
-      <p class="container-date blockh">Fecha de entrega</p>
+      <p class="container-date">Fecha de entrega</p>
     </div>
   </div>
     `;
-    const materia = await buscarMateria(id);
+    const materia = await buscarMateria(idSubject);
     const listadoAsig = JSON.parse(materia.data.assigmentT);
     listadoAsig.forEach(async (i) => {
       const asignacion = await buscarAsignacion(i);
-      const { name, date } = asignacion.data;
+      if (!asignacion.data) {
+        return;
+      }
+      const { name, date, id, assigmentE } = asignacion.data;
       const divA = document.createElement("div");
-      const datos = document.querySelector(".blockh");
-      datos.innerHTML = "Fecha de entrega";
       divA.id = i;
       divA.classList.add("asignacion", "pointer", "studentAsig");
-      divA.innerHTML = `
+      if (assigmentE === undefined || JSON.parse(assigmentE).length === 0) {
+        divA.innerHTML = `
       <p class="column">${name}</p>
       <div class="container-fecha">
         <div class="separador"></div>
-        <p class="container-date blockh">${date}</p>
+        <p class="container-date">${date}</p>
+      </div>
+      <button data-id="${id}" id="delete" class="delete-asig">Eliminar</button>
+    `;
+      } else {
+        divA.innerHTML = `
+      <p class="column">${name}</p>
+      <div class="container-fecha">
+        <div class="separador"></div>
+        <p class="container-date">${date}</p>
       </div>
     `;
+      }
       containerAsig.appendChild(divA);
+      divA.addEventListener("click", async (e) => {
+        if (e.target.classList.contains("delete-asig")) {
+          return eliminarAsigT(e, idSubject);
+        }
+        const id = e.target.closest("div").id;
+        containerAsig.innerHTML = `
+      <div id="asignacion" class="asignacion">
+    <p class="column">Nombre</p>
+    <div class="container-fecha">
+      <div class="separador"></div>
+      <p class="container-date blockh"></p>
+    </div>
+  </div>
+        `;
+        const listado = await listadoAsignaciones(id);
+        const { data } = listado;
+        data.forEach(async (i) => {
+          const { id, user, path } = i;
+
+          const estudiante = await buscarEstudiante(user);
+          const { fullName } = estudiante.data;
+          const divA = document.createElement("div");
+          divA.classList.add("asignacion", "studentAsig");
+          if (i.grades) {
+            divA.innerHTML = `
+          <p class="column">${fullName}</p>
+          <div class="container-fecha">
+            <div class="separador"></div>
+            <div class="container-corregir">
+            <a download href="../${path}">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="download-svg">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+              </svg>
+            </a>
+            <button data-id="${id}" id="${path}" class="eliminar-asig">Eliminar</button>
+            </div>
+              
+            </div>
+        `;
+            containerAsig.appendChild(divA);
+          } else {
+            divA.innerHTML = `
+          <p class="column">${fullName}</p>
+          <div class="container-fecha">
+            <div class="separador"></div>
+              <div class="container-corregir">
+              <a download href="../${path}">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="download-svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                </svg>
+              </a>
+              <button data-id="${id}" class="corregir" id="corregir">Corregir</button>
+              <button data-id="${id}" id="${path}" class="eliminar-asig">Eliminar</button>
+              </div>
+            </div>
+        `;
+            divA.addEventListener("click", async (e) => {
+              if (e.target.classList.contains("eliminar-asig")) {
+                const id = e.target.dataset.id;
+                const path = e.target.id;
+                const confirmar = confirm(
+                  "Está seguro de que quiere eliminar esta asignación?"
+                );
+                if (confirmar) {
+                  try {
+                    const eliminar = await eliminarAsig(id, path);
+                    const act = await actAsigT(id, eliminar.data.idAsigT);
+                    crearMsg(act.data.message);
+                    e.target.parentElement.parentElement.parentElement.remove();
+                  } catch (error) {
+                    crearMsg(error.response.data.message);
+                  }
+                }
+              } else if (e.target.classList.contains("corregir")) {
+                const id = e.target.dataset.id;
+                modal.classList.remove("hidden");
+                containerModal.innerHTML = `
+      <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          id="closeModal"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="close-modal"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M6 18 18 6M6 6l12 12"
+          />
+        </svg>
+      <div class="container-grade">
+          <label for="gradeInput"> Introduzca la nota </label>
+          <input type="text" class="grade-input" id="gradeInput" />
+        </div>
+        <button class="download-asig" id="aceptar">
+          Aceptar
+        </button>
+      `;
+                const closebtn = document.querySelector("#closeModal");
+                closebtn.addEventListener("click", () => {
+                  modal.classList.add("hidden");
+                });
+                const gradeInput = document.querySelector("#gradeInput");
+                const aceptar = document.querySelector("#aceptar");
+                aceptar.addEventListener("click", async (e) => {
+                  const nota = Number(gradeInput.value);
+                  if (nota == "")
+                    return crearMsg("No puede dejar el campo vacío");
+                  if (nota > 100)
+                    return crearMsg("No puede poner una nota mayor a 100");
+                  if (nota < 0)
+                    return crearMsg("No puede poner una nota menor a 0");
+                  if (isNaN(nota))
+                    return crearMsg("No puede poner texto como nota");
+                  try {
+                    const act = await corregirAsig(id, gradeInput.value);
+                    btn.remove();
+                    crearMsg(act.data.message);
+                    modal.classList.add("hidden");
+                  } catch (error) {
+                    crearMsg(error.response.data.message);
+                  }
+                });
+              }
+            });
+            containerAsig.appendChild(divA);
+          }
+        });
+      });
     });
-    setTimeout(() => {
-      cargarAsigEst();
-    }, 500);
   });
 }
 
@@ -706,7 +853,7 @@ async function imprimirRequestFilt(filter) {
         <button id="${i.id}" class="delete-request">Eliminar</button>
         `;
         div.addEventListener("click", (e) => {
-          modalPeticiones(e, i.data, i.id, i.idUser);
+          modalPeticiones(e, i.data, i.id, i.idUser, i.status);
         });
         return containerReq.appendChild(div);
       }
@@ -751,7 +898,7 @@ async function imprimirRequestFilt(filter) {
       }
 
       div.addEventListener("click", (e) => {
-        modalPeticiones(e, i.data, i.id, i.idUser);
+        modalPeticiones(e, i.data, i.id, i.idUser, i.status);
       });
       containerReq.appendChild(div);
     });
@@ -780,7 +927,7 @@ async function imprimirRequest() {
         <button id="${i.id}" class="delete-request">Eliminar</button>
         `;
         div.addEventListener("click", (e) => {
-          modalPeticiones(e, i.data, i.id, i.idUser);
+          modalPeticiones(e, i.data, i.id, i.idUser, i.status);
         });
         return containerReq.appendChild(div);
       }
@@ -825,7 +972,7 @@ async function imprimirRequest() {
       }
 
       div.addEventListener("click", (e) => {
-        modalPeticiones(e, i.data, i.id, i.idUser);
+        modalPeticiones(e, i.data, i.id, i.idUser, i.status);
       });
       containerReq.appendChild(div);
     });
@@ -834,7 +981,7 @@ async function imprimirRequest() {
   }
 }
 
-async function modalPeticiones(e, data, idReq, idUser) {
+async function modalPeticiones(e, data, idReq, idUser, status) {
   if (e.target.classList.contains("delete-request")) {
     const id = e.target.id;
     try {
@@ -908,8 +1055,33 @@ async function modalPeticiones(e, data, idReq, idUser) {
         datos.path
       );
     }
+    const aceptar = document.querySelector("#aceptar");
+    const rechazar = document.querySelector("#rechazar");
+    aceptar.addEventListener("click", () => {
+      if (status === 0) {
+        return crearMsg("Usted ya acepto esta petición");
+      }
+      aceptarCrearMat(datos, idUser, materia.data[0], dias, idReq);
+    });
+    rechazar.addEventListener("click", () => {
+      if (status === 0) {
+        return crearMsg("Usted ya acepto esta petición");
+      }
+      rechazarPeticion(idReq);
+    });
     modal.classList.remove("hidden");
     closeModalBtn();
+  }
+}
+
+async function aceptarCrearMat(data, idUser, materia, dias, idReq) {
+  try {
+    const crear = await createSubject(data, idUser, materia, dias);
+    modal.classList.add("hidden");
+    const aceptar = await aceptarReq(idReq);
+    crearMsg(crear.data.message);
+  } catch (error) {
+    console.log(error);
   }
 }
 
@@ -1333,7 +1505,7 @@ async function cargarAsig(id) {
   const listadoAsig = JSON.parse(materia.data.assigmentT);
   listadoAsig.forEach(async (i) => {
     const asignacion = await buscarAsignacion(i);
-    const { name, date } = asignacion.data;
+    const { name, date, id } = asignacion.data;
     const div = document.createElement("div");
     div.classList.add("asignacion", "pointer", "assigmentS");
     div.innerHTML = `
@@ -1346,6 +1518,23 @@ async function cargarAsig(id) {
     div.id = i;
     containerM.appendChild(div);
   });
+}
+
+async function eliminarAsigT(e, idSubject) {
+  const idAsigT = e.target.dataset.id;
+  try {
+    const buscar = await buscarAsignacion(idAsigT);
+    const eliminar = await eliminarAsignacionT(idAsigT);
+    const act = await actualizarMateria(
+      idAsigT,
+      idSubject,
+      buscar.data.porcentaje
+    );
+    crearMsg(eliminar.data.message);
+    e.target.parentElement.remove();
+  } catch (error) {
+    crearMsg(error.response.data.message);
+  }
 }
 
 async function consultaEst(id) {
@@ -1372,161 +1561,11 @@ async function consultaEst(id) {
   });
 }
 
-async function cargarAsigEst() {
-  const listadoHtml = document.getElementsByClassName("studentAsig");
-  const containerAsig = document.querySelector("#asignaciones");
-  for (let i = 0; i < listadoHtml.length; i++) {
-    const asig = listadoHtml[i];
-    asig.addEventListener("click", async (e) => {
-      const id = e.target.closest("div").id;
-      containerAsig.innerHTML = `
-      <div id="asignacion" class="asignacion">
-    <p class="column">Nombre</p>
-    <div class="container-fecha">
-      <div class="separador"></div>
-      <p class="container-date blockh"></p>
-    </div>
-  </div>`;
-      const listado = await listadoAsignaciones(id);
-      const { data } = listado;
-      data.forEach(async (i) => {
-        const { id, user, path } = i;
-
-        const estudiante = await buscarEstudiante(user);
-        const { fullName } = estudiante.data;
-        const divA = document.createElement("div");
-        divA.classList.add("asignacion", "studentAsig");
-        if (i.grades) {
-          divA.innerHTML = `
-          <p class="column">${fullName}</p>
-          <div class="container-fecha">
-            <div class="separador"></div>
-            <div class="container-corregir">
-            <a download href="../${path}">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="download-svg">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
-              </svg>
-            </a>
-            <button data-id="${id}" id="${path}" class="eliminar-asig">Eliminar</button>
-            </div>
-              
-            </div>
-        `;
-          containerAsig.appendChild(divA);
-        } else {
-          divA.innerHTML = `
-          <p class="column">${fullName}</p>
-          <div class="container-fecha">
-            <div class="separador"></div>
-              <div class="container-corregir">
-              <a download href="../${path}">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="download-svg">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
-                </svg>
-              </a>
-              <button data-id="${id}" class="corregir" id="corregir">Corregir</button>
-              <button data-id="${id}" id="${path}" class="eliminar-asig">Eliminar</button>
-              </div>
-            </div>
-        `;
-          containerAsig.appendChild(divA);
-        }
-      });
-      setTimeout(() => {
-        eliminarAsignacion();
-        corregirAsignacion();
-      }, 500);
-    });
-  }
-}
-
-async function eliminarAsignacion() {
-  const eliminar = document.getElementsByClassName("eliminar-asig");
-  for (let i = 0; i < eliminar.length; i++) {
-    const btnDel = eliminar[i];
-    btnDel.addEventListener("click", async (e) => {
-      const id = e.target.dataset.id;
-      const path = e.target.id;
-      const confirmar = confirm(
-        "Está seguro de que quiere eliminar esta asignación?"
-      );
-      if (confirmar) {
-        try {
-          const eliminar = await eliminarAsig(id, path);
-          const act = await actAsigT(id, eliminar.data.idAsigT);
-          crearMsg(act.data.message);
-          e.target.parentElement.parentElement.parentElement.remove();
-        } catch (error) {
-          crearMsg(error.response.data.message);
-        }
-      }
-    });
-  }
-}
-
-async function corregirAsignacion() {
-  const corregir = document.getElementsByClassName("corregir");
-
-  for (let i = 0; i < corregir.length; i++) {
-    const btn = corregir[i];
-    btn.addEventListener("click", async (e) => {
-      const id = e.target.dataset.id;
-      modal.classList.remove("hidden");
-      containerModal.innerHTML = `
-      <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          id="closeModal"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          class="close-modal"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M6 18 18 6M6 6l12 12"
-          />
-        </svg>
-      <div class="container-grade">
-          <label for="gradeInput"> Introduzca la nota </label>
-          <input type="text" class="grade-input" id="gradeInput" />
-        </div>
-        <button class="download-asig" id="aceptar">
-          Aceptar
-        </button>
-      `;
-      const closebtn = document.querySelector("#closeModal");
-      closebtn.addEventListener("click", () => {
-        modal.classList.add("hidden");
-      });
-      const gradeInput = document.querySelector("#gradeInput");
-      const aceptar = document.querySelector("#aceptar");
-      aceptar.addEventListener("click", async (e) => {
-        const nota = Number(gradeInput.value);
-        if (nota == "") return crearMsg("No puede dejar el campo vacío");
-        if (nota > 100) return crearMsg("No puede poner una nota mayor a 100");
-        if (nota < 0) return crearMsg("No puede poner una nota menor a 0");
-        if (isNaN(nota)) return crearMsg("No puede poner texto como nota");
-        try {
-          const act = await corregirAsig(id, gradeInput.value);
-          btn.remove();
-          crearMsg(act.data.message);
-          modal.classList.add("hidden");
-        } catch (error) {
-          crearMsg(error.response.data.message);
-        }
-      });
-    });
-  }
-}
-
 async function crearBtn(idSubject) {
   const crea = document.querySelector("#crear");
   crea.addEventListener("click", async () => {
     modal.classList.toggle("hidden");
     imprimirCrearAsig();
-
     const closeModal = document.querySelector("#closeModal");
     flatpickr("#dateAsig", {
       minDate: "today",
@@ -1552,19 +1591,31 @@ async function guardarDatos(idSubject) {
     const fecha = document.querySelector("#dateAsig").value;
     const name = document.querySelector("#nameAsig").value;
     const desc = document.querySelector("#descAsig").value;
-    const listaInput = [fecha, name, desc].some((i) => i === "");
+    const porcentaje = document.querySelector("#porcentajeAsig").value;
+    const listaInput = [fecha, name, desc, porcentaje].some((i) => i === "");
 
     if (listaInput) {
       return crearMsg("No puede dejar los campos vacíos");
     }
 
+    const materia = await buscarMateria(idSubject);
+    let total = materia.data.porcentaje + Number(porcentaje);
+    if (total > 100) {
+      return crearMsg("Usted esta sobrepasando el 100%");
+    }
+
     const data = new FormData(formulario);
     try {
       const post = await guardarAsignacion(data, id, idSubject);
-      const act = await guardarAsignacionMat(post.data.id, idSubject);
+      const act = await guardarAsignacionMat(
+        post.data.id,
+        idSubject,
+        post.data.porcentaje
+      );
       modal.classList.add("hidden");
       crearMsg(act.data.message);
     } catch (error) {
+      console.log(error);
       crearMsg(error.response.data.message);
     }
   });

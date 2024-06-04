@@ -111,6 +111,58 @@ quarterRouter.get("/actualizar-trimestre", async (req, res) => {
   }
 });
 
+quarterRouter.put("/agregar-mat", async (req, res) => {
+  const { time, idSubject, IDQuarter } = req.body;
+  const lista = [`${idSubject}`];
+  try {
+    const consulta = await quarter.findOne({ id: IDQuarter });
+    if (time === 6) {
+      if (consulta.subjects6) {
+        const listado = consulta.subjects6;
+        listado.push(idSubject);
+        await quarter.findOneAndUpdate(
+          { id: IDQuarter },
+          {
+            subjects6: JSON.stringify(listado),
+          }
+        );
+      } else {
+        await quarter.findOneAndUpdate(
+          { id: IDQuarter },
+          {
+            subjects6: JSON.stringify(lista),
+          }
+        );
+      }
+    } else {
+      if (consulta.subjects3) {
+        const listado = consulta.subjects3;
+        listado.push(idSubject);
+        await quarter.findOneAndUpdate(
+          { id: IDQuarter },
+          {
+            subjects3: JSON.stringify(listado),
+          }
+        );
+      } else {
+        await quarter.findOneAndUpdate(
+          { id: IDQuarter },
+          {
+            subjects3: JSON.stringify(lista),
+          }
+        );
+      }
+    }
+    res.status(200).json({
+      message: "Se ha creado la materia con éxito",
+    });
+  } catch (error) {
+    res.status(400).json({
+      message: "Hubo un error inesperado",
+    });
+  }
+});
+
 quarterRouter.delete("/eliminar-trimestre", async (req, res) => {
   const { id } = req.query;
   try {

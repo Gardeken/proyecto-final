@@ -48,3 +48,12 @@ export const actAsigT = async (idAsigE, idAsigT) => {
     return error;
   }
 };
+
+export const eliminarAsignacionT = async (idAsigT) => {
+  const eliminar = await axios.delete("/api/assigment/eliminar-asigT", {
+    params: {
+      idAsigT,
+    },
+  });
+  return eliminar;
+};

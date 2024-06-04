@@ -97,6 +97,7 @@ body {
 }
 
 .container-input-Asig input[type="text"],
+.container-input-Asig input[type="number"],
 .container-input-Asig textarea {
   width: 40vw;
 }
@@ -115,6 +116,7 @@ input[type="file"],
 }
 
 .container-input-Asig input[type="text"],
+.container-input-Asig input[type="number"],
 .container-input-Asig textarea,
 .grade-input,
 .inputSearch,
@@ -731,12 +733,17 @@ header {
 }
 
 .delete-quarter,
-.delete-request {
+.delete-request,
+.delete-asig {
   background-color: var(--rojo-principal);
   border: none;
   border-radius: 0.5rem;
   color: white;
   padding: 0.5rem;
+}
+
+.studentAsig {
+  grid-template-columns: 1fr 1fr 1fr 0.5fr;
 }
 
 .container-selectReq {
@@ -877,6 +884,7 @@ header {
   }
 
   .container-input-Asig input[type="text"],
+  .container-input-Asig input[type="number"],
   .container-input-Asig textarea {
     width: 60vw;
   }
@@ -959,6 +967,8 @@ header {
   .asignacion {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    gap: 1rem;
   }
 
   .separador {

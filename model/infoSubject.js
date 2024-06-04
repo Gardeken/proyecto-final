@@ -7,6 +7,8 @@ const infoSubjectSchema = new mongoose.Schema({
   CODSubject: String,
   CODCareer: String,
   CODFaculty: String,
+  cupos: Number,
+  time: Number,
 });
 
 const infoSubject = mongoose.model("infoSubjects", infoSubjectSchema);
