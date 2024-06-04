@@ -118,7 +118,7 @@ quarterRouter.put("/agregar-mat", async (req, res) => {
     const consulta = await quarter.findOne({ id: IDQuarter });
     if (time === 6) {
       if (consulta.subjects6) {
-        const listado = consulta.subjects6;
+        const listado = JSON.parse(consulta.subjects6);
         listado.push(idSubject);
         await quarter.findOneAndUpdate(
           { id: IDQuarter },
@@ -126,6 +126,9 @@ quarterRouter.put("/agregar-mat", async (req, res) => {
             subjects6: JSON.stringify(listado),
           }
         );
+        res.status(200).json({
+          message: "Se ha creado la materia con éxito",
+        });
       } else {
         await quarter.findOneAndUpdate(
           { id: IDQuarter },
@@ -133,10 +136,13 @@ quarterRouter.put("/agregar-mat", async (req, res) => {
             subjects6: JSON.stringify(lista),
           }
         );
+        res.status(200).json({
+          message: "Se ha creado la materia con éxito",
+        });
       }
     } else {
       if (consulta.subjects3) {
-        const listado = consulta.subjects3;
+        const listado = JSON.parse(consulta.subjects3);
         listado.push(idSubject);
         await quarter.findOneAndUpdate(
           { id: IDQuarter },
@@ -144,6 +150,9 @@ quarterRouter.put("/agregar-mat", async (req, res) => {
             subjects3: JSON.stringify(listado),
           }
         );
+        res.status(200).json({
+          message: "Se ha creado la materia con éxito",
+        });
       } else {
         await quarter.findOneAndUpdate(
           { id: IDQuarter },
@@ -151,12 +160,13 @@ quarterRouter.put("/agregar-mat", async (req, res) => {
             subjects3: JSON.stringify(lista),
           }
         );
+        res.status(200).json({
+          message: "Se ha creado la materia con éxito",
+        });
       }
     }
-    res.status(200).json({
-      message: "Se ha creado la materia con éxito",
-    });
   } catch (error) {
+    console.log(error);
     res.status(400).json({
       message: "Hubo un error inesperado",
     });

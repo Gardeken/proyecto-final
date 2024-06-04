@@ -6,7 +6,7 @@ import {
   actualizarMatEst,
 } from "./apis/APIstudent.js";
 import { buscarInfoMateria } from "./apis/APIinfoSubject.js";
-import { buscarProfesor } from "./apis/APIteachers.js";
+import { actMatProf, buscarProfesor } from "./apis/APIteachers.js";
 import {
   buscarMateria,
   guardarAsignacionMat,
@@ -935,6 +935,7 @@ async function modalPeticiones(e, data, idReq, idUser, status) {
 async function aceptarCrearMat(data, idUser, materia, dias, idReq) {
   try {
     const crear = await createSubject(data, idUser, materia, dias);
+    const act = await actMatProf(idUser, crear.data.idSubject);
     modal.classList.add("hidden");
     const aceptar = await aceptarReq(idReq);
     crearMsg(crear.data.message);

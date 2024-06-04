@@ -111,7 +111,6 @@ studentRouter.put("/act-materias-est", async (req, res) => {
   const { idStudent, CODSubject } = req.body;
   const validar = await student.findOne({ id: idStudent });
   const lista = [CODSubject.toString()];
-  console.log(validar);
   if (validar.listSubjects) {
     try {
       const listado = JSON.parse(validar.listSubjects);

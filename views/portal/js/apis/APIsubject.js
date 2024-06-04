@@ -31,7 +31,7 @@ export const createSubject = async (data, idUser, materia, days) => {
     IDQuarter: data.IDquarter,
   });
 
-  return act;
+  return crear;
 };
 
 export const actualizarMateria = async (idAsigT, idSubject, porcentaje) => {
