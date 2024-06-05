@@ -142,6 +142,26 @@ function crearMsg(text) {
 document.addEventListener("DOMContentLoaded", async () => {
   actualizarTrimestres();
   cargarNombre();
+  const user = localStorage.getItem("user");
+  if (user === null) {
+    window.location.href = "/login";
+  }
+
+  const obj = {
+    1: "staff",
+    2: "admin",
+    3: "teacher",
+    4: "student",
+  };
+
+  const usuario = await buscarUsuario(id);
+  const rolUser = usuario.data.rol;
+
+  if (obj[rolUser] !== rol) {
+    window.location.href = "/login";
+    localStorage.removeItem("user");
+  }
+
   if (rol === "student") {
     const usuario = await buscarEstudiante(id);
     printEst();

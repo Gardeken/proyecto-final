@@ -32,6 +32,10 @@ formulario.addEventListener("submit", async (e) => {
       },
     });
     window.location.href = consulta.data.path;
+    localStorage.setItem(
+      "user",
+      JSON.stringify({ usuario: inputUsuario.value, ruta: consulta.data.path })
+    );
   } catch (error) {
     mostrarAlerta(error.response.data.message);
   }
