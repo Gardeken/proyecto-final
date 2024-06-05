@@ -1,7 +1,19 @@
+require("dotenv").config();
 const teacherRouter = require("express").Router();
 const teacher = require("../model/teacher");
 const user = require("../model/user");
 const subject = require("../model/subject");
+const nodemailer = require("nodemailer");
+
+const transporter = nodemailer.createTransport({
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true, // Use `true` for port 465, `false` for all other ports
+  auth: {
+    user: "gardeken1205@gmail.com",
+    pass: process.env.password,
+  },
+});
 
 teacherRouter.get("/buscar-prof", async (req, res) => {
   const { id } = req.query;
@@ -14,7 +26,7 @@ teacherRouter.get("/buscar-prof", async (req, res) => {
 });
 
 teacherRouter.put("/act-mat-prof", async (req, res) => {
-  const { idUser, idSubject } = req.body;
+  const { idUser, idSubject, email } = req.body;
   const validar = await teacher.findOne({ id: idUser });
   const lista = [`${idSubject}`];
   if (validar.subjects) {
@@ -27,6 +39,12 @@ teacherRouter.put("/act-mat-prof", async (req, res) => {
           subjects: JSON.stringify(listado),
         }
       );
+      await transporter.sendMail({
+        from: '"Universidad José María Vargas" <dominicode.xyz@gmail.com>',
+        to: `${email}`,
+        subject: "Tu materia ha sido creada",
+        text: `La petición de creación de materias ha sido aceptada`,
+      });
       res.status(200).json({
         message: "Se ha guardado con éxito la materia",
       });
@@ -45,6 +63,12 @@ teacherRouter.put("/act-mat-prof", async (req, res) => {
           subjects: JSON.stringify(lista),
         }
       );
+      await transporter.sendMail({
+        from: '"Universidad José María Vargas" <dominicode.xyz@gmail.com>',
+        to: `${email}`,
+        subject: "Tu materia ha sido creada",
+        text: `La petición de creación de materias ha sido aceptada`,
+      });
       res.status(200).json({
         message: "Se ha guardado con éxito la materia",
       });

@@ -12,7 +12,7 @@ export const aceptarAlumno = async (idStudent) => {
   return student;
 };
 
-export const actAlumno = async (id, data, data2) => {
+export const actAlumno = async (id, data, data2, email) => {
   const actEst = await axios.put("/api/student/act-alumno", data, {
     params: {
       id,
@@ -22,6 +22,7 @@ export const actAlumno = async (id, data, data2) => {
   const actUser = await axios.put("/api/user/act-user", data2, {
     params: {
       id,
+      email,
     },
   });
 

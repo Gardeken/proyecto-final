@@ -7,10 +7,11 @@ export const buscarProfesor = async (id) => {
   return prof;
 };
 
-export const actMatProf = async (idUser, idSubject) => {
+export const actMatProf = async (idUser, idSubject, email) => {
   const act = await axios.put("/api/teacher/act-mat-prof", {
     idUser,
     idSubject,
+    email,
   });
   return act;
 };

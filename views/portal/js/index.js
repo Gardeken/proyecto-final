@@ -1069,8 +1069,9 @@ async function aceptarPago(idUser, datos, idReq) {
 
 async function aceptarCrearMat(data, idUser, materia, dias, idReq) {
   try {
+    const prof = await buscarUsuario(idUser);
     const crear = await createSubject(data, idUser, materia, dias);
-    const act = await actMatProf(idUser, crear.data.idSubject);
+    const act = await actMatProf(idUser, crear.data.idSubject, prof.data.email);
     modal.classList.add("hidden");
     const aceptar = await aceptarReq(idReq);
     crearMsg(crear.data.message);
@@ -1140,7 +1141,13 @@ async function aceptarAplicación(name, email, idStudent, idReq) {
 
 async function aceptarPeticion(idReq, info, idUser) {
   try {
-    const act = await actAlumno(idUser, info.dataStudent, info.dataUser);
+    const usuario = await buscarUsuario(idUser);
+    const act = await actAlumno(
+      idUser,
+      info.dataStudent,
+      info.dataUser,
+      usuario.data.email
+    );
     const actReq = await aceptarReq(idReq);
     crearMsg(actReq.data.message);
     modal.classList.add("hidden");
@@ -1433,6 +1440,9 @@ function printEst() {
       const listadoMat = JSON.parse(subjects);
       listadoMat.forEach(async (i) => {
         const materia = await buscarMateria(i);
+        if (materia.data.status !== 1) {
+          return;
+        }
         const option = document.createElement("option");
         option.value = i;
         option.textContent = materia.data.name;

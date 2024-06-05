@@ -2,6 +2,17 @@ const userRouter = require("express").Router();
 const user = require("../model/user");
 const subjectRouter = require("./subjects");
 const subject = require("../model/subject");
+const nodemailer = require("nodemailer");
+
+const transporter = nodemailer.createTransport({
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true, // Use `true` for port 465, `false` for all other ports
+  auth: {
+    user: "gardeken1205@gmail.com",
+    pass: process.env.password,
+  },
+});
 
 userRouter.get("/consulta-login", async (req, res) => {
   const { usuario, password } = req.query;
@@ -52,9 +63,15 @@ userRouter.get("/buscar-rol", async (req, res) => {
 });
 
 userRouter.put("/act-user", async (req, res) => {
-  const { id } = req.query;
+  const { id, email } = req.query;
   try {
     await user.findOneAndUpdate({ id }, req.body);
+    await transporter.sendMail({
+      from: '"Universidad José María Vargas" <dominicode.xyz@gmail.com>',
+      to: `${email}`,
+      subject: "Tus datos han sido cambiados",
+      text: `La petición de cambio de datos ha sido aceptada`,
+    });
     res.status(200).json({
       message: "Los cambios se han realizado con éxito",
     });
@@ -80,6 +97,16 @@ userRouter.post("/crear-usuario-est", async (req, res) => {
   newUser.rol = 4;
   try {
     await newUser.save();
+    await transporter.sendMail({
+      from: '"Universidad José María Vargas" <dominicode.xyz@gmail.com>',
+      to: `${email}`,
+      subject: "Aplicación aceptado",
+      text: `
+      Tu aplicación ha sigo aceptado exitósamente: 
+      Username: ${username}
+      Contraseña: ${password}
+      `,
+    });
     res.status(200).json({
       message: "Se ha creado el usuario con éxito",
     });
