@@ -1,4 +1,9 @@
 import {
+  actualizarDeuda,
+  agregarDeuda,
+  buscarDeuda,
+} from "./apis/APIpayment.js";
+import {
   buscarEstudiante,
   actAlumno,
   aceptarAlumno,
@@ -439,7 +444,7 @@ function eventosProf(idSubject) {
               </div>
             </div>
     `;
-    consultaEst(id);
+    consultaEst(idSubject);
   });
   btnAsig.addEventListener("click", async () => {
     if (document.querySelector("#crear")) {
@@ -1252,6 +1257,9 @@ async function impListadoMat(list) {
   const listado = JSON.parse(list);
   listado.map(async (i) => {
     const materia = await buscarMateria(i);
+    if (materia.data.status !== 1) {
+      return;
+    }
     const li = document.createElement("li");
     li.textContent = materia.data.name;
     li.classList.add("subject");
@@ -1378,7 +1386,7 @@ function printEst() {
           btn.id = i.id;
           btn.classList.add("btnAgregar");
           btn.addEventListener("click", (e) => {
-            agregarMatEst(e);
+            agregarMatEst(e, validar.data.IDquarter);
           });
           div.appendChild(btn);
           containerSub.appendChild(div);
@@ -1402,7 +1410,7 @@ function printEst() {
   });
 }
 
-async function agregarMatEst(e) {
+async function agregarMatEst(e, idQuarter) {
   const idSubject = e.target.id;
   const idUser = URL.get("id");
   const materia = await buscarMateria(idSubject);
@@ -1423,7 +1431,7 @@ async function agregarMatEst(e) {
       const listadoM = JSON.parse(estudiante.data.listSubjects);
       const tieneRequisito = requerimientos.every((i) => listadoM.includes(i));
       if (tieneRequisito) {
-        agregar(idSubject, idUser);
+        agregar(idSubject, idUser, idQuarter);
       } else {
         crearMsg("Usted no puede agregar esta materia");
       }
@@ -1431,19 +1439,30 @@ async function agregarMatEst(e) {
       crearMsg("Usted no puede agregar esta materia");
     }
   } else {
-    agregar(idUser, idSubject);
+    agregar(idUser, idSubject, idQuarter);
   }
 }
 
-async function agregar(idUser, idSubject) {
+async function agregar(idUser, idSubject, idQuarter) {
   const confirmar = confirm("Está seguro de que quiere agregar esta materia");
   if (confirmar) {
+    const consultar = await buscarDeuda(idUser, idQuarter);
     try {
-      const agregar = await agregarSubStudent(idUser, idSubject);
       const act = await actualizarSubject(idUser, idSubject);
-      crearMsg(act.data.message);
+      const agregarS = await agregarSubStudent(idUser, idSubject);
+      if (consultar.data.length > 0) {
+        const actualizar = await actualizarDeuda(
+          idUser,
+          idQuarter,
+          act.data.deuda
+        );
+        crearMsg("La materia se ha agregado con éxito");
+      } else {
+        const crear = await agregarDeuda(idUser, idQuarter, act.data.deuda);
+        crearMsg("La materia se ha agregado con éxito");
+      }
     } catch (error) {
-      console.log(error);
+      crearMsg(error.response.data.message);
     }
   }
 }

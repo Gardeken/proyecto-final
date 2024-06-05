@@ -67,30 +67,44 @@ subjectRouter.put("/agregar-alumno", async (req, res) => {
   const consulta = await subject.findOne({ id: idSubject });
   const lista = [idStudent.toString()];
   const cuposRes = consulta.cupos - 1;
-  try {
-    if (consulta.students) {
-      const listado = JSON.parse(consulta.students);
-      listado.push(idStudent.toString());
-      await subject.findOneAndUpdate(
-        { id: idSubject },
-        { students: JSON.stringify(listado), cupos: cuposRes }
-      );
-      res.status(200).json({
-        message: "Materia agregada con éxito",
-      });
-    } else {
-      await subject.findOneAndUpdate(
-        { id: idSubject },
-        { students: JSON.stringify(lista), cupos: cuposRes }
-      );
-      res.status(200).json({
-        message: "Materia agregada con éxito",
+  if (cuposRes < 0) {
+    await subject.findOneAndUpdate(
+      { id: idSubject },
+      {
+        status: 2,
+      }
+    );
+    res.status(400).json({
+      message: "Ya no quedan cupos",
+    });
+  } else {
+    try {
+      if (consulta.students) {
+        const listado = JSON.parse(consulta.students);
+        listado.push(idStudent.toString());
+        await subject.findOneAndUpdate(
+          { id: idSubject },
+          { students: JSON.stringify(listado), cupos: cuposRes }
+        );
+        res.status(200).json({
+          deuda: consulta.price,
+          message: "Materia agregada con éxito",
+        });
+      } else {
+        await subject.findOneAndUpdate(
+          { id: idSubject },
+          { students: JSON.stringify(lista), cupos: cuposRes }
+        );
+        res.status(200).json({
+          deuda: consulta.price,
+          message: "Materia agregada con éxito",
+        });
+      }
+    } catch (error) {
+      res.status(400).json({
+        message: "Hubo un error al agregar la materia",
       });
     }
-  } catch (error) {
-    res.status(400).json({
-      message: "Hubo un error al agregar la materia",
-    });
   }
 });
 
