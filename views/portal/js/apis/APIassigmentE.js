@@ -44,10 +44,11 @@ export const guardarAsignacionEstudiante = async (
   return post;
 };
 
-export const corregirAsig = async (idAsig, grade) => {
+export const corregirAsig = async (idAsig, grade, email) => {
   const act = await axios.put("/api/assigmentE/guardar-nota", {
     idAsig: idAsig,
     grade: grade,
+    email,
   });
 
   return act;

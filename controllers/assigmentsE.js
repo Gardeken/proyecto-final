@@ -12,9 +12,20 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 const fs = require("fs");
+const nodemailer = require("nodemailer");
+
+const transporter = nodemailer.createTransport({
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true, // Use `true` for port 465, `false` for all other ports
+  auth: {
+    user: "gardeken1205@gmail.com",
+    pass: process.env.password,
+  },
+});
 
 assigmentERouter.put("/guardar-nota", async (req, res) => {
-  const { idAsig, grade } = req.body;
+  const { idAsig, grade, email } = req.body;
   if (!grade) {
     res.status(400).json({
       message: "Usted no puede dejar el campo vacío",
@@ -27,6 +38,13 @@ assigmentERouter.put("/guardar-nota", async (req, res) => {
         grades: grade,
       }
     );
+    console.log(email);
+    await transporter.sendMail({
+      from: '"Universidad José María Vargas" <dominicode.xyz@gmail.com>',
+      to: `${email}`,
+      subject: "Se ha corregido una asignación",
+      text: `Tienes asignaciones corregidas ve a revisarlas`,
+    });
     res.status(200).json({
       message: "La asignación se ha corregido con éxito",
     });

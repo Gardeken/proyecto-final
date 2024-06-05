@@ -717,7 +717,12 @@ function eventosProf(idSubject) {
                   if (isNaN(nota))
                     return crearMsg("No puede poner texto como nota");
                   try {
-                    const act = await corregirAsig(id, gradeInput.value);
+                    const usuario = await buscarUsuario(i.user);
+                    const act = await corregirAsig(
+                      id,
+                      gradeInput.value,
+                      usuario.data.email
+                    );
                     const materia = await buscarMateria(idSubject);
                     if (materia.data.porcentaje > 55) {
                       const listadoAsig = await listadoAsigEst(user, idSubject);
