@@ -39,6 +39,7 @@ app.use("/portalUJMV", express.static(path.resolve("views", "portal")));
 app.use("/asignaciones", express.static(path.resolve("asignaciones")));
 app.use("/aplicaciones", express.static(path.resolve("aplicaciones")));
 app.use("/pensum", express.static(path.resolve("pensum")));
+app.use("/pagos", express.static(path.resolve("pagos")));
 
 //rutas backend
 app.use(express.json());

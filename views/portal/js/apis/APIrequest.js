@@ -8,8 +8,13 @@ export const cambioDatos = async (id, data1, data2, data3) => {
   return send;
 };
 
-export const listadoRequestStaff = async (filter) => {
+export const listadoRequestStaff = async () => {
   const listado = await axios.get("/api/request/listado-staff");
+  return listado;
+};
+
+export const listadoRequestAdmin = async () => {
+  const listado = await axios.get("/api/request/listado-admin");
   return listado;
 };
 
@@ -49,6 +54,16 @@ export const crearSubject = async (data, idUser, IDquarter) => {
     params: {
       IDquarter,
       idUser,
+    },
+  });
+  return crear;
+};
+
+export const procesarPago = async (data, idUser, idQuarter) => {
+  const crear = await axios.post("/api/request/procesar-pago", data, {
+    params: {
+      idUser,
+      idQuarter,
     },
   });
   return crear;

@@ -10,7 +10,17 @@ const storage = multer.diskStorage({
     cb(null, file.fieldname + "-" + Date.now() + "." + exp[1]);
   },
 });
+const storageP = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "pagos");
+  },
+  filename: function (req, file, cb) {
+    const exp = file.originalname.split(".");
+    cb(null, file.fieldname + "-" + Date.now() + "." + exp[1]);
+  },
+});
 const upload = multer({ storage });
+const uploadP = multer({ storage: storageP });
 const fs = require("fs");
 
 requestRouter.get("/listado-filtrado", async (req, res) => {
@@ -30,6 +40,20 @@ requestRouter.get("/listado-staff", async (req, res) => {
     const peticiones = await request.find();
     const listadoFilt = peticiones.filter(
       (i) => i.type !== "4004" && i.type !== "4005"
+    );
+    res.status(200).json(listadoFilt);
+  } catch (error) {
+    res.status(400).json({
+      message: "Hubo un error inesperado",
+    });
+  }
+});
+
+requestRouter.get("/listado-admin", async (req, res) => {
+  try {
+    const peticiones = await request.find();
+    const listadoFilt = peticiones.filter(
+      (i) => i.type !== "4002" && i.type !== "4001" && i.type !== "4003"
     );
     res.status(200).json(listadoFilt);
   } catch (error) {
@@ -151,6 +175,33 @@ requestRouter.post(
     newRequest.id = Date.now();
     newRequest.type = "4003";
     newRequest.idUser = req.query.idUser;
+    newRequest.data = JSON.stringify(obj);
+    try {
+      await newRequest.save();
+      res.status(200).json({
+        message: "Se ha creado la petición con éxito",
+      });
+    } catch (error) {
+      res.status(400).json({
+        message: "Hubo un error al crear la petición",
+      });
+    }
+  }
+);
+
+requestRouter.post(
+  "/procesar-pago",
+  uploadP.single("payCap"),
+  async (req, res) => {
+    const { idUser, idQuarter } = req.query;
+    const trans = JSON.stringify(req.body);
+    const obj = JSON.parse(trans);
+    obj.path = req.file.path;
+    obj.idQuarter = idQuarter;
+    const newRequest = new request();
+    newRequest.id = Date.now();
+    newRequest.idUser = idUser;
+    newRequest.type = "4004";
     newRequest.data = JSON.stringify(obj);
     try {
       await newRequest.save();

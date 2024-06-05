@@ -228,6 +228,12 @@ quarterRouter.get("/validar-create-prof", async (req, res) => {
   }
 });
 
+quarterRouter.get("/buscar-trimestre", async (req, res) => {
+  const { idQuarter } = req.query;
+  const trimestre = await quarter.findOne({ id: idQuarter });
+  res.status(200).json(trimestre);
+});
+
 quarterRouter.get("/validar-insc-al", async (req, res) => {
   const trimestreActual = await quarter.findOne({ status: 1 });
 

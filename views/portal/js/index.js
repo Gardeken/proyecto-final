@@ -1,7 +1,9 @@
 import {
+  aceptarPay,
   actualizarDeuda,
   agregarDeuda,
   buscarDeuda,
+  buscarDeudas,
 } from "./apis/APIpayment.js";
 import {
   buscarEstudiante,
@@ -29,7 +31,9 @@ import { buscarUsuario, buscarRol, crearUser } from "./apis/APIuser.js";
 import {
   cambioDatos,
   crearSubject,
+  procesarPago,
   listadoRequestStaff,
+  listadoRequestAdmin,
   listadoRequestFilt,
   aceptarReq,
   rechazarReq,
@@ -42,6 +46,7 @@ import {
   eliminarTrimestres,
   validarCreate,
   validarInsc,
+  buscarTrimestre,
 } from "./apis/APIquarter.js";
 import {
   buscarAsignacion,
@@ -264,6 +269,7 @@ async function cargarMaterias(filtro) {
 
 async function eventosAdmin() {
   const searchSt = document.querySelector("#searchSt");
+  const requests = document.querySelector("#requests");
   searchSt.addEventListener("click", async () => {
     imprimirContainerAdmin();
     const containerEst = document.querySelector("#estudiantes");
@@ -426,6 +432,62 @@ async function eventosAdmin() {
       }
     });
   });
+
+  requests.addEventListener("click", async () => {
+    imprimirPeticionesAdmin();
+    filtrarReqAdmin();
+    imprimirRequestAdmin();
+  });
+}
+
+async function imprimirRequestAdmin() {
+  const containerReq = document.querySelector(".container-request");
+  containerReq.innerHTML = "";
+  try {
+    const listado = await listadoRequestAdmin();
+    const { data } = listado;
+    data.forEach(async (i) => {
+      const div = document.createElement("div");
+      div.classList.add("request");
+      div.setAttribute("data-request", i.type);
+      const codigo = Number(i.type);
+      if (i.type === "4005") {
+        const datos = JSON.parse(i.data);
+        div.innerHTML = `
+        <span>${datos.nombre}</span>
+                <span>${objPeticion[codigo]}</span>
+                <span>${objStatusPet[i.status]}</span>
+        <button id="${i.id}" class="delete-request">Eliminar</button>
+        `;
+        div.addEventListener("click", (e) => {
+          modalPeticiones(e, i.data, i.id, i.idUser, i.status);
+        });
+        return containerReq.appendChild(div);
+      }
+      const usuario = await buscarUsuario(i.idUser);
+      if (i.status === 0) {
+        div.innerHTML = `
+      <span>${usuario.data.name}</span>
+              <span>${objPeticion[codigo]}</span>
+              <span>${objStatusPet[i.status]}</span>
+      `;
+      } else {
+        div.innerHTML = `
+        <span>${usuario.data.name}</span>
+                <span>${objPeticion[codigo]}</span>
+                <span>${objStatusPet[i.status]}</span>
+        <button id="${i.id}" class="delete-request">Eliminar</button>
+        `;
+      }
+
+      div.addEventListener("click", (e) => {
+        modalPeticiones(e, i.data, i.id, i.idUser, i.status);
+      });
+      containerReq.appendChild(div);
+    });
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 function eventosProf(idSubject) {
@@ -693,6 +755,17 @@ async function cargarPeticiones() {
   imprimirRequest();
 }
 
+async function filtrarReqAdmin() {
+  const typeRequest = document.querySelector("#typeRequest");
+  typeRequest.addEventListener("change", () => {
+    const filtro = typeRequest.value;
+    if (!filtro) {
+      imprimirRequestAdmin();
+    }
+    imprimirRequestFilt(filtro);
+  });
+}
+
 async function filtrarReq() {
   const typeRequest = document.querySelector("#typeRequest");
   typeRequest.addEventListener("change", () => {
@@ -853,17 +926,21 @@ async function imprimirRequest() {
 }
 
 async function modalPeticiones(e, data, idReq, idUser, status) {
+  const tipo = e.target.closest("div").dataset.request;
   if (e.target.classList.contains("delete-request")) {
     const id = e.target.id;
     try {
       const eliminar = await eliminarReq(idReq, data);
       crearMsg(eliminar.data.message);
-      return imprimirRequest();
+      if (tipo === "4004" || tipo === "4002") {
+        return imprimirRequestAdmin();
+      } else {
+        imprimirRequest();
+      }
     } catch (error) {
       console.log(error);
     }
   }
-  const tipo = e.target.closest("div").dataset.request;
   if (tipo === "4001") {
     const info = JSON.parse(data);
     modal.classList.remove("hidden");
@@ -942,6 +1019,51 @@ async function modalPeticiones(e, data, idReq, idUser, status) {
     });
     modal.classList.remove("hidden");
     closeModalBtn();
+  }
+  if (tipo === "4004") {
+    const datos = JSON.parse(data);
+    const usuario = await buscarUsuario(idUser);
+    console.log(datos);
+    imprimirProcePago(
+      usuario.data.name,
+      datos.payMount,
+      datos.payNumber,
+      datos.payDate,
+      datos.path
+    );
+    modal.classList.remove("hidden");
+    closeModalBtn();
+    const aceptar = document.querySelector("#aceptar");
+    const rechazar = document.querySelector("#rechazar");
+    aceptar.addEventListener("click", () => {
+      if (status === 0) {
+        return crearMsg("Usted ya acepto esta petición");
+      }
+      aceptarPago(idUser, datos, idReq);
+    });
+    rechazar.addEventListener("click", () => {
+      if (status === 0) {
+        return crearMsg("Usted ya acepto esta petición");
+      }
+      rechazarPeticion(idReq);
+    });
+  }
+}
+
+async function aceptarPago(idUser, datos, idReq) {
+  try {
+    const user = await buscarUsuario(idUser);
+    const act = await aceptarPay(
+      user.data.email,
+      idUser,
+      datos.payMount,
+      datos.idQuarter
+    );
+    const aceptar = await aceptarReq(idReq);
+    crearMsg(act.data.message);
+    modal.classList.add("hidden");
+  } catch (error) {
+    console.log(error);
   }
 }
 
@@ -1480,6 +1602,12 @@ function printEst() {
     }
   });
 
+  const paysBtn = document.querySelector("#paysBtn");
+
+  paysBtn.addEventListener("click", () => {
+    eventoPagos();
+  });
+
   listadoMaterias.addEventListener("click", async (e) => {
     if (e.target.classList.contains("subject")) {
       const id = e.target.id;
@@ -1533,11 +1661,17 @@ async function agregar(idUser, idSubject, idQuarter) {
         const actualizar = await actualizarDeuda(
           idUser,
           idQuarter,
-          act.data.deuda
+          act.data.deuda,
+          act.data.CODSubject
         );
         crearMsg("La materia se ha agregado con éxito");
       } else {
-        const crear = await agregarDeuda(idUser, idQuarter, act.data.deuda);
+        const crear = await agregarDeuda(
+          idUser,
+          idQuarter,
+          act.data.deuda,
+          act.data.CODSubject
+        );
         crearMsg("La materia se ha agregado con éxito");
       }
     } catch (error) {
@@ -1940,4 +2074,107 @@ function transformarBytes(size) {
   return megabyte;
 }
 
-//Notas
+// Pagos
+
+async function eventoPagos() {
+  const idUser = URL.get("id");
+  const listadoP = await buscarDeudas(idUser);
+  imprimirPagos();
+  const selectQuarter = document.querySelector("#selectQuarter");
+  const containerDeudas = document.querySelector(".container-deudas");
+  const containertotal = document.querySelector(".container-total");
+  const containerBtn = document.querySelector(".container-btnPay");
+  const { data } = listadoP;
+  data.forEach(async (i) => {
+    const { idQuarter } = i;
+    const quarter = await buscarTrimestre(idQuarter);
+    const CODQuarter = Number(quarter.data.quarter);
+    const fechaStart = quarter.data.startDate.split("-");
+    const option = document.createElement("option");
+    option.value = idQuarter;
+    option.innerHTML = `${objModulo[CODQuarter]} - ${fechaStart[2]}`;
+    selectQuarter.appendChild(option);
+  });
+  selectQuarter.addEventListener("change", async () => {
+    const quarterSelected = selectQuarter.value;
+    const pago = await buscarDeuda(idUser, quarterSelected);
+    const { deuda, subjects } = pago.data[0];
+    const listSub = JSON.parse(subjects);
+    listSub.forEach(async (i) => {
+      const infoSub = await buscarInfoMateria({ CODSubject: i });
+      const { price, name } = infoSub.data[0];
+      const div = document.createElement("div");
+      div.classList.add("deuda");
+      div.innerHTML = `
+      <span>${name}</span>
+      <span>$${Number(price)}</span>
+      `;
+      containerDeudas.appendChild(div);
+    });
+    const div = document.createElement("div");
+    div.classList.add("totalDeuda");
+    div.innerHTML = `
+    <span>Deuda Total: ${deuda}</span>
+    `;
+    containertotal.appendChild(div);
+    const btn = document.createElement("button");
+    btn.classList.add("pagoBtn");
+    btn.innerHTML = "Ingresar Pago";
+    containerBtn.appendChild(btn);
+    btn.addEventListener("click", () => {
+      realizarPago(quarterSelected);
+    });
+  });
+}
+
+async function realizarPago(idQuarter) {
+  modal.classList.remove("hidden");
+  imprimirPagoModal();
+  closeModalBtn();
+  const payDate = document.querySelector("#payDate");
+  const payNumber = document.querySelector("#payNumber");
+  const payMount = document.querySelector("#payMount");
+  const delPay = document.querySelector("#delPay");
+  const payCap = document.querySelector("#payCap");
+  eventoVal(payCap);
+  deleteFile(delPay, payCap);
+  flatpickr("#payDate", {
+    dateFormat: "d-m-Y",
+  });
+
+  payNumber.addEventListener("input", () => {
+    const valor = payNumber.value;
+    if (valor.length >= 12) {
+      payNumber.value = valor.slice(0, 12);
+    }
+  });
+
+  const formulario = document.querySelector("#formulario");
+  formulario.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const validate = [
+      payDate.value,
+      payNumber.value,
+      payCap.value,
+      payMount.value,
+    ].some((i) => i === "");
+    if (validate) {
+      return crearMsg("No puede dejar los campos vacíos");
+    }
+    const idUser = URL.get("id");
+    const data = new FormData(formulario);
+    if (isNaN(payMount.value) || isNaN(payNumber.value)) {
+      return crearMsg("No ha introducido cantidades válidas");
+    }
+    if (payNumber.length > 12) {
+      return crearMsg("Usted ha sobrepasado la cantidad de dígitos");
+    }
+    try {
+      const procesar = await procesarPago(data, idUser, idQuarter);
+      crearMsg(procesar.data.message);
+      modal.classList.add("hidden");
+    } catch (error) {
+      console.log(error);
+    }
+  });
+}

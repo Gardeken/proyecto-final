@@ -97,6 +97,7 @@ subjectRouter.put("/agregar-alumno", async (req, res) => {
         );
         res.status(200).json({
           deuda: consulta.price,
+          CODSubject: consulta.CODSubject,
           message: "Materia agregada con éxito",
         });
       } else {
@@ -106,6 +107,7 @@ subjectRouter.put("/agregar-alumno", async (req, res) => {
         );
         res.status(200).json({
           deuda: consulta.price,
+          CODSubject: consulta.CODSubject,
           message: "Materia agregada con éxito",
         });
       }

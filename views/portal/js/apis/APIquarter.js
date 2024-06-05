@@ -46,3 +46,12 @@ export const validarInsc = async () => {
   const consulta = await axios.get("/api/quarter/validar-insc-al");
   return consulta;
 };
+
+export const buscarTrimestre = async (idQuarter) => {
+  const consulta = await axios.get("/api/quarter/buscar-trimestre", {
+    params: {
+      idQuarter,
+    },
+  });
+  return consulta;
+};

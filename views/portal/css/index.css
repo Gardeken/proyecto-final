@@ -445,6 +445,40 @@ input[type="file"],
 
 /*
 <------------------------------------------------------------------------------->
+                            Estilos modal 11  
+*/
+.container-pago {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.container-pay {
+  display: grid;
+  place-items: center start;
+  grid-template-columns: 2fr 2fr;
+}
+
+.container-pay input[type="number"],
+.container-pay input[type="text"] {
+  outline: none;
+  border: 1px var(--rojo-principal) solid;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+}
+
+.aceptarPay {
+  place-self: center;
+  padding: 0.8rem;
+  border-radius: 0.5rem;
+  background-color: var(--rojo-principal);
+  color: white;
+  border: none;
+}
+
+/*
+<------------------------------------------------------------------------------->
                             Estilos nav  
 */
 
@@ -894,6 +928,70 @@ header {
   padding: 0.8rem;
 }
 
+/*
+<------------------------------------------------------------------------------->
+                            Estilos main pay
+*/
+
+.container-selectQuarter {
+  display: flex;
+  gap: 2rem;
+  margin: 1rem;
+  align-items: center;
+}
+
+.container-payments {
+  display: grid;
+}
+
+.container-total {
+  display: grid;
+  place-items: end;
+  margin: 1rem;
+}
+
+.container-btnPay {
+  display: grid;
+  place-items: center;
+}
+
+.container-deudas {
+  display: flex;
+  gap: 1rem;
+  margin: 1rem;
+  flex-direction: column;
+}
+
+.totalDeuda {
+  align-self: end;
+}
+
+.deuda {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+}
+
+.deuda span:nth-of-type(2) {
+  place-self: end;
+}
+
+.selectQuarter {
+  width: 25vw;
+  border: 1px var(--rojo-principal) solid;
+  border-radius: 0.5rem;
+  padding: 0.3rem;
+}
+
+.pagoBtn {
+  place-self: center;
+  color: white;
+  border-radius: 0.5rem;
+  border: 0;
+  padding: 0.8rem;
+  background-color: var(--rojo-principal);
+  margin: 1rem;
+}
+
 .pointer {
   cursor: pointer;
 }
@@ -963,6 +1061,21 @@ header {
 
   .inputEst {
     width: 60vw;
+  }
+
+  /*
+<------------------------------------------------------------------------------->
+                            Estilos modal 11  
+*/
+
+  .container-pay {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .container-pay input[type="number"],
+  .container-pay input[type="text"] {
+    width: 50vw;
   }
 
   /*

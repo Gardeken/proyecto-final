@@ -395,7 +395,7 @@ const imprimirContactar = () => {
 `;
 };
 
-const imprimirProcePago = () => {
+const imprimirProcePago = (name, mount, number, date, path) => {
   container2.innerHTML = `
   <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -415,24 +415,24 @@ const imprimirProcePago = () => {
         <div class="container-pagos">
           <div>
             <span>Nombre:</span>
-            <span>Pedro Centeno</span>
+            <span>${name}</span>
           </div>
           <div>
             <span>Monto:</span>
-            <span>Bs. 4500</span>
+            <span>$${mount}</span>
           </div>
           <div>
-            <span>Banco:</span>
-            <span>Banesco</span>
+            <span>Fecha:</span>
+            <span>${date}</span>
           </div>
           <div>
             <span>N° Recibo:</span>
-            <span>5426879548</span>
+            <span>${number}</span>
           </div>
         </div>
         <div class="container-downloadPensum">
           <span>Descargar Captura</span>
-          <a download="" id="downloadCap" class="download-pensum">
+          <a download href="../${path}" id="downloadCap" class="download-pensum">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -912,6 +912,25 @@ const imprimirPeticiones = () => {
   `;
 };
 
+const imprimirPeticionesAdmin = () => {
+  container.innerHTML = `
+  <div class="container-asig">
+          <section>
+            <h3 id="titulo" class="container-titulo">Peticiones</h3>
+          </section>
+          <div class="container-selectReq">
+            <label for="typeRequest">Filtrar por tipo</label>
+            <select class="select-req" id="typeRequest">
+              <option value="">...</option>
+              <option value="4004">Procesar Pago</option>
+              <option value="4005">Contactar</option>
+            </select>
+          </div>
+          <div class="container-request"></div>
+        </div>
+  `;
+};
+
 const imprimirCrearMatProf = () => {
   container.innerHTML = `
   <div class="container-asig">
@@ -1045,6 +1064,113 @@ const imprimirAgregarMat = () => {
             </select>
           </div>
           <div class="container-subjects"></div>
+        </div>
+  `;
+};
+
+const imprimirPagoModal = () => {
+  container2.innerHTML = `
+  <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          id="closeModal"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="close-modal"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M6 18 18 6M6 6l12 12"
+          />
+        </svg>
+        <form id="formulario" class="container-pago">
+          <div class="container-pay">
+            <label for="payDate">Fecha del Pago</label>
+            <input class="inputPay" type="text" name="payDate" id="payDate" />
+          </div>
+          <div class="container-pay">
+            <label for="payNumber">N° de recibo</label>
+            <input
+              class="inputPay"
+              type="number"
+              name="payNumber"
+              id="payNumber"
+            />
+          </div>
+          <div class="container-pay">
+            <label for="payMount">Cantidad del pago</label>
+            <input
+              placeholder="Use . para separar los decimales"
+              class="inputPay"
+              type="text"
+              name="payMount"
+              id="payMount"
+            />
+          </div>
+          <div class="container-pay">
+            <input class="inputPay" type="file" name="payCap" id="payCap" />
+            <div class="container-svg">
+              <label class="label-svg" for="payCap">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="upload-svg"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"
+                  />
+                </svg>
+              </label>
+
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                id="delPay"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="delete-file"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M6 18 18 6M6 6l12 12"
+                />
+              </svg>
+            </div>
+          </div>
+          <button class="aceptarPay">Aceptar</button>
+        </form>
+  `;
+};
+
+const imprimirPagos = () => {
+  container.innerHTML = `
+  <div class="container-asig">
+          <section>
+            <h3 id="titulo" class="container-titulo">Pagos</h3>
+          </section>
+          <div class="container-payments">
+            <div class="container-selectQuarter">
+              <label for="selectQuarter">Seleccionar Trimestre</label>
+              <select class="selectQuarter" id="selectQuarter">
+                <option selected disabled value="">...</option>
+              </select>
+            </div>
+            <div class="container-deudas">
+            
+          </div>
+          <div class="container-total">
+
+          </div>
+          <div class="container-btnPay" ></div>
         </div>
   `;
 };
