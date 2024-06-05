@@ -36,6 +36,18 @@ const imprimirContainerEst = () => {
 </div>`;
 };
 
+const imprimirCal = () => {
+  container.innerHTML = `
+  <div class="container-asig">
+          <section>
+            <h3 id="titulo" class="container-titulo">Fechas</h3>
+          </section>
+        </div>
+        <div class="container-calendario">
+        </div>
+  `;
+};
+
 const imprimirContainerAdmin = () => {
   container.innerHTML = `
   <div class="container-asig">

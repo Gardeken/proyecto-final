@@ -1638,6 +1638,12 @@ function printEst() {
     eventoPagos();
   });
 
+  const calendar = document.querySelector("#calendar");
+
+  calendar.addEventListener("click", () => {
+    eventoCalendario();
+  });
+
   listadoMaterias.addEventListener("click", async (e) => {
     if (e.target.classList.contains("subject")) {
       const id = e.target.id;
@@ -1711,6 +1717,28 @@ async function agregar(idUser, idSubject, idQuarter) {
 }
 
 //Calendario
+
+async function eventoCalendario() {
+  imprimirCal();
+  const containerCal = document.querySelector(".container-calendario");
+  const idUser = URL.get("id");
+  const estudiante = await buscarEstudiante(idUser);
+  const { subjects } = estudiante.data;
+  const listadoS = JSON.parse(subjects);
+  listadoS.forEach(async (i) => {
+    const materia = await buscarMateria(i);
+    const { dates } = materia.data;
+    const fechas = JSON.parse(dates);
+    const div = document.createElement("div");
+    div.classList.add("fecha");
+    div.innerHTML = `
+    <span>${materia.data.name}</span>
+    <span>${fechas.days}</span>
+    <span>${fechas.startClass}AM - ${fechas.endClass}PM</span>
+    `;
+    containerCal.appendChild(div);
+  });
+}
 
 //Asignaciones
 
