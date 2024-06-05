@@ -48,6 +48,16 @@ export const listAgregarMaterias = async () => {
   return listado;
 };
 
+export const listAgregarMateriasFilt = async (status, CODCareer) => {
+  const consulta = await axios.get("/api/subject/list-agregar-filt", {
+    params: {
+      status,
+      CODCareer,
+    },
+  });
+  return consulta;
+};
+
 export const actualizarSubject = async (idStudent, idSubject) => {
   const act = await axios.put("/api/subject/agregar-alumno", {
     idStudent,

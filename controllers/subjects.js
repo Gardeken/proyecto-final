@@ -22,6 +22,15 @@ subjectRouter.get("/listado-agregar", async (req, res) => {
   }
 });
 
+subjectRouter.get("/list-agregar-filt", async (req, res) => {
+  const { status, CODCareer } = req.query;
+  const listado = await subject.find({
+    status: Number(status),
+    CODCareer: CODCareer,
+  });
+  res.status(200).json(listado);
+});
+
 subjectRouter.put("/guardar-asigT", async (req, res) => {
   const { idAsig, idSubject, porcentaje } = req.body;
   try {

@@ -23,6 +23,7 @@ import {
   actualizarMateria,
   listAgregarMaterias,
   actualizarSubject,
+  listAgregarMateriasFilt,
 } from "./apis/APIsubject.js";
 import { buscarUsuario, buscarRol, crearUser } from "./apis/APIuser.js";
 import {
@@ -1358,11 +1359,89 @@ function printEst() {
 
   agregarMat.addEventListener("click", async () => {
     imprimirAgregarMat();
+    const selectCareer = document.querySelector("#selectCareer");
+    const idStudent = URL.get("id");
+    const estudiante = await buscarEstudiante(idStudent);
+    const listado = await buscarCarrerasFac(estudiante.data.facultad);
+    const { data } = listado;
+    data.forEach((i) => {
+      const option = document.createElement("option");
+      option.value = i.CODCareer;
+      option.innerHTML = `${i.name}`;
+      selectCareer.appendChild(option);
+    });
     const containerSub = document.querySelector(".container-subjects");
-    containerSub.innerHTML = "";
     const validar = await validarInsc();
     if (validar.status === 200) {
       try {
+        selectCareer.addEventListener("change", async () => {
+          if (selectCareer.value !== "") {
+            containerSub.innerHTML = "";
+            const listadoFilt = await listAgregarMateriasFilt(
+              3,
+              selectCareer.value
+            );
+            const { data } = listadoFilt;
+            data.forEach(async (i) => {
+              if (i.cupos === 0) {
+                return;
+              }
+              const div = document.createElement("div");
+              const usuario = await buscarUsuario(i.teacher);
+              const { name } = usuario.data;
+              div.classList.add("subjects");
+              const fechas = JSON.parse(i.dates);
+              div.innerHTML = `
+          <span class="textSub">${i.name}</span>
+          <span>${fechas.days} </span>
+          <span>${fechas.startClass} - ${fechas.endClass}</span>
+          <span>Cupos: ${i.cupos}/30</span>
+          <span>${name}</span>
+          `;
+              const btn = document.createElement("button");
+              btn.innerHTML = "Agregar";
+              btn.id = i.id;
+              btn.classList.add("btnAgregar");
+              btn.addEventListener("click", (e) => {
+                agregarMatEst(e, validar.data.IDquarter);
+              });
+              div.appendChild(btn);
+              containerSub.appendChild(div);
+            });
+          } else {
+            containerSub.innerHTML = "";
+            const listado = await listAgregarMaterias();
+            const { data } = listado;
+            data.forEach(async (i) => {
+              if (i.cupos === 0) {
+                return;
+              }
+              const div = document.createElement("div");
+              const usuario = await buscarUsuario(i.teacher);
+              const { name } = usuario.data;
+              div.classList.add("subjects");
+              const fechas = JSON.parse(i.dates);
+              div.innerHTML = `
+              <span class="textSub">${i.name}</span>
+              <span>${fechas.days} </span>
+              <span>${fechas.startClass} - ${fechas.endClass}</span>
+              <span>Cupos: ${i.cupos}/30</span>
+              <span>${name}</span>
+              `;
+              const btn = document.createElement("button");
+              btn.innerHTML = "Agregar";
+              btn.id = i.id;
+              btn.classList.add("btnAgregar");
+              btn.addEventListener("click", (e) => {
+                agregarMatEst(e, validar.data.IDquarter);
+              });
+              div.appendChild(btn);
+              containerSub.appendChild(div);
+            });
+          }
+        });
+
+        containerSub.innerHTML = "";
         const listado = await listAgregarMaterias();
         const { data } = listado;
         data.forEach(async (i) => {
