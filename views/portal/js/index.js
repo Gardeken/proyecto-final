@@ -1739,7 +1739,7 @@ async function eventoCalendario() {
     div.innerHTML = `
     <span>${materia.data.name}</span>
     <span>${fechas.days}</span>
-    <span>${fechas.startClass}AM - ${fechas.endClass}PM</span>
+    <span>${fechas.startClass} - ${fechas.endClass}</span>
     `;
     containerCal.appendChild(div);
   });
