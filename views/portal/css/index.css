@@ -1007,6 +1007,10 @@ header {
 
 .fecha {
   display: grid;
+  margin: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--gris-principal);
+  padding: 0.8rem;
   grid-template-columns: repeat(3, 1fr);
 }
 
@@ -1173,6 +1177,13 @@ header {
 
   .selectCareer {
     width: 35vw;
+  }
+
+  .fecha {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
   }
 
   /*
