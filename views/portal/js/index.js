@@ -1739,7 +1739,7 @@ async function eventoCalendario() {
     div.innerHTML = `
     <span>${materia.data.name}</span>
     <span>${fechas.days}</span>
-    <span>${fechas.startClass}AM - ${fechas.endClass}PM</span>
+    <span>${fechas.startClass} - ${fechas.endClass}</span>
     `;
     containerCal.appendChild(div);
   });
@@ -2048,11 +2048,11 @@ async function crearBtn(idSubject) {
     closeModal.addEventListener("click", () => {
       modal.classList.toggle("hidden");
     });
-    guardarDatos(idSubject);
+    guardarDatosDeAsig(idSubject);
   });
 }
 
-async function guardarDatos(idSubject) {
+async function guardarDatosDeAsig(idSubject) {
   const formulario = document.querySelector("#formulario");
   const aceptar = document.querySelector("#aceptar");
   const fileAsig = document.querySelector("#fileAsig");
