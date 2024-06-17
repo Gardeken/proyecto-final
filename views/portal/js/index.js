@@ -171,14 +171,15 @@ document.addEventListener("DOMContentLoaded", async () => {
     const prof = await buscarProfesor(id);
     printProf();
     const createSub = document.querySelector("#createSub");
-    try {
-      const validacion = await validarCreate();
-      createSub.addEventListener("click", () => {
+    createSub.addEventListener("click", async () => {
+      try {
+        const validacion = await validarCreate();
         crearMateria(validacion.data.IDquarter);
-      });
-    } catch (error) {
-      return imprimir404("Crear materia", "Aún no es fecha de creación");
-    }
+      } catch (error) {
+        return imprimir404("Crear materia", "Aún no es fecha de creación");
+      }
+    });
+
     return impListadoMat(prof.data.subjects);
   }
   if (rol === "admin") {
@@ -1528,8 +1529,8 @@ function printEst() {
       selectCareer.appendChild(option);
     });
     const containerSub = document.querySelector(".container-subjects");
-    const validar = await validarInsc();
-    if (validar.status === 200) {
+    try {
+      const validar = await validarInsc();
       try {
         selectCareer.addEventListener("change", async () => {
           if (selectCareer.value !== "") {
@@ -1630,9 +1631,11 @@ function printEst() {
       } catch (error) {
         console.log(error);
       }
-    } else {
+    } catch (error) {
       containerSub.innerHTML = `
-      <span>Aún no son fechas de inscripción</span>
+      <span style="width: 100%; display: grid; place-items: center;margin: 1rem"
+      >Aún no son fechas de inscripción</span
+    >
       `;
     }
   });
