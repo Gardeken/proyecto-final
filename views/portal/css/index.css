@@ -669,6 +669,10 @@ header {
 }
 
 .column {
+  display: flex;
+  align-items: start center;
+  margin: 0;
+  gap: 1rem;
   grid-column-start: 1;
   grid-column-end: 3;
 }
@@ -813,6 +817,15 @@ header {
   display: grid;
   margin: 1rem 0;
   place-items: center;
+}
+
+.eyesvg {
+  width: 1.3rem;
+  color: var(--gris-texto);
+}
+
+.eyesvg:hover {
+  color: var(--gris-principal);
 }
 
 /*
@@ -964,6 +977,12 @@ header {
 
 .totalDeuda {
   align-self: end;
+  display: flex;
+  flex-direction: column;
+}
+
+.totalDeuda span {
+  margin: 0.5rem;
 }
 
 .deuda {
@@ -1184,6 +1203,12 @@ header {
     flex-direction: column;
     gap: 1rem;
     align-items: center;
+  }
+
+  .column {
+    align-items: center;
+    flex-direction: column;
+    display: flex;
   }
 
   /*
