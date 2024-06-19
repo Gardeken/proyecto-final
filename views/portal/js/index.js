@@ -475,7 +475,13 @@ async function imprimirRequestAdmin() {
       if (i.type === "4005") {
         const datos = JSON.parse(i.data);
         div.innerHTML = `
-        <span>${datos.nombre}</span>
+        <span class="column2" >
+        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="eyesvg" viewBox="0 0 16 16">
+  <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
+  <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
+</svg>
+        ${datos.nombre}
+        </span>
                 <span>${objPeticion[codigo]}</span>
                 <span>${objStatusPet[i.status]}</span>
         <button id="${i.id}" class="delete-request">Eliminar</button>
@@ -488,13 +494,25 @@ async function imprimirRequestAdmin() {
       const usuario = await buscarUsuario(i.idUser);
       if (i.status === 0) {
         div.innerHTML = `
-      <span>${usuario.data.name}</span>
+      <span class="column2">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="eyesvg" viewBox="0 0 16 16">
+  <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
+  <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
+</svg>
+      ${usuario.data.name}
+      </span>
               <span>${objPeticion[codigo]}</span>
               <span>${objStatusPet[i.status]}</span>
       `;
       } else {
         div.innerHTML = `
-        <span>${usuario.data.name}</span>
+        <span class="column">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="eyesvg" viewBox="0 0 16 16">
+  <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
+  <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
+</svg>
+        ${usuario.data.name}
+        </span>
                 <span>${objPeticion[codigo]}</span>
                 <span>${objStatusPet[i.status]}</span>
         <button id="${i.id}" class="delete-request">Eliminar</button>
@@ -564,9 +582,15 @@ function eventosProf(idSubject) {
       const divA = document.createElement("div");
       divA.id = i;
       divA.classList.add("asignacion", "pointer", "studentAsig");
+      //volver
       if (assigmentE === undefined || JSON.parse(assigmentE).length === 0) {
         divA.innerHTML = `
-      <p class="column">${name}</p>
+      <p class="column">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="eyesvg" viewBox="0 0 16 16">
+  <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
+  <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
+</svg>
+      ${name}</p>
       <div class="container-fecha">
         <div class="separador"></div>
         <p class="container-date">${date}</p>
@@ -576,8 +600,12 @@ function eventosProf(idSubject) {
     `;
       } else {
         divA.innerHTML = `
-      <p class="column">${name}</p>
-      <p>${porcentaje}</p>
+      <p class="column">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="eyesvg" viewBox="0 0 16 16">
+  <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
+  <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
+</svg>${name}</p>
+      <p>${porcentaje}%</p>
       <div class="container-fecha">
         <div class="separador"></div>
         <p class="container-date">${date}</p>
@@ -817,7 +845,13 @@ async function imprimirRequestFilt(filter) {
       if (i.type === "4005") {
         const datos = JSON.parse(i.data);
         div.innerHTML = `
-        <span>${datos.nombre}</span>
+        <span class="column2">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="eyesvg" viewBox="0 0 16 16">
+  <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
+  <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
+</svg>
+${datos.nombre}
+</span>
                 <span>${objPeticion[codigo]}</span>
                 <span>${objStatusPet[i.status]}</span>
         <button id="${i.id}" class="delete-request">Eliminar</button>
@@ -831,7 +865,11 @@ async function imprimirRequestFilt(filter) {
         const estudiante = await buscarEstudiante(i.idUser);
         if (i.status === 0) {
           div.innerHTML = `
-        <span>${estudiante.data.fullName}</span>
+        <span class="column2">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="eyesvg" viewBox="0 0 16 16">
+  <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
+  <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
+</svg>${estudiante.data.fullName}</span>
                 <span>${objPeticion[codigo]}</span>
                 <span>${objStatusPet[i.status]}</span>
         `;
@@ -841,7 +879,12 @@ async function imprimirRequestFilt(filter) {
           return containerReq.appendChild(div);
         }
         div.innerHTML = `
-        <span>${estudiante.data.fullName}</span>
+        <span class="column2">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="eyesvg" viewBox="0 0 16 16">
+  <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
+  <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
+</svg>
+        ${estudiante.data.fullName}</span>
                 <span>${objPeticion[codigo]}</span>
                 <span>${objStatusPet[i.status]}</span>
         <button id="${i.id}" class="delete-request">Eliminar</button>
@@ -854,13 +897,19 @@ async function imprimirRequestFilt(filter) {
       const usuario = await buscarUsuario(i.idUser);
       if (i.status === 0) {
         div.innerHTML = `
-      <span>${usuario.data.name}</span>
+      <span class="column2">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="eyesvg" viewBox="0 0 16 16">
+  <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
+  <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
+</svg>
+${usuario.data.name}</span>
               <span>${objPeticion[codigo]}</span>
               <span>${objStatusPet[i.status]}</span>
       `;
       } else {
         div.innerHTML = `
-        <span>${usuario.data.name}</span>
+        <span class="column2">
+        ${usuario.data.name}</span>
                 <span>${objPeticion[codigo]}</span>
                 <span>${objStatusPet[i.status]}</span>
         <button id="${i.id}" class="delete-request">Eliminar</button>
@@ -891,7 +940,13 @@ async function imprimirRequest() {
       if (i.type === "4005") {
         const datos = JSON.parse(i.data);
         div.innerHTML = `
-        <span>${datos.nombre}</span>
+        <span class="column2">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="eyesvg" viewBox="0 0 16 16">
+  <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
+  <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
+</svg>
+        ${datos.nombre}
+        </span>
                 <span>${objPeticion[codigo]}</span>
                 <span>${objStatusPet[i.status]}</span>
         <button id="${i.id}" class="delete-request">Eliminar</button>
@@ -905,7 +960,12 @@ async function imprimirRequest() {
         const estudiante = await buscarEstudiante(i.idUser);
         if (i.status === 0) {
           div.innerHTML = `
-        <span>${estudiante.data.fullName}</span>
+        <span class="column2">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="eyesvg" viewBox="0 0 16 16">
+  <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
+  <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
+</svg>
+        ${estudiante.data.fullName}</span>
                 <span>${objPeticion[codigo]}</span>
                 <span>${objStatusPet[i.status]}</span>
         `;
@@ -915,7 +975,12 @@ async function imprimirRequest() {
           return containerReq.appendChild(div);
         }
         div.innerHTML = `
-        <span>${estudiante.data.fullName}</span>
+        <span class="column2">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="eyesvg" viewBox="0 0 16 16">
+  <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
+  <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
+</svg>
+        ${estudiante.data.fullName}</span>
                 <span>${objPeticion[codigo]}</span>
                 <span>${objStatusPet[i.status]}</span>
         <button id="${i.id}" class="delete-request">Eliminar</button>
@@ -928,7 +993,12 @@ async function imprimirRequest() {
       const usuario = await buscarUsuario(i.idUser);
       if (i.status === 0) {
         div.innerHTML = `
-      <span>${usuario.data.name}</span>
+      <span class="column2">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="eyesvg" viewBox="0 0 16 16">
+  <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
+  <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
+</svg>
+      ${usuario.data.name}</span>
               <span>${objPeticion[codigo]}</span>
               <span>${objStatusPet[i.status]}</span>
       `;
@@ -1049,7 +1119,6 @@ async function modalPeticiones(e, data, idReq, idUser, status) {
   if (tipo === "4004") {
     const datos = JSON.parse(data);
     const usuario = await buscarUsuario(idUser);
-    console.log(datos);
     imprimirProcePago(
       usuario.data.name,
       datos.payMount,
@@ -1073,6 +1142,12 @@ async function modalPeticiones(e, data, idReq, idUser, status) {
       }
       rechazarPeticion(idReq);
     });
+  }
+  if (tipo === "4005") {
+    const datos = JSON.parse(data);
+    modal.classList.remove("hidden");
+    imprimirContactar(datos.nombre, datos.email, datos.telefono, datos.mensaje);
+    closeModalBtn();
   }
 }
 

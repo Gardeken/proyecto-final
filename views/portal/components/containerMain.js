@@ -364,7 +364,7 @@ const imprimirCrearMat = (
   `;
 };
 
-const imprimirContactar = () => {
+const imprimirContactar = (nombre, email, telefono, mensaje) => {
   container2.innerHTML = `
 <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -384,23 +384,20 @@ const imprimirContactar = () => {
         <div class="container-contactar">
           <div>
             <span>Nombre:</span>
-            <span>Pedro Centeno</span>
+            <span>${nombre}</span>
           </div>
           <div>
             <span>Email:</span>
-            <span>pedroignacio931@gmail.com</span>
+            <span>${email}</span>
           </div>
           <div>
             <span>Teléfono:</span>
-            <span>04122101116</span>
+            <span>${telefono}</span>
           </div>
           <div>
             <span>Mensaje:</span>
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam
-              vero quibusdam alias nesciunt. Molestias aspernatur tempore
-              assumenda, soluta temporibus consectetur beatae ipsa nostrum, unde
-              sapiente ipsam molestiae, nulla incidunt. Ut?
+              ${mensaje}
             </p>
           </div>
         </div>
