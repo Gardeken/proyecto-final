@@ -671,7 +671,7 @@ header {
 .column {
   width: 10rem;
   display: flex;
-  align-items: start center;
+  align-items: center;
   margin: 0;
   gap: 1rem;
   grid-column-start: 1;
@@ -681,7 +681,7 @@ header {
 .column2 {
   width: 10rem;
   display: flex;
-  align-items: start center;
+  align-items: center;
   margin: 0;
   gap: 1rem;
 }
@@ -830,11 +830,10 @@ header {
 
 .eyesvg {
   width: 1.3rem;
-  color: var(--gris-texto);
-}
-
-.eyesvg:hover {
-  color: var(--gris-principal);
+  color: white;
+  background-color: var(--rojo-principal);
+  padding: 0.5rem;
+  border-radius: 0.5rem;
 }
 
 /*

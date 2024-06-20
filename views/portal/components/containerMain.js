@@ -428,7 +428,7 @@ const imprimirProcePago = (name, mount, number, date, path) => {
           </div>
           <div>
             <span>Monto:</span>
-            <span>$${mount}</span>
+            <span>Bs ${mount}</span>
           </div>
           <div>
             <span>Fecha:</span>
