@@ -76,7 +76,6 @@ quarterRouter.get("/actualizar-trimestre", async (req, res) => {
           status: 0,
         }
       );
-
       if (Number(trimestreActual.quarter) === 101) {
         const consulta1 = await quarter.findOne({ quarter: "102", status: 3 });
         if (consulta1) {
@@ -95,6 +94,9 @@ quarterRouter.get("/actualizar-trimestre", async (req, res) => {
             res.status(200).json({
               subjects3: consulta1.subjects3,
               subjects6: consulta1.subjects6,
+              idQuarter: consulta1.id,
+              subjects6Act: trimestreActual.subjects6,
+              cambio: true,
               message: "Se ha cambiado de trimestre",
             });
           } else {
@@ -128,6 +130,9 @@ quarterRouter.get("/actualizar-trimestre", async (req, res) => {
             res.status(200).json({
               subjects3: consulta2.subjects3,
               subjects6: consulta2.subjects6,
+              subjects6Act: trimestreActual.subjects6,
+              idQuarter: consulta2.id,
+              cambio: true,
               message: "Se ha cambiado de trimestre",
             });
           } else {
@@ -570,7 +575,7 @@ quarterRouter.put("/agregar-mat", async (req, res) => {
     if (time === 6) {
       if (consulta.subjects6) {
         const listado = JSON.parse(consulta.subjects6);
-        listado.push(idSubject);
+        listado.push(idSubject.toString());
         await quarter.findOneAndUpdate(
           { id: IDQuarter },
           {

@@ -65,3 +65,18 @@ export const actualizarSubject = async (idStudent, idSubject) => {
   });
   return act;
 };
+
+export const actContador = async (idSubject) => {
+  const act = await axios.put("/api/subject/act-contador", {
+    idSubject,
+  });
+  return act;
+};
+
+export const actStatusMat = async (idSubject, status) => {
+  const act = await axios.put("/api/subject/act-status", {
+    idSubject,
+    status,
+  });
+  return act;
+};

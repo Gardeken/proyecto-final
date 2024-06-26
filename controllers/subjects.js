@@ -181,4 +181,39 @@ subjectRouter.post("/crear-materia", async (req, res) => {
   }
 });
 
+subjectRouter.put("/act-contador", async (req, res) => {
+  const { idSubject } = req.body;
+  const previo = await subject.findOne({ id: idSubject });
+  try {
+    await subject.findOneAndUpdate(
+      { id: idSubject },
+      {
+        quarterCount: previo.quarterCount + 1,
+      }
+    );
+    res.status(200).json({
+      message: "Se ha actualizado el contador de trimestres",
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+subjectRouter.put("/act-status", async (req, res) => {
+  const { idSubject, status } = req.body;
+  try {
+    await subject.findOneAndUpdate(
+      { id: idSubject },
+      {
+        status: status,
+      }
+    );
+    res.status(200).json({
+      message: "Se ha actualizado el estado de la materia",
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 module.exports = subjectRouter;

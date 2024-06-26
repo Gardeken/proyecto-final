@@ -26,6 +26,8 @@ import {
   listAgregarMaterias,
   actualizarSubject,
   listAgregarMateriasFilt,
+  actContador,
+  actStatusMat,
 } from "./apis/APIsubject.js";
 import { buscarUsuario, buscarRol, crearUser } from "./apis/APIuser.js";
 import {
@@ -47,6 +49,7 @@ import {
   validarCreate,
   validarInsc,
   buscarTrimestre,
+  agregarMatTrim,
 } from "./apis/APIquarter.js";
 import {
   buscarAsignacion,
@@ -146,8 +149,7 @@ function crearMsg(text) {
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
-  const update = await actualizarTrimestres();
-  console.log(update);
+  cambiarTrimestre();
   cargarNombre();
   const user = localStorage.getItem("user");
   if (user === null) {
@@ -196,6 +198,48 @@ document.addEventListener("DOMContentLoaded", async () => {
     return eventosStaff();
   }
 });
+
+async function cambiarTrimestre() {
+  const update = await actualizarTrimestres();
+  if (update.data.cambio) {
+    let { subjects3, subjects6, subjects6Act, idQuarter } = update.data;
+    subjects3 = JSON.parse(subjects3);
+    subjects6 = JSON.parse(subjects6);
+    subjects6Act = JSON.parse(subjects6Act);
+    subjects3.forEach(async (subject) => {
+      try {
+        await actStatusMat(subject, 1);
+      } catch (error) {
+        console.log(error);
+      }
+    });
+    subjects6.forEach(async (subject) => {
+      try {
+        await actStatusMat(subject, 1);
+      } catch (error) {
+        console.log(errror);
+      }
+    });
+    subjects6Act.forEach(async (subject) => {
+      const materia = await buscarMateria(subject);
+      const { quarterCount } = materia.data;
+      if (quarterCount + 1 < 3) {
+        try {
+          const act = await actContador(subject);
+          const agregar = await agregarMatTrim(6, subject, idQuarter);
+        } catch (error) {
+          console.log(error);
+        }
+      } else if (quarterCount + 1 >= 3) {
+        try {
+          const act = await actStatusMat(subject, 0);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    });
+  }
+}
 
 async function crearMateria(IDquarter) {
   imprimirCrearMatProf();
@@ -589,7 +633,6 @@ function eventosProf(idSubject) {
       const divA = document.createElement("div");
       divA.id = i;
       divA.classList.add("asignacion", "pointer", "studentAsig");
-      //volver
       if (assigmentE === undefined || JSON.parse(assigmentE).length === 0) {
         divA.innerHTML = `
       <p class="column">

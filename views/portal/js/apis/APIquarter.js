@@ -56,3 +56,12 @@ export const buscarTrimestre = async (idQuarter) => {
   });
   return consulta;
 };
+
+export const agregarMatTrim = async (time, idSubject, IDQuarter) => {
+  const act = await axios.put("/api/quarter/agregar-mat", {
+    time,
+    idSubject,
+    IDQuarter,
+  });
+  return act;
+};
