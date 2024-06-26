@@ -70,12 +70,12 @@ quarterRouter.get("/actualizar-trimestre", async (req, res) => {
       Number(fechaFin[1]) <= mesActual &&
       Number(fechaFin[2]) <= añoActual
     ) {
-      /*await quarter.findOneAndUpdate(
+      await quarter.findOneAndUpdate(
         { status: trimestreActual.status },
         {
           status: 0,
         }
-      );*/
+      );
 
       if (Number(trimestreActual.quarter) === 101) {
         const consulta1 = await quarter.findOne({ quarter: "102", status: 3 });
