@@ -13,7 +13,7 @@ const quarterSchema = new mongoose.Schema({
   endcreateDate: String,
   status: {
     type: Number,
-    default: 2,
+    default: 3,
   },
   subjects3: String,
   subjects6: String,

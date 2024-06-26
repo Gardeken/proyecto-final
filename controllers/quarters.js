@@ -11,6 +11,12 @@ quarterRouter.post("/guardar-trimestre", async (req, res) => {
     endinscDate,
     endcreateDate,
   } = req.body;
+  const consulta = await quarter.findOne({ quarter: IDquarter, status: 3 });
+  if (consulta) {
+    return res.status(400).json({
+      message: "No se pueden agregar más modulos de este tipo",
+    });
+  }
   try {
     let newQuarter = new quarter();
     newQuarter.quarter = IDquarter;
@@ -60,49 +66,254 @@ quarterRouter.get("/actualizar-trimestre", async (req, res) => {
     const mesActual = new Date().getMonth() + 1;
     const añoActual = new Date().getFullYear();
     if (
-      Number(fechaFin[0]) === diaActual &&
-      Number(fechaFin[1]) === mesActual &&
-      Number(fechaFin[2]) === añoActual
+      Number(fechaFin[0]) <= diaActual &&
+      Number(fechaFin[1]) <= mesActual &&
+      Number(fechaFin[2]) <= añoActual
     ) {
-      await quarter.findOneAndUpdate(
+      /*await quarter.findOneAndUpdate(
         { status: trimestreActual.status },
         {
           status: 0,
         }
-      );
+      );*/
 
       if (Number(trimestreActual.quarter) === 101) {
-        await quarter.findOneAndUpdate(
-          { quarter: "102", status: 2 },
-          {
-            status: 1,
+        const consulta1 = await quarter.findOne({ quarter: "102", status: 3 });
+        if (consulta1) {
+          const fechaInicio = consulta1.startDate.split("-");
+          if (
+            fechaInicio[0] <= diaActual &&
+            fechaInicio[1] <= mesActual &&
+            fechaInicio[2] <= añoActual
+          ) {
+            await quarter.findOneAndUpdate(
+              { quarter: "102", status: 3 },
+              {
+                status: 1,
+              }
+            );
+            res.status(200).json({
+              subjects3: consulta1.subjects3,
+              subjects6: consulta1.subjects6,
+              message: "Se ha cambiado de trimestre",
+            });
+          } else {
+            await quarter.findOneAndUpdate(
+              { quarter: "102", status: 3 },
+              {
+                status: 2,
+              }
+            );
+            res.status(200).json({
+              message: "Se ha cambiado de trimestre",
+            });
           }
-        );
+        } else {
+          const consulta2 = await quarter.findOne({
+            quarter: "102",
+            status: 2,
+          });
+          const fechaInicio = consulta2.startDate.split("-");
+          if (
+            Number(fechaInicio[0]) <= diaActual &&
+            Number(fechaInicio[1]) <= mesActual &&
+            Number(fechaInicio[2]) <= añoActual
+          ) {
+            await quarter.findOneAndUpdate(
+              { quarter: "102", status: 2 },
+              {
+                status: 1,
+              }
+            );
+            res.status(200).json({
+              subjects3: consulta2.subjects3,
+              subjects6: consulta2.subjects6,
+              message: "Se ha cambiado de trimestre",
+            });
+          } else {
+            res.status(200).json({
+              message: "No se ha actualizado el trimestre",
+            });
+          }
+        }
       } else if (Number(trimestreActual.quarter) === 102) {
-        await quarter.findOneAndUpdate(
-          { quarter: "103", status: 2 },
-          {
-            status: 1,
+        const consulta1 = await quarter.findOne({ quarter: "103", status: 3 });
+        if (consulta1) {
+          const fechaInicio = consulta1.startDate.split("-");
+          if (
+            fechaInicio[0] <= diaActual &&
+            fechaInicio[1] <= mesActual &&
+            fechaInicio[2] <= añoActual
+          ) {
+            await quarter.findOneAndUpdate(
+              { quarter: "103", status: 3 },
+              {
+                status: 1,
+              }
+            );
+            res.status(200).json({
+              subjects3: consulta1.subjects3,
+              subjects6: consulta1.subjects6,
+              message: "Se ha cambiado de trimestre",
+            });
+          } else {
+            await quarter.findOneAndUpdate(
+              { quarter: "103", status: 3 },
+              {
+                status: 2,
+              }
+            );
+            res.status(200).json({
+              message: "Se ha cambiado de trimestre",
+            });
           }
-        );
+        } else {
+          const consulta2 = await quarter.findOne({
+            quarter: "103",
+            status: 2,
+          });
+          const fechaInicio = consulta2.startDate.split("-");
+          if (
+            Number(fechaInicio[0]) <= diaActual &&
+            Number(fechaInicio[1]) <= mesActual &&
+            Number(fechaInicio[2]) <= añoActual
+          ) {
+            await quarter.findOneAndUpdate(
+              { quarter: "103", status: 2 },
+              {
+                status: 1,
+              }
+            );
+            res.status(200).json({
+              subjects3: consulta2.subjects3,
+              subjects6: consulta2.subjects6,
+              message: "Se ha cambiado de trimestre",
+            });
+          } else {
+            res.status(200).json({
+              message: "No se ha actualizado el trimestre",
+            });
+          }
+        }
       } else if (Number(trimestreActual.quarter) === 103) {
-        await quarter.findOneAndUpdate(
-          { quarter: "104", status: 2 },
-          {
-            status: 1,
+        const consulta1 = await quarter.findOne({ quarter: "104", status: 3 });
+        if (consulta1) {
+          const fechaInicio = consulta1.startDate.split("-");
+          if (
+            fechaInicio[0] <= diaActual &&
+            fechaInicio[1] <= mesActual &&
+            fechaInicio[2] <= añoActual
+          ) {
+            await quarter.findOneAndUpdate(
+              { quarter: "104", status: 3 },
+              {
+                status: 1,
+              }
+            );
+            res.status(200).json({
+              subjects3: consulta1.subjects3,
+              subjects6: consulta1.subjects6,
+              message: "Se ha cambiado de trimestre",
+            });
+          } else {
+            await quarter.findOneAndUpdate(
+              { quarter: "104", status: 3 },
+              {
+                status: 2,
+              }
+            );
+            res.status(200).json({
+              message: "Se ha cambiado de trimestre",
+            });
           }
-        );
+        } else {
+          const consulta2 = await quarter.findOne({
+            quarter: "104",
+            status: 2,
+          });
+          const fechaInicio = consulta2.startDate.split("-");
+          if (
+            Number(fechaInicio[0]) <= diaActual &&
+            Number(fechaInicio[1]) <= mesActual &&
+            Number(fechaInicio[2]) <= añoActual
+          ) {
+            await quarter.findOneAndUpdate(
+              { quarter: "104", status: 2 },
+              {
+                status: 1,
+              }
+            );
+            res.status(200).json({
+              subjects3: consulta2.subjects3,
+              subjects6: consulta2.subjects6,
+              message: "Se ha cambiado de trimestre",
+            });
+          } else {
+            res.status(200).json({
+              message: "No se ha actualizado el trimestre",
+            });
+          }
+        }
       } else if (Number(trimestreActual.quarter) === 104) {
-        await quarter.findOneAndUpdate(
-          { quarter: "101", status: 2 },
-          {
-            status: 1,
+        const consulta1 = await quarter.findOne({ quarter: "101", status: 3 });
+        if (consulta1) {
+          const fechaInicio = consulta1.startDate.split("-");
+          if (
+            fechaInicio[0] <= diaActual &&
+            fechaInicio[1] <= mesActual &&
+            fechaInicio[2] <= añoActual
+          ) {
+            await quarter.findOneAndUpdate(
+              { quarter: "101", status: 3 },
+              {
+                status: 1,
+              }
+            );
+            res.status(200).json({
+              subjects3: consulta1.subjects3,
+              subjects6: consulta1.subjects6,
+              message: "Se ha cambiado de trimestre",
+            });
+          } else {
+            await quarter.findOneAndUpdate(
+              { quarter: "101", status: 3 },
+              {
+                status: 2,
+              }
+            );
+            res.status(200).json({
+              message: "Se ha cambiado de trimestre",
+            });
           }
-        );
+        } else {
+          const consulta2 = await quarter.findOne({
+            quarter: "101",
+            status: 2,
+          });
+          const fechaInicio = consulta2.startDate.split("-");
+          if (
+            Number(fechaInicio[0]) <= diaActual &&
+            Number(fechaInicio[1]) <= mesActual &&
+            Number(fechaInicio[2]) <= añoActual
+          ) {
+            await quarter.findOneAndUpdate(
+              { quarter: "101", status: 2 },
+              {
+                status: 1,
+              }
+            );
+            res.status(200).json({
+              subjects3: consulta2.subjects3,
+              subjects6: consulta2.subjects6,
+              message: "Se ha cambiado de trimestre",
+            });
+          } else {
+            res.status(200).json({
+              message: "No se ha actualizado el trimestre",
+            });
+          }
+        }
       }
-      res.status(200).json({
-        message: "Se ha cambiado de trimestre",
-      });
     }
   } catch (error) {
     res.status(200).json({

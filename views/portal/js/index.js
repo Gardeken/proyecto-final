@@ -77,6 +77,12 @@ const objStatusPet = {
   1: "Pendiente",
   2: "Rechazada",
 };
+const objStatusModulo = {
+  0: "Inactivo",
+  1: "Activo",
+  2: "Pre-activo",
+  3: "Pendiente",
+};
 const objPeticion = {
   4001: "Cambio de datos",
   4002: "Aplicación",
@@ -140,7 +146,8 @@ function crearMsg(text) {
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
-  actualizarTrimestres();
+  const update = await actualizarTrimestres();
+  console.log(update);
   cargarNombre();
   const user = localStorage.getItem("user");
   if (user === null) {
@@ -1383,12 +1390,12 @@ async function cargarTrimestres() {
           const div = document.createElement("div");
           div.classList.add("modulos");
           const codigo = Number(i.quarter);
-          if (i.status === 2) {
+          if (i.status === 3) {
             div.innerHTML = `
         <span>${objModulo[codigo]}</span>
               <span>Inicio: ${i.startDate}</span>
               <span>Fin: ${i.endDate}</span>
-              <span>${objStatus[i.status]}</span>
+              <span>${objStatusModulo[i.status]}</span>
               <button class="delete-quarter" id="${i.id}">Eliminar</button>
         `;
             containerModulos.appendChild(div);
@@ -1397,14 +1404,14 @@ async function cargarTrimestres() {
         <span>${objModulo[codigo]}</span>
               <span>Inicio: ${i.startDate}</span>
               <span>Fin: ${i.endDate}</span>
-              <span>${objStatus[i.status]}</span>
+              <span>${objStatusModulo[i.status]}</span>
         `;
             containerModulos.appendChild(div);
           }
           containerModulos.addEventListener("click", eliminarQuarter);
         });
       } catch (error) {
-        console.log(error);
+        crearMsg(error.response.data.message);
       }
     });
   });
@@ -1420,12 +1427,12 @@ async function imprimirTrimestres() {
       const div = document.createElement("div");
       div.classList.add("modulos");
       const codigo = Number(i.quarter);
-      if (i.status === 2) {
+      if (i.status === 3) {
         div.innerHTML = `
         <span>${objModulo[codigo]}</span>
               <span>Inicio: ${i.startDate}</span>
               <span>Fin: ${i.endDate}</span>
-              <span>${objStatus[i.status]}</span>
+              <span>${objStatusModulo[i.status]}</span>
               <button class="delete-quarter" id="${i.id}">Eliminar</button>
         `;
         containerModulos.appendChild(div);
@@ -1434,7 +1441,7 @@ async function imprimirTrimestres() {
         <span>${objModulo[codigo]}</span>
               <span>Inicio: ${i.startDate}</span>
               <span>Fin: ${i.endDate}</span>
-              <span>${objStatus[i.status]}</span>
+              <span>${objStatusModulo[i.status]}</span>
         `;
         containerModulos.appendChild(div);
       }

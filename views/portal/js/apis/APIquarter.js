@@ -26,6 +26,7 @@ export const listadoTrimestres = async () => {
 
 export const actualizarTrimestres = async () => {
   const trimestre = await axios.get("/api/quarter/actualizar-trimestre");
+  return trimestre;
 };
 
 export const eliminarTrimestres = async (id) => {
