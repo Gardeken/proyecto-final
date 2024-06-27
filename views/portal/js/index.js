@@ -1660,6 +1660,7 @@ function printEst() {
     const containerSub = document.querySelector(".container-subjects");
     try {
       const validar = await validarInsc();
+      console.log(validar);
       try {
         selectCareer.addEventListener("change", async () => {
           if (selectCareer.value !== "") {

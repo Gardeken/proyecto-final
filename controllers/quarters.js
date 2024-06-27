@@ -331,14 +331,21 @@ quarterRouter.get("/validar-create-prof", async (req, res) => {
   const trimestreActual = await quarter.findOne({ status: 1 });
 
   if (trimestreActual.quarter === "101") {
-    const trimestreSig = await quarter.findOne({ status: 2, quarter: "102" });
+    const trimestreSig = await quarter.findOne({ status: 3, quarter: "102" });
     const fechaCreacion = trimestreSig.startcreateDate.split("-");
     const fechaEndCreacion = trimestreSig.endcreateDate.split("-");
     const mesActual = new Date().getMonth() + 1;
     if (
-      fechaCreacion[0] > new Date().getDate() &&
-      fechaCreacion[1] >= mesActual &&
-      fechaCreacion[2] >= new Date().getFullYear
+      mesActual < fechaCreacion[1] &&
+      fechaCreacion[2] >= new Date().getFullYear()
+    ) {
+      res.status(400).json({
+        message: "Aún no es fecha de creación",
+      });
+    } else if (
+      mesActual == fechaCreacion[1] &&
+      new Date().getDate() < fechaCreacion[0] &&
+      fechaCreacion[2] >= new Date().getFullYear()
     ) {
       res.status(400).json({
         message: "Aún no es fecha de creación",
@@ -346,7 +353,7 @@ quarterRouter.get("/validar-create-prof", async (req, res) => {
     } else if (
       fechaEndCreacion[0] <= new Date().getDate() &&
       fechaEndCreacion[1] <= mesActual &&
-      fechaEndCreacion[2] <= new Date().getFullYear
+      fechaEndCreacion[2] <= new Date().getFullYear()
     ) {
       res.status(400).json({
         message: "Aún no es fecha de creación",
@@ -359,14 +366,21 @@ quarterRouter.get("/validar-create-prof", async (req, res) => {
     }
   }
   if (trimestreActual.quarter === "102") {
-    const trimestreSig = await quarter.findOne({ status: 2, quarter: "103" });
+    const trimestreSig = await quarter.findOne({ status: 3, quarter: "103" });
     const fechaCreacion = trimestreSig.startcreateDate.split("-");
     const fechaEndCreacion = trimestreSig.endcreateDate.split("-");
     const mesActual = new Date().getMonth() + 1;
     if (
-      fechaCreacion[0] > new Date().getDate() &&
-      fechaCreacion[1] >= mesActual &&
-      fechaCreacion[2] >= new Date().getFullYear
+      mesActual < fechaCreacion[1] &&
+      fechaCreacion[2] >= new Date().getFullYear()
+    ) {
+      res.status(400).json({
+        message: "Aún no es fecha de creación",
+      });
+    } else if (
+      mesActual == fechaCreacion[1] &&
+      new Date().getDate() < fechaCreacion[0] &&
+      fechaCreacion[2] >= new Date().getFullYear()
     ) {
       res.status(400).json({
         message: "Aún no es fecha de creación",
@@ -374,7 +388,7 @@ quarterRouter.get("/validar-create-prof", async (req, res) => {
     } else if (
       fechaEndCreacion[0] <= new Date().getDate() &&
       fechaEndCreacion[1] <= mesActual &&
-      fechaEndCreacion[2] <= new Date().getFullYear
+      fechaEndCreacion[2] <= new Date().getFullYear()
     ) {
       res.status(400).json({
         message: "Aún no es fecha de creación",
@@ -387,14 +401,21 @@ quarterRouter.get("/validar-create-prof", async (req, res) => {
     }
   }
   if (trimestreActual.quarter === "103") {
-    const trimestreSig = await quarter.findOne({ status: 2, quarter: "104" });
+    const trimestreSig = await quarter.findOne({ status: 3, quarter: "104" });
     const fechaCreacion = trimestreSig.startcreateDate.split("-");
     const fechaEndCreacion = trimestreSig.endcreateDate.split("-");
     const mesActual = new Date().getMonth() + 1;
     if (
-      fechaCreacion[0] > new Date().getDate() &&
-      fechaCreacion[1] >= mesActual &&
-      fechaCreacion[2] >= new Date().getFullYear
+      mesActual < fechaCreacion[1] &&
+      fechaCreacion[2] >= new Date().getFullYear()
+    ) {
+      res.status(400).json({
+        message: "Aún no es fecha de creación",
+      });
+    } else if (
+      mesActual == fechaCreacion[1] &&
+      new Date().getDate() < fechaCreacion[0] &&
+      fechaCreacion[2] >= new Date().getFullYear()
     ) {
       res.status(400).json({
         message: "Aún no es fecha de creación",
@@ -402,7 +423,7 @@ quarterRouter.get("/validar-create-prof", async (req, res) => {
     } else if (
       fechaEndCreacion[0] <= new Date().getDate() &&
       fechaEndCreacion[1] <= mesActual &&
-      fechaEndCreacion[2] <= new Date().getFullYear
+      fechaEndCreacion[2] <= new Date().getFullYear()
     ) {
       res.status(400).json({
         message: "Aún no es fecha de creación",
@@ -415,14 +436,21 @@ quarterRouter.get("/validar-create-prof", async (req, res) => {
     }
   }
   if (trimestreActual.quarter === "104") {
-    const trimestreSig = await quarter.findOne({ status: 2, quarter: "101" });
+    const trimestreSig = await quarter.findOne({ status: 3, quarter: "101" });
     const fechaCreacion = trimestreSig.startcreateDate.split("-");
     const fechaEndCreacion = trimestreSig.endcreateDate.split("-");
     const mesActual = new Date().getMonth() + 1;
     if (
-      fechaCreacion[0] > new Date().getDate() &&
-      fechaCreacion[1] >= mesActual &&
-      fechaCreacion[2] >= new Date().getFullYear
+      mesActual < fechaCreacion[1] &&
+      fechaCreacion[2] >= new Date().getFullYear()
+    ) {
+      res.status(400).json({
+        message: "Aún no es fecha de creación",
+      });
+    } else if (
+      mesActual == fechaCreacion[1] &&
+      new Date().getDate() < fechaCreacion[0] &&
+      fechaCreacion[2] >= new Date().getFullYear()
     ) {
       res.status(400).json({
         message: "Aún no es fecha de creación",
@@ -430,7 +458,7 @@ quarterRouter.get("/validar-create-prof", async (req, res) => {
     } else if (
       fechaEndCreacion[0] <= new Date().getDate() &&
       fechaEndCreacion[1] <= mesActual &&
-      fechaEndCreacion[2] <= new Date().getFullYear
+      fechaEndCreacion[2] <= new Date().getFullYear()
     ) {
       res.status(400).json({
         message: "Aún no es fecha de creación",
@@ -454,14 +482,22 @@ quarterRouter.get("/validar-insc-al", async (req, res) => {
   const trimestreActual = await quarter.findOne({ status: 1 });
 
   if (trimestreActual.quarter === "101") {
-    const trimestreSig = await quarter.findOne({ status: 2, quarter: "102" });
+    const trimestreSig = await quarter.findOne({ status: 3, quarter: "102" });
     const fechaCreacion = trimestreSig.startinscDate.split("-");
     const fechaEndCreacion = trimestreSig.endinscDate.split("-");
     const mesActual = new Date().getMonth() + 1;
+
     if (
-      fechaCreacion[0] > new Date().getDate() &&
-      fechaCreacion[1] >= mesActual &&
-      fechaCreacion[2] >= new Date().getFullYear
+      mesActual < fechaCreacion[1] &&
+      fechaCreacion[2] >= new Date().getFullYear()
+    ) {
+      res.status(400).json({
+        message: "Aún no es fecha de creación",
+      });
+    } else if (
+      mesActual == fechaCreacion[1] &&
+      new Date().getDate() < fechaCreacion[0] &&
+      fechaCreacion[2] >= new Date().getFullYear()
     ) {
       res.status(400).json({
         message: "Aún no es fecha de creación",
@@ -469,7 +505,7 @@ quarterRouter.get("/validar-insc-al", async (req, res) => {
     } else if (
       fechaEndCreacion[0] <= new Date().getDate() &&
       fechaEndCreacion[1] <= mesActual &&
-      fechaEndCreacion[2] <= new Date().getFullYear
+      fechaEndCreacion[2] <= new Date().getFullYear()
     ) {
       res.status(400).json({
         message: "Aún no es fecha de creación",
@@ -482,14 +518,21 @@ quarterRouter.get("/validar-insc-al", async (req, res) => {
     }
   }
   if (trimestreActual.quarter === "102") {
-    const trimestreSig = await quarter.findOne({ status: 2, quarter: "103" });
+    const trimestreSig = await quarter.findOne({ status: 3, quarter: "103" });
     const fechaCreacion = trimestreSig.startinscDate.split("-");
     const fechaEndCreacion = trimestreSig.endinscDate.split("-");
     const mesActual = new Date().getMonth() + 1;
     if (
-      fechaCreacion[0] > new Date().getDate() &&
-      fechaCreacion[1] >= mesActual &&
-      fechaCreacion[2] >= new Date().getFullYear
+      mesActual < fechaCreacion[1] &&
+      fechaCreacion[2] >= new Date().getFullYear()
+    ) {
+      res.status(400).json({
+        message: "Aún no es fecha de creación",
+      });
+    } else if (
+      mesActual == fechaCreacion[1] &&
+      new Date().getDate() < fechaCreacion[0] &&
+      fechaCreacion[2] >= new Date().getFullYear()
     ) {
       res.status(400).json({
         message: "Aún no es fecha de creación",
@@ -497,7 +540,7 @@ quarterRouter.get("/validar-insc-al", async (req, res) => {
     } else if (
       fechaEndCreacion[0] <= new Date().getDate() &&
       fechaEndCreacion[1] <= mesActual &&
-      fechaEndCreacion[2] <= new Date().getFullYear
+      fechaEndCreacion[2] <= new Date().getFullYear()
     ) {
       res.status(400).json({
         message: "Aún no es fecha de creación",
@@ -510,14 +553,21 @@ quarterRouter.get("/validar-insc-al", async (req, res) => {
     }
   }
   if (trimestreActual.quarter === "103") {
-    const trimestreSig = await quarter.findOne({ status: 2, quarter: "104" });
+    const trimestreSig = await quarter.findOne({ status: 3, quarter: "104" });
     const fechaCreacion = trimestreSig.startinscDate.split("-");
     const fechaEndCreacion = trimestreSig.endinscDate.split("-");
     const mesActual = new Date().getMonth() + 1;
     if (
-      fechaCreacion[0] > new Date().getDate() &&
-      fechaCreacion[1] >= mesActual &&
-      fechaCreacion[2] >= new Date().getFullYear
+      mesActual < fechaCreacion[1] &&
+      fechaCreacion[2] >= new Date().getFullYear()
+    ) {
+      res.status(400).json({
+        message: "Aún no es fecha de creación",
+      });
+    } else if (
+      mesActual == fechaCreacion[1] &&
+      new Date().getDate() < fechaCreacion[0] &&
+      fechaCreacion[2] >= new Date().getFullYear()
     ) {
       res.status(400).json({
         message: "Aún no es fecha de creación",
@@ -525,7 +575,7 @@ quarterRouter.get("/validar-insc-al", async (req, res) => {
     } else if (
       fechaEndCreacion[0] <= new Date().getDate() &&
       fechaEndCreacion[1] <= mesActual &&
-      fechaEndCreacion[2] <= new Date().getFullYear
+      fechaEndCreacion[2] <= new Date().getFullYear()
     ) {
       res.status(400).json({
         message: "Aún no es fecha de creación",
@@ -538,14 +588,21 @@ quarterRouter.get("/validar-insc-al", async (req, res) => {
     }
   }
   if (trimestreActual.quarter === "104") {
-    const trimestreSig = await quarter.findOne({ status: 2, quarter: "101" });
+    const trimestreSig = await quarter.findOne({ status: 3, quarter: "101" });
     const fechaCreacion = trimestreSig.startinscDate.split("-");
     const fechaEndCreacion = trimestreSig.endinscDate.split("-");
     const mesActual = new Date().getMonth() + 1;
     if (
-      fechaCreacion[0] > new Date().getDate() &&
-      fechaCreacion[1] >= mesActual &&
-      fechaCreacion[2] >= new Date().getFullYear
+      mesActual < fechaCreacion[1] &&
+      fechaCreacion[2] >= new Date().getFullYear()
+    ) {
+      res.status(400).json({
+        message: "Aún no es fecha de creación",
+      });
+    } else if (
+      mesActual == fechaCreacion[1] &&
+      new Date().getDate() < fechaCreacion[0] &&
+      fechaCreacion[2] >= new Date().getFullYear()
     ) {
       res.status(400).json({
         message: "Aún no es fecha de creación",
@@ -553,7 +610,7 @@ quarterRouter.get("/validar-insc-al", async (req, res) => {
     } else if (
       fechaEndCreacion[0] <= new Date().getDate() &&
       fechaEndCreacion[1] <= mesActual &&
-      fechaEndCreacion[2] <= new Date().getFullYear
+      fechaEndCreacion[2] <= new Date().getFullYear()
     ) {
       res.status(400).json({
         message: "Aún no es fecha de creación",
