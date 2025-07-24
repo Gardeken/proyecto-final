@@ -1,0 +1,17 @@
+status materias 
+0- inactiva
+1- activa
+2- pendiente
+3- inscripciones
+
+
+status trimestres 
+0- inactivo
+1- activo
+2- pre activo
+3- pendiente
+
+status peticiones
+0 Aceptada
+1 Pendiente
+2 Rechazada

@@ -1,0 +1,38 @@
+codigos materias 
+1000 taller de diseño
+1001 taller de diseño gráfico
+1002 taller de diseño arquitectonico
+1003 taller de diseño industrial
+1004 dibujo técnico
+1005 métodos de investigacion 
+
+codigos carreras
+2000 Diseño gráfico
+2001 Arquitectura
+2002 Diseño Industrial
+2003 Administración mención ciencias administrativas
+2004 Contaduría pública
+2005 Administración Pública
+2006 Derecho
+2007 Educación Preescolar	
+2008 Educación integral
+
+codigos falcutades 
+3001 Facultad de Diseño
+3002 Falcultad de Administración
+3003 Facultad de Derecho
+3004 Facultad de ingienería
+3005 Facultad de educación
+
+codigos modulos
+101 modulo A
+102 modulo B
+103 modulo C
+104 modulo de Verano
+
+codigos peticiones
+4001 Cambio de datos
+4002 Aplicación
+4003 Crear Materia
+4004 Procesar Pago
+4005 Contactar

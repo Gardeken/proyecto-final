@@ -1,5 +1,4 @@
 const assigmentRouter = require("express").Router();
-const axios = require("axios");
 const assigment = require("../model/assigment");
 const multer = require("multer");
 const storage = multer.diskStorage({

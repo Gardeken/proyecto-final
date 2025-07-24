@@ -38,7 +38,6 @@ assigmentERouter.put("/guardar-nota", async (req, res) => {
         grades: grade,
       }
     );
-    console.log(email);
     await transporter.sendMail({
       from: '"Universidad José María Vargas" <dominicode.xyz@gmail.com>',
       to: `${email}`,
